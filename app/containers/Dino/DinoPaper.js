@@ -137,18 +137,18 @@ export const DinoPaper = React.createClass({
 		return (
 			<div style={styles.container}>
 				<h1>Paper Review</h1>
-				<p style={styles.text}>Please read the following work and write a few sentences containing your review in the input box at the bottom.</p>
-				<p style={styles.text}>There may be errors in the logic used and in the conclusions reached. We ask you to assume the role of a scientist and provide critical feedback to the authors of this work.</p>
+				<p style={styles.text}>Actively read the following scientific study and write a few sentences analyzing the logic and methods the authors used to reach their conclusions in the input box at the bottom.</p>
+				<p style={styles.text}>There may be errors in the logic used and in the conclusions reached. We ask you to assume the role of a peer-reviewing scientist and provide critique to the authors of this work.</p>
 
 				
 				<div className={'pt-card pt-elevation-2 article-body'} style={styles.paper}>
 					<h2 style={styles.header}>Assessing Growth Patterns of the Jurassic Theropod Dinosaur Allosaurus</h2>
 					
 					<h3 style={styles.header}>Introduction</h3>
-					<p style={styles.p}>Allosaurus are one of the most common Mesozoic theropod dinosaurs. We present an analysis to understand its growth and bone scaling. Based on several sections of bones found in archealogical digs we present a growth curve reconstruction.</p>
+					<p style={styles.p}>Allosaurus are one of the most common dinosaurs from their time period. We present an analysis to understand its growth and bone scaling. Based on several sections of bones found in archealogical digs we present a growth curve reconstruction.</p>
 					
 					<h3 style={styles.header}>Methods</h3>
-					<p style={styles.p}>A total of six femur bones of Allosaurus were selected for this study. These bones came from the Cleveland Lloyd Dinosaur Quarry (CLDQ) in Utah and the Dinosaur Provincial Park (DPP) in Alberta, Canada. Bone lengths and circumferences were measured. Circumferences were measured at 60% of the proximodistal length in the femur to avoid major regions of muscle insertion. We prefer to measure circumference because 1) estimates of circumference based on diameters are underestimates when sections are irregular in shape; 2) circumference is used to predict body mass and 3) circumference is easily comparable across sections of a given bone series. </p>
+					<p style={styles.p}>A total of six femur bones of Allosaurus were selected for this study. These bones came from the Cleveland Lloyd Dinosaur Quarry (CLDQ) in Utah and the Dinosaur Provincial Park (DPP) in Alberta, Canada. Bone lengths and circumferences were measured. We prefer to measure circumference because 1) estimates of circumference based on diameters are underestimates when sections are irregular in shape; 2) circumference is used to predict body mass and 3) circumference is easily comparable across sections of a given bone series. </p>
 
 					<h3 style={styles.header}>Estimation of Age and Growth Curve</h3>
 					<p style={styles.p}>For each bone, we use Lines of Arrested Growth (LAGs) to estimate the size of the bone at different ages. This process is akin to counting the rings of a tree to understand how old it is. In this case, we measure the circumference of the bone at each LAG. This allows us to have multiple circumference-age measurements from a single bone.</p>
@@ -188,7 +188,7 @@ export const DinoPaper = React.createClass({
 
 					<div style={{ position: 'relative' }}>
 						{this.props.mode === 1 &&
-							<div style={{ position: 'absolute', width: '200px', right: -30, }}>
+							<div style={styles.sliderWrapper}>
 								<table style={{ width: '100%', }}>
 									<tbody>
 										{this.state.offsets.map((item, index)=> {
@@ -211,7 +211,7 @@ export const DinoPaper = React.createClass({
 
 					<h3 style={styles.header}>Conclusions</h3>
 
-					<p style={styles.p}>All previous studies of bone growth of large dinosaurs report slowed growth patterns after the first growth spurt. In contradiction, we conclude that Allosaurus had multiple major growth spurts throughout life. This novel conclusion provides a unique and different perspective on dinosaur growth. We theorize that this growth pattern may be part of the mechanism that led to Mesosoic dinosaurs being so much larger than their modern day reptile and bird counterparts. We cannot directly reject or support the hypothesis of unlimited growth in Allosaurus in the situation where this repeated growth spurt continued to cycle throughout the duration of their lives.</p>
+					<p style={styles.p}>All previous studies of bone growth of large dinosaurs report slowed growth patterns after the first growth spurt. In contradiction, we conclude that Allosaurus had multiple major growth spurts throughout life. This novel conclusion provides a unique and different perspective on dinosaur growth. We theorize that this growth pattern may be part of the mechanism that led to some dinosaurs being so much larger than their modern day reptile and bird counterparts. We cannot directly reject or support the hypothesis of unlimited growth in Allosaurus in the situation where this repeated growth spurt continued to cycle throughout the duration of their lives.</p>
 				</div>
 
 				<hr />
@@ -220,26 +220,26 @@ export const DinoPaper = React.createClass({
 
 				<hr />
 				<div style={styles.inputBlock}>
-					{/*<div style={styles.label}>Review Rating (Select a number)</div>*/}
+					{/* <div style={styles.label}>Review Rating (Select a number)</div> */}
 					<p style={styles.text}>Please select a rating for this work.</p>
 
 					<div className={'pt-button-group pt-fill'} style={{ paddingTop: '1em' }}>
-						<Button key={'reviewRating-0'} text={0} onClick={evt => this.setState({ reviewRating: 0 })} className={this.state.reviewRating === 0 ? 'pt-active' : ''}/>
-						<Button key={'reviewRating-1'} text={1} onClick={evt => this.setState({ reviewRating: 1 })} className={this.state.reviewRating === 1 ? 'pt-active' : ''}/>
-						<Button key={'reviewRating-2'} text={2} onClick={evt => this.setState({ reviewRating: 2 })} className={this.state.reviewRating === 2 ? 'pt-active' : ''}/>
-						<Button key={'reviewRating-3'} text={3} onClick={evt => this.setState({ reviewRating: 3 })} className={this.state.reviewRating === 3 ? 'pt-active' : ''}/>
-						<Button key={'reviewRating-4'} text={4} onClick={evt => this.setState({ reviewRating: 4 })} className={this.state.reviewRating === 4 ? 'pt-active' : ''}/>
-						<Button key={'reviewRating-5'} text={5} onClick={evt => this.setState({ reviewRating: 5 })} className={this.state.reviewRating === 5 ? 'pt-active' : ''}/>
-						<Button key={'reviewRating-6'} text={6} onClick={evt => this.setState({ reviewRating: 6 })} className={this.state.reviewRating === 6 ? 'pt-active' : ''}/>
-						<Button key={'reviewRating-7'} text={7} onClick={evt => this.setState({ reviewRating: 7 })} className={this.state.reviewRating === 7 ? 'pt-active' : ''}/>
-						<Button key={'reviewRating-8'} text={8} onClick={evt => this.setState({ reviewRating: 8 })} className={this.state.reviewRating === 8 ? 'pt-active' : ''}/>
-						<Button key={'reviewRating-9'} text={9} onClick={evt => this.setState({ reviewRating: 9 })} className={this.state.reviewRating === 9 ? 'pt-active' : ''}/>
-						<Button key={'reviewRating-10'} text={10} onClick={evt => this.setState({ reviewRating: 10 })} className={this.state.reviewRating === 10 ? 'pt-active' : ''}/>
+						<Button key={'reviewRating-0'} text={0} onClick={evt => this.setState({ reviewRating: 0 })} className={this.state.reviewRating === 0 ? 'pt-active' : ''} />
+						<Button key={'reviewRating-1'} text={1} onClick={evt => this.setState({ reviewRating: 1 })} className={this.state.reviewRating === 1 ? 'pt-active' : ''} />
+						<Button key={'reviewRating-2'} text={2} onClick={evt => this.setState({ reviewRating: 2 })} className={this.state.reviewRating === 2 ? 'pt-active' : ''} />
+						<Button key={'reviewRating-3'} text={3} onClick={evt => this.setState({ reviewRating: 3 })} className={this.state.reviewRating === 3 ? 'pt-active' : ''} />
+						<Button key={'reviewRating-4'} text={4} onClick={evt => this.setState({ reviewRating: 4 })} className={this.state.reviewRating === 4 ? 'pt-active' : ''} />
+						<Button key={'reviewRating-5'} text={5} onClick={evt => this.setState({ reviewRating: 5 })} className={this.state.reviewRating === 5 ? 'pt-active' : ''} />
+						<Button key={'reviewRating-6'} text={6} onClick={evt => this.setState({ reviewRating: 6 })} className={this.state.reviewRating === 6 ? 'pt-active' : ''} />
+						<Button key={'reviewRating-7'} text={7} onClick={evt => this.setState({ reviewRating: 7 })} className={this.state.reviewRating === 7 ? 'pt-active' : ''} />
+						<Button key={'reviewRating-8'} text={8} onClick={evt => this.setState({ reviewRating: 8 })} className={this.state.reviewRating === 8 ? 'pt-active' : ''} />
+						<Button key={'reviewRating-9'} text={9} onClick={evt => this.setState({ reviewRating: 9 })} className={this.state.reviewRating === 9 ? 'pt-active' : ''} />
+						<Button key={'reviewRating-10'} text={10} onClick={evt => this.setState({ reviewRating: 10 })} className={this.state.reviewRating === 10 ? 'pt-active' : ''} />
 					</div>
 
-					<div style={{ verticalAlign: 'top', width: 'calc(100% / 11 * 4 - 2px', display: 'inline-block', textAlign: 'center', padding: '4em 0em 1em', marginTop: '-3em', backgroundColor: '#f3f3f4'}}>0-3<br />Low quality work.<br />Major fixes needed.</div>
-					<div style={{ verticalAlign: 'top', width: 'calc(100% / 11 * 3', display: 'inline-block', textAlign: 'center', padding: '4em 0em 1em', marginTop: '-3em', backgroundColor: '#d3d3d4'}}>4-6<br />Acceptable quality work.<br />Minor fixes needed.</div>
-					<div style={{ verticalAlign: 'top', width: 'calc(100% / 11 * 4', display: 'inline-block', textAlign: 'center', padding: '4em 0em 1em', marginTop: '-3em', backgroundColor: '#f3f3f4'}}>7-10<br />High quality work.<br />Trivial or no fixes needed.</div>
+					<div style={{ verticalAlign: 'top', width: 'calc(100% / 11 * 4 - 2px', display: 'inline-block', textAlign: 'center', padding: '4em 0em 1em', marginTop: '-3em', backgroundColor: '#f3f3f4' }}>0-3<br />Low quality work.<br />Major fixes needed.</div>
+					<div style={{ verticalAlign: 'top', width: 'calc(100% / 11 * 3', display: 'inline-block', textAlign: 'center', padding: '4em 0em 1em', marginTop: '-3em', backgroundColor: '#d3d3d4' }}>4-6<br />Acceptable quality work.<br />Minor fixes needed.</div>
+					<div style={{ verticalAlign: 'top', width: 'calc(100% / 11 * 4', display: 'inline-block', textAlign: 'center', padding: '4em 0em 1em', marginTop: '-3em', backgroundColor: '#f3f3f4' }}>7-10<br />High quality work.<br />Trivial or no fixes needed.</div>
 				</div>
 
 				<button className={'pt-button pt-intent-primary'} onClick={this.submitReview}>Finish Review and go to Final step</button>
@@ -278,6 +278,12 @@ styles = {
 	paper: {
 		margin: '2em 0em 3em',
 	},
+	sliderWrapper: {
+		position: 'absolute', 
+		width: '178px', 
+		right: -0,
+		boxShadow: '0px 1px 5px rgba(0, 0, 0, 0.75)'
+	},
 	table: {
 		width: '100%',
 		fontSize: '0.9em',
@@ -285,4 +291,5 @@ styles = {
 	thead: {
 		fontWeight: 'bold',
 	},
+
 };
