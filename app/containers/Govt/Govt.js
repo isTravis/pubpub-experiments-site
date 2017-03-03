@@ -1,9 +1,13 @@
 import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router';
-import { Button, Dialog } from '@blueprintjs/core';
 import Radium from 'radium';
-import { submitExperiment } from './actions';
+import { connect } from 'react-redux';
+import { NonIdealState, Spinner } from '@blueprintjs/core';
+import Terms from 'components/Terms/Terms';
+import Survey from 'components/Survey/Survey';
+import Complete from 'components/Complete/Complete';
+import fetch from 'isomorphic-fetch';
+import GovtPaper from './GovtPaper';
+import { submitExperiment, checkUniqueWorker } from './actions';
 
 let styles;
 
@@ -19,24 +23,127 @@ export const Govt = React.createClass({
 			workerId: '',
 			assignmentId: '',
 			hitId: '',
+			mode: undefined,
+
+			reviewData: {},
+			surveyData: {},
+
+			completedTerms: false,
+			completedReview: false,
+			completedSurvey: false,
 		};
 	},
-
-	componentWillReceiveProps(nextProps) {
-		const lastLoading = this.props.govtData.loading;
-		const nextLoading = nextProps.govtData.loading;
-		const nextError = nextProps.govtData.error;
-		if (lastLoading && !nextLoading && !nextError) {
-			// this.setState({ showAuthenticationPanel: true });
-		}
-	},
 	
+	componentWillMount() {
+		const query = this.props.location.query || {};
+		this.setState({
+			workerId: query.workerId,
+			assignmentId: query.assignmentId,
+			hitId: query.hitId,
+			mode: Math.round(Math.random()),
+		});
+		this.props.dispatch(checkUniqueWorker(query.workerId));
+	},
+
+	completeTerms: function() {
+		this.setState({ completedTerms: true });
+		document.body.scrollTop = 0;
+	},
+	completeReview: function(reviewData) {
+		this.setState({ 
+			completedReview: true,
+			reviewData: reviewData 
+		});
+		document.body.scrollTop = 0;
+	},
+	completeSurvey: function(surveyData) {
+
+		this.setState({ 
+			completedSurvey: true,
+			surveyData: surveyData,
+		});
+
+		return this.props.dispatch(submitExperiment({
+			workerId: this.state.workerId,
+			assignmentId: this.state.assignmentId,
+			hitId: this.state.hitId,
+			mode: this.state.mode,
+			...this.state.reviewData,
+			...surveyData,
+		}));
+
+		const url = window.location.hostname === 'experiments.pubpub.org'
+			? `https://www.mturk.com/mturk/externalSubmit?assignmentId=${this.state.assignmentId}&hitId=${this.state.hitId}&foo=bar`
+			: `https://workersandbox.mturk.com/mturk/externalSubmit?assignmentId=${this.state.assignmentId}&hitId=${this.state.hitId}&foo=bar`;
+
+		const form = new FormData();
+		form.append('assignmentId', this.state.assignmentId);
+		form.append('foo', 'bar');
+
+		return fetch(url, {
+			method: 'POST',
+			body: form,
+			mode: 'no-cors',
+			credentials: 'include',
+		})
+		.then((response)=> {
+			return this.props.dispatch(submitExperiment({
+				workerId: this.state.workerId,
+				assignmentId: this.state.assignmentId,
+				hitId: this.state.hitId,
+				mode: this.state.mode,
+				...this.state.reviewData,
+				...surveyData,
+			}));
+		})
+		.catch((err)=> {
+			this.setState({ completedSurvey: false });
+			Raven.captureException(JSON.stringify(err));
+			console.error(JSON.stringify(err));
+		});
+	},
+
 	render() {
-		
+		if (this.props.govtData.canBegin === undefined) {
+			return (
+				<div style={[styles.container, styles.complete]}>
+					<Spinner />
+				</div>
+			);
+		}
+
+		if (this.props.govtData.canBegin === false) {
+			return (
+				<div style={[styles.container, styles.complete]}>
+					<NonIdealState
+						description={'This Task is identical to one you have already completed. Unfortunately we only allow one worker per Task type.'}
+						title={'HIT Already Completed'}
+						visual={'delete'} />
+				</div>
+			);
+		}
+
 		return (
 			<div style={styles.container}>
-				<h1>Govt</h1>
-				<p>This experiment blah blah</p>
+
+				{!this.state.completedTerms &&
+					<Terms onComplete={this.completeTerms} assignmentId={this.state.assignmentId} />
+				}
+
+				{this.state.completedTerms && !this.state.completedReview &&
+					<GovtPaper onComplete={this.completeReview} mode={this.state.mode} />
+				}
+
+				{this.state.completedTerms && this.state.completedReview && !this.props.govtData.completed &&
+					<Survey onComplete={this.completeSurvey} loading={this.state.completedSurvey} />
+				}
+
+				{this.props.govtData.completed &&
+					<div style={styles.complete}>
+						<Complete query={this.props.location.query} />
+					</div>
+				}
+				
 			</div>
 		);
 	}
@@ -53,5 +160,9 @@ export default connect(mapStateToProps)(Radium(Govt));
 styles = {
 	container: {
 		maxWidth: '100vw',
+	},
+	complete: {
+		margin: '3em 0em',
+		textAlign: 'center',
 	},
 };
