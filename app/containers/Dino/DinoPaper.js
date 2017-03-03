@@ -138,7 +138,7 @@ export const DinoPaper = React.createClass({
 			<div style={styles.container}>
 				<h1>Paper Review</h1>
 				<p style={styles.text}>Actively read the following scientific study and write a few sentences analyzing the logic and methods the authors used to reach their conclusions in the input box at the bottom.</p>
-				<p style={styles.text}>There may be errors in the logic used and in the conclusions reached. We ask you to assume the role of a peer-reviewing scientist and provide critique to the authors of this work.</p>
+				<p style={styles.text}>There may be errors in the logic used and in the conclusions reached. We ask you to assume the role of a peer-reviewing scientist and provide critique to the authors of this work regarding their methods and conclusion.</p>
 
 				
 				<div className={'pt-card pt-elevation-2 article-body'} style={styles.paper}>
