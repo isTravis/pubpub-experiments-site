@@ -18,7 +18,6 @@ let time = Date.now();
 export const DinoPaper = React.createClass({
 	propTypes: {
 		onComplete: PropTypes.func,
-		onChange: PropTypes.func,
 		mode: PropTypes.number,
 	},
 
@@ -279,6 +278,8 @@ styles = {
 		margin: '2em 0em 3em',
 	},
 	sliderWrapper: {
+		fontFamily: '-apple-system, "BlinkMacSystemFont", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Open Sans", "Helvetica Neue", sans-serif, "Icons16"',
+		fontSize: '0.85em',
 		position: 'absolute', 
 		width: '178px', 
 		right: -0,
