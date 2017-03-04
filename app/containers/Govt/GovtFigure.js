@@ -62,7 +62,7 @@ export const GovtFigure = React.createClass({
 		];
 		return (
 			<div id={'graph-wrapper'} style={styles.graphWrapper}>
-				<h6 style={{ textAlign: 'center', position: 'relative', left: '-100px' }}>Govenorships vs Economic Performance</h6>
+				<h6 style={{ textAlign: 'center', position: 'relative', left: '-100px' }}>Economic Performance vs Govenorships</h6>
 				<div style={styles.yLabel}>Better Economy</div>
 				<span style={styles.yArrow} className={'pt-icon-standard pt-icon-arrow-up'} />
 				<div style={styles.xLabel}>More Republicans</div>

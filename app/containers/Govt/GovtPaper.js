@@ -104,7 +104,7 @@ export const GovtPaper = React.createClass({
 					<p style={styles.p}>Governorship data is collected. For each governor, their political party is tallied and we count the total number of republican and democratic governors for each month.</p>
 					<p style={styles.p}>We collect employment, inflation, GDP, and stock price data. These metrics provide varying perspectives on the health and performance of the US economy.</p>
 
-					<h1 style={styles.header}>Estimation of Influence</h1>
+					<h3 style={styles.header}>Estimation of Influence</h3>
 					<p style={styles.p}>We normalize the economic statistics so that they are all represented by a value of 0 to 1. For example, the worst employment rate would be given a 0, the best would be given a 1, and a middle value employment rate would be given 0.5. For each month, we measure the percentage of governors that are Republicans and tie it to the economic performance of each type (employment, inflation, GDP, stock price). This allows us merge our data together to build a scatter plot visualization. Each data point represents the performance of the economy at a given percentage of Republican governors. For example (0.65, 0.89) would represent 65% Republican govenors, and the 89% best economy we've had.</p>
 
 
@@ -115,7 +115,7 @@ export const GovtPaper = React.createClass({
 					}
 
 					<div style={{ position: 'relative' }}>
-						{(true || this.props.mode === 1) &&
+						{this.props.mode === 1 &&
 							<div style={styles.sliderWrapper}>
 								<table>
 									<tbody>
