@@ -46,9 +46,9 @@ export const GovtFigure = React.createClass({
 			}, 0);
 			let economy = 0;
 			if (offsets[0]) { economy += data.employment[index]; }
-			if (offsets[1]) { economy += (1 - data.gdp[index]); } // GDP data somehow got backwards
+			if (offsets[1]) { economy += data.gdp[index]; } // GDP data somehow got backwards
 			if (offsets[2]) { economy += data.inflation[index]; }
-			if (offsets[3]) { economy += (1 - data.stocks[index]); }
+			if (offsets[3]) { economy += data.stocks[index]; }
 			economy /= numParameters;
 			linearData.push([republicans, economy]);
 			if (republicans < min) { min = republicans; }
