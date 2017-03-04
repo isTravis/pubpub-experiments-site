@@ -30,15 +30,15 @@ export const BeefPaper = React.createClass({
 				deaths: [70, 35, 1],
 				foods: {
 					Tuna: [499, 480, 500],
-					Potatoes: [499, 496, 500],
+					Potato: [499, 496, 500],
 					Rice: [498, 500, 482],
 					Beef: [497, 470, 1],
 					Cheese: [488, 492, 500],
 					Bread: [496, 480, 487],
-					Carrots: [498, 497, 489],
-					Eggs: [495, 492, 497],
+					Carrot: [498, 497, 489],
+					Egg: [495, 492, 497],
 					Chicken: [499, 493, 492],
-					Tomatoes: [500, 500, 499],
+					Tomato: [500, 500, 499],
 				}
 			},
 			
@@ -101,7 +101,7 @@ export const BeefPaper = React.createClass({
 
 				
 				<div className={'pt-card pt-elevation-2 article-body'} style={styles.paper}>
-					<h2 style={styles.header}>Assessing the influence of Diet on Mortality</h2>
+					<h2 style={styles.header}>Assessing the influence of diet on mortality</h2>
 					
 					<h3 style={styles.header}>Introduction</h3>
 					<p style={styles.p}>We study the connection between specific diets and mortality rate. In hopes of understanding which foods best promote health and longevity we collect data from hundreds of people and study their health over a 3-year period. This work is a collaboration between University of Maine, University of Missouri, and the University of Delhi in New Delhi, India.</p>
@@ -231,5 +231,4 @@ styles = {
 	thead: {
 		fontWeight: 'bold',
 	},
-
 };

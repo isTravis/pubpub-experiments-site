@@ -72,7 +72,7 @@ export default Radium(BeefFigure);
 styles = {
 	graphWrapper: {
 		position: 'relative',
-		fontSize: '0.5em',
+		fontSize: '0.75em',
 	},
 	xLabel: {
 		fontFamily: '-apple-system, "BlinkMacSystemFont", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Open Sans", "Helvetica Neue", sans-serif, "Icons16"',
