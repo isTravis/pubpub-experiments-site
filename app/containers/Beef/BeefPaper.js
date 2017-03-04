@@ -101,7 +101,7 @@ export const BeefPaper = React.createClass({
 
 				
 				<div className={'pt-card pt-elevation-2 article-body'} style={styles.paper}>
-					<h2 style={styles.header}>Assessing the influence of diet on mortality</h2>
+					<h2 style={styles.header}>Assessing the Influence of Diet on Mortality</h2>
 					
 					<h3 style={styles.header}>Introduction</h3>
 					<p style={styles.p}>We study the connection between specific diets and mortality rate. In hopes of understanding which foods best promote health and longevity we collect data from hundreds of people and study their health over a 3-year period. This work is a collaboration between University of Maine, University of Missouri, and the University of Delhi in New Delhi, India.</p>
@@ -109,10 +109,10 @@ export const BeefPaper = React.createClass({
 					<h3 style={styles.header}>Methods</h3>
 					<p style={styles.p}>In an effort to have a large number of particpants with similar diets, each collaborating university has enlisted the support of an organization that provides  a shared cafeteria for a large group of people. These locations include the Lynn Frank Senior Care house in St. Louis, Missouri, the Baxter Crab fishing company in Portland, Maine, and the Association of Student Cafeterias at the University of Delhi. Each location registered 500 people who eat most of their meals at a central cafeteria.</p>
 
-					<p style={styles.p}>This consistency in food options across these three locations reduces the number of external variables for which we must control. </p>
+					<p style={styles.p}>The consistency in food options at each of these three locations reduces the number of external variables for which we must control. </p>
 
-					<h3 style={styles.header}>Relationship between Diet and Mortality</h3>
-					<p style={styles.p}>Across the three study location, the 10 most heavily consumed foods were: tuna, potatoes, rice, beef, cheese, bread, carrots, eggs, chicken, and tomatoes. During the course of our study, 168 people were hospitalized for varying illnesses, and 63 of the 1500 participants died. In the chart below, we plot the mortality rate associated with the 6 most consumed foods across the three study sites. The mortality rate is calculated by (Number of people who ate X and died) divided by (Total number of people who ate X)</p>
+					<h3 style={styles.header}>Relationship between diet and mortality</h3>
+					<p style={styles.p}>Across the three study locations, the 10 most heavily consumed foods were: tuna, potatoes, rice, beef, cheese, bread, carrots, eggs, chicken, and tomatoes. During the course of our study, 168 people were hospitalized for varying illnesses, and 63 of the 1500 participants died. In the chart below, we plot the mortality rate associated with the 6 most consumed foods across the three study sites. The mortality rate is calculated by (Number of people who ate X and died) divided by (Total number of people who ate X)</p>
 
 					{this.props.mode === 1 &&
 						<p style={styles.p}>You can use the checkboxes on the right to explore alternative analyses.</p>

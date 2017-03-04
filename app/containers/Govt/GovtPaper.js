@@ -98,17 +98,15 @@ export const GovtPaper = React.createClass({
 					<h2 style={styles.header}>Assessing the influence of American Govenors on the US economy</h2>
 					
 					<h3 style={styles.header}>Introduction</h3>
-					<p style={styles.p}>We collect data from 1948-2016 on the governorships across the US and economic statistics during these times. Our hypothesis is that the U.S. economy is affected by whether Republicans or Democrats hold majorty power.</p>
+					<p style={styles.p}>We collect data from 1948-2016 on the governorships across the US and economic statistics during these times. Our hypothesis is that the US economy is affected by whether Republicans or Democrats hold majorty power.</p>
 					
 					<h3 style={styles.header}>Methods</h3>
-					<p style={styles.p}>Governorship data is collected. For each governor, their political party is tallied and we count the total number of republican and democratic governors for each month.</p>
-					<p style={styles.p}>We collect employment, inflation, GDP, and stock price data. These metrics provide varying perspectives on the health and performance of the US economy.</p>
+					<p style={styles.p}>Governorship data is collected. We tally the total Republican and Democratic governors for each month. We collect employment, inflation, GDP, and stock price data. These metrics provide varying perspectives on the health and performance of the US economy.</p>
 
 					<h3 style={styles.header}>Estimation of Influence</h3>
-					<p style={styles.p}>We normalize the economic statistics so that they are all represented by a value of 0 to 1. For example, the worst employment rate would be given a 0, the best would be given a 1, and a middle value employment rate would be given 0.5. For each month, we measure the percentage of governors that are Republicans and tie it to the economic performance of each type (employment, inflation, GDP, stock price). This allows us merge our data together to build a scatter plot visualization. Each data point represents the performance of the economy at a given percentage of Republican governors. For example (0.65, 0.89) would represent 65% Republican govenors, and the 89% best economy we've had.</p>
+					<p style={styles.p}>We normalize the economic statistics so that they are all represented by a number between 0 and 1. For example, the worst employment rate would be given a 0, the best would be given a 1, and a middle value employment rate would be given 0.5. For each month, we measure the percentage of governors that are Republicans and tie it to the economic performance of each type (employment, inflation, GDP, stock price). This allows us merge our data together to build a scatter plot visualization. Each data point represents the performance of the economy at a given percentage of Republican governors. For example (0.65, 0.89) would represent 65% Republican govenors, and the 89% best economic performance.</p>
 
-
-					<p style={styles.p}>Of our data, we choose employment statistics to be our representation of overall economic performance. We plot all data points on the graph below. Fitting a line to this graph, we can see that a higher proportion of Republican govenors leads to better economic performance. We conclude then that Republican governors are better for the US economy.</p>
+					<p style={styles.p}>After analyzing this data, we choose employment statistics to be our representation of overall economic performance. We plot all data points on the graph below. Fitting a line to this graph, we can see that a higher proportion of Republican govenors leads to better economic performance. We conclude that Republican governors are better for the US economy.</p>
 
 					{this.props.mode === 1 &&
 						<p style={styles.p}>You can use the checkboxes on the right to explore alternative analyses.</p>
