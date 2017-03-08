@@ -16,7 +16,7 @@ export const Terms = React.createClass({
 			<div style={styles.container}>
 				<h1>Overview</h1>
 				
-				<p style={styles.text}>Welcome! As part of a study on scientific review, we ask you to evaluate a short scientific study. The article should take about 5 minutes to read and has one table and one figure.</p>
+				<p style={styles.text}>Welcome! As part of a study on scientific review, we ask you to evaluate a short scientific study. The article should take about 5 minutes to read and has one figure.</p>
 				<p style={styles.text}>There may be errors in the logic used and conclusions reached. We ask you to assume the role of a peer-reviewing scientist. You will be asked to provide critique, calling into question the logic and methods the authors used to reach their conclusions.</p>
 				<p style={styles.text}>After submitting your review, we present a short survey.</p>
 				<p style={styles.text}>The submitted review and survey data will be used as experimental data for the study. Your answers are completely anonymous and your individual answers will always remain private.</p>

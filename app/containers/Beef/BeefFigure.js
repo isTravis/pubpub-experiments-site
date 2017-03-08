@@ -57,7 +57,7 @@ export const BeefFigure = React.createClass({
 				
 				<BarChart width={580} height={500} data={outputData} margin={{ top: 20, left: 0, right: 20, bottom: 20 }}>
 					<XAxis dataKey="name" />
-					<YAxis domain={[0, 0.15]} />
+					<YAxis label={'Mortality Rate'} domain={[0, 0.15]} />
 					<CartesianGrid strokeDasharray="3 3" />
 					<Bar dataKey="mortality" fill="#16a085" />
 				</BarChart>
