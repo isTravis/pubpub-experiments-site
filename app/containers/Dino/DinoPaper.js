@@ -220,7 +220,7 @@ export const DinoPaper = React.createClass({
 				<hr />
 				<div style={styles.inputBlock}>
 					{/* <div style={styles.label}>Review Rating (Select a number)</div> */}
-					<p style={styles.text}>Please select a rating for this work.</p>
+					<p style={styles.text}>Please rate how much you trust theconclusions of this article.</p>
 
 					<div className={'pt-button-group pt-fill'} style={{ paddingTop: '1em' }}>
 						<Button key={'reviewRating-0'} text={0} onClick={evt => this.setState({ reviewRating: 0 })} className={this.state.reviewRating === 0 ? 'pt-active' : ''} />
@@ -236,9 +236,9 @@ export const DinoPaper = React.createClass({
 						<Button key={'reviewRating-10'} text={10} onClick={evt => this.setState({ reviewRating: 10 })} className={this.state.reviewRating === 10 ? 'pt-active' : ''} />
 					</div>
 
-					<div style={{ verticalAlign: 'top', width: 'calc(100% / 11 * 4 - 2px', display: 'inline-block', textAlign: 'center', padding: '4em 0em 1em', marginTop: '-3em', backgroundColor: '#f3f3f4' }}>0-3<br />Low quality work.<br />Major fixes needed.</div>
-					<div style={{ verticalAlign: 'top', width: 'calc(100% / 11 * 3', display: 'inline-block', textAlign: 'center', padding: '4em 0em 1em', marginTop: '-3em', backgroundColor: '#d3d3d4' }}>4-6<br />Acceptable quality work.<br />Minor fixes needed.</div>
-					<div style={{ verticalAlign: 'top', width: 'calc(100% / 11 * 4', display: 'inline-block', textAlign: 'center', padding: '4em 0em 1em', marginTop: '-3em', backgroundColor: '#f3f3f4' }}>7-10<br />High quality work.<br />Trivial or no fixes needed.</div>
+					<div style={{ verticalAlign: 'top', width: 'calc(100% / 11 * 4 - 2px', display: 'inline-block', textAlign: 'center', padding: '4em 0em 1em', marginTop: '-3em', backgroundColor: '#f3f3f4' }}>0 - 3<br />Low quality work.<br />Do not trust conclusions.</div>
+					<div style={{ verticalAlign: 'top', width: 'calc(100% / 11 * 3', display: 'inline-block', textAlign: 'center', padding: '4em 0em 1em', marginTop: '-3em', backgroundColor: '#d3d3d4' }}>4 - 6<br />Acceptable quality work.<br />Hesitantly trust conclusions.</div>
+					<div style={{ verticalAlign: 'top', width: 'calc(100% / 11 * 4', display: 'inline-block', textAlign: 'center', padding: '4em 0em 1em', marginTop: '-3em', backgroundColor: '#f3f3f4' }}>7 - 10<br />High quality work.<br />Completely trust conclusions.</div>
 				</div>
 
 				<button className={'pt-button pt-intent-primary'} onClick={this.submitReview}>Finish Review and go to Final step</button>

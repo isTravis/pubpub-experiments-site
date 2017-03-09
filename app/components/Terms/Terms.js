@@ -19,7 +19,7 @@ export const Terms = React.createClass({
 				
 				<p style={styles.text}>We ask you to evaluate a short scientific study. The article should take about 5 minutes to read and has one figure.</p>
 				{this.props.query.turkSubmitTo &&
-					<div className={'pt-callout'}><b>You must be a US citizen and hold an undergraduate degree to have this HIT accepted.</b></div>
+					<div className={'pt-callout'}><b>You must live in the US and hold an undergraduate degree to have this HIT accepted.</b></div>
 				}
 				<p style={styles.text}>There may be errors in the logic used and conclusions reached. We ask you to assume the role of a peer-reviewing scientist. You will be asked to provide critique, calling into question the logic and methods the authors used to reach their conclusions.</p>
 				<p style={styles.text}>After submitting your review, we present a short survey.</p>
