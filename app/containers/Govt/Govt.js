@@ -127,7 +127,7 @@ export const Govt = React.createClass({
 			<div style={styles.container}>
 
 				{!this.state.completedTerms &&
-					<Terms onComplete={this.completeTerms} assignmentId={this.state.assignmentId} />
+					<Terms onComplete={this.completeTerms} assignmentId={this.state.assignmentId} query={this.props.location.query} />
 				}
 
 				{this.state.completedTerms && !this.state.completedReview &&
