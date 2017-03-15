@@ -171,16 +171,17 @@ export const Analysis = React.createClass({
 	},
 
 	render() {
-		console.log('Beef');
-		console.log('---------------');
+		const t0 = performance.now();
+		// console.log('Beef');
+		// console.log('---------------');
 		const beefStats = this.analyzeCounts(beefData);
 
-		console.log('Dino');
-		console.log('---------------');
+		// console.log('Dino');
+		// console.log('---------------');
 		const dinoStats = this.analyzeCounts(dinoData);
 
-		console.log('Govt');
-		console.log('---------------');
+		// console.log('Govt');
+		// console.log('---------------');
 		const govtStats = this.analyzeCounts(govtData);
 		
 		// const nonInteractives = [...beefStats.noninteractive, ...dinoStats.noninteractive, ...govtStats.noninteractive];
@@ -473,7 +474,8 @@ export const Analysis = React.createClass({
 		];
 		const renderResultTimes = <AnalysisBarChart keys={['False', 'True']} data={timesData} title={'Time vs Result'} yaxisLabel={'Time (s)'} />;
 		
-
+		const t1 = performance.now();
+		console.log(`Calculations took ${t1 - t0}ms`);
 		return (
 			<div style={styles.container}>
 				<h1>Analysis</h1>

@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import Radium from 'radium';
+import roundTo from 'round-to';
 import { ResponsiveContainer, BarChart, XAxis, YAxis, CartesianGrid, Bar, Tooltip, Legend, ErrorBar } from 'recharts';
 let styles;
 
@@ -42,7 +43,7 @@ export const AnalysisBarChart = React.createClass({
 						<XAxis dataKey="name" />
 						<YAxis />
 						<CartesianGrid strokeDasharray="3 3" />
-						<Tooltip />
+						<Tooltip formatter={(val)=> { return roundTo(val, 3); }} />
 						<Legend />
 						{keys.map((item, index)=> {
 							return (

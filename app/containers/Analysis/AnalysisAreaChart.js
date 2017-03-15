@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import Radium from 'radium';
+import roundTo from 'round-to';
 import { ResponsiveContainer, AreaChart, XAxis, YAxis, CartesianGrid, Area, Tooltip, Legend } from 'recharts';
 let styles;
 
@@ -42,7 +43,7 @@ export const AnalysisAreaChart = React.createClass({
 						<XAxis dataKey="name" />
 						<YAxis />
 						<CartesianGrid strokeDasharray="3 3" />
-						<Tooltip />
+						<Tooltip formatter={(val)=> { return roundTo(val, 3); }} />
 						<Legend />
 						{keys.map((item, index)=> {
 							return <Area key={`Area-${index}`} type="monotone" dataKey={item} stroke={colors[index]} fillOpacity={1} fill={`url(#color${index})`} />;
