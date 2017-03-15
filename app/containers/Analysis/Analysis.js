@@ -536,7 +536,10 @@ export const Analysis = React.createClass({
 				</div> */}
 
 				<div style={styles.header}>Total Participant Counts</div>
-				<div style={styles.content}>The table displays a total count of participants across the three experiments. Each experiment is split into three sections to denote how many users 1) were given a non-interactive experiment, 2) were given an interactive experiment, and 3) were given an interactive experiment and used the interactivity.</div>
+				<div style={styles.content}>
+					<p>The table displays a total count of participants across the three experiments. Each experiment is split into three sections to denote how many users 1) were given a non-interactive experiment, 2) were given an interactive experiment, and 3) were given an interactive experiment and used the interactivity.</p>
+					<p>All experiment users were US citizens with at least an undergraduate degree living in the US. A total of {[...beefStats.all, ...dinoStats.all, ...govtStats.all].length} users particpated.</p>
+				</div>
 				{renderCounts}
 
 				<div style={styles.header}>Found Error</div>
