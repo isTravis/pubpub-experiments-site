@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import Radium from 'radium';
-import { ResponsiveContainer, BarChart, XAxis, YAxis, CartesianGrid, Bar, Tooltip, Legend } from 'recharts';
+import { ResponsiveContainer, BarChart, XAxis, YAxis, CartesianGrid, Bar, Tooltip, Legend, ErrorBar } from 'recharts';
 let styles;
 
 export const AnalysisBarChart = React.createClass({
@@ -46,7 +46,11 @@ export const AnalysisBarChart = React.createClass({
 						<Tooltip />
 						<Legend />
 						{keys.map((item, index)=> {
-							return <Bar key={`Bar-${index}`} type="monotone" dataKey={item} stroke={colors[index]} fillOpacity={1} fill={`url(#color${index})`} />;
+							return (
+								<Bar key={`Bar-${index}`} type="monotone" dataKey={item} stroke={colors[index]} fillOpacity={1} fill={`url(#color${index})`}>
+									<ErrorBar dataKey={`${item}Error`} width={0} strokeWidth={1} stroke="black" opacity={0.5} />
+								</Bar>
+							);
 						})}
 					</BarChart>
 				</ResponsiveContainer>

@@ -37,7 +37,7 @@ export const BeefPaper = React.createClass({
 					Bread: [496, 480, 487],
 					Carrot: [498, 497, 489],
 					Egg: [495, 492, 497],
-					Chicken: [499, 493, 492],
+					Chkn: [499, 493, 492],
 					Tomato: [500, 500, 499],
 				}
 			},
@@ -112,7 +112,7 @@ export const BeefPaper = React.createClass({
 					<p style={styles.p}>The consistency in food options at each of these three locations reduces the number of external variables for which we must control. </p>
 
 					<h3 style={styles.header}>Relationship between diet and mortality</h3>
-					<p style={styles.p}>Across the three study locations, the 10 most heavily consumed foods were: tuna, potatoes, rice, beef, cheese, bread, carrots, eggs, chicken, and tomatoes. During the course of our study, 168 people were hospitalized for varying illnesses, and 63 of the 1500 participants died. In the chart below, we plot the mortality rate associated with the 6 most consumed foods across the three study sites. The mortality rate is calculated by (Number of people who ate X and died) divided by (Total number of people who ate X)</p>
+					<p style={styles.p}>Across the three study locations, the 10 most heavily consumed foods were: tuna, potatoes, rice, beef, cheese, bread, carrots, eggs, chicken, and tomatoes. During the course of our study, 168 people were hospitalized for varying illnesses, and 63 of the 1500 participants died. In the chart below, we plot the mortality rate associated with the 10 most consumed foods across the three study sites. The mortality rate is calculated by (Number of people who ate X and died) divided by (Total number of people who ate X)</p>
 
 					{this.props.mode === 1 &&
 						<p style={styles.p}>You can use the checkboxes on the right to explore alternative analyses.</p>

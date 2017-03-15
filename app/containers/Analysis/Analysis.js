@@ -4,6 +4,7 @@ import Radium from 'radium';
 import stats from 'stats-lite';
 import { AreaChart, XAxis, YAxis, CartesianGrid, Area, Tooltip } from 'recharts';
 import AnalysisBarChart from './AnalysisBarChart';
+import AnalysisAreaChart from './AnalysisAreaChart';
 let styles;
 
 import dinoData from '../../../data/dinoData.js';
@@ -84,6 +85,8 @@ export const Analysis = React.createClass({
 			nonInterestedAll: this.filterUsers({ data: inputData, interestedInTopic: false }),
 			interestedAll: this.filterUsers({ data: inputData, interestedInTopic: true }),
 
+			foundErrorFalse: this.filterUsers({ data: inputData, foundError: false }),
+			foundErrorTrue: this.filterUsers({ data: inputData, foundError: true }),
 			mode0FoundError: this.filterUsers({ data: inputData, hadInteractive: false, foundError: true }),
 			mode1FoundError: this.filterUsers({ data: inputData, hadInteractive: true, foundError: true }),
 			interactiveFoundError: this.filterUsers({ data: inputData, usedInteractive: true, foundError: true }),
@@ -93,6 +96,10 @@ export const Analysis = React.createClass({
 			nonInterestedFoundError: this.filterUsers({ data: inputData, interestedInTopic: false, foundError: true }),
 			interestedFoundError: this.filterUsers({ data: inputData, interestedInTopic: true, foundError: true }),
 
+			foundConclusionFalse: this.filterUsers({ data: inputData, foundConclusion: false }),
+			foundConclusionTrue: this.filterUsers({ data: inputData, foundConclusion: true }),
+			foundConclusionFalse: this.filterUsers({ data: inputData, foundConclusion: false }),
+			foundConclusionTrue: this.filterUsers({ data: inputData, foundConclusion: true }),
 			mode0FoundConclusion: this.filterUsers({ data: inputData, hadInteractive: false, foundConclusion: true }),
 			mode1FoundConclusion: this.filterUsers({ data: inputData, hadInteractive: true, foundConclusion: true }),
 			interactiveFoundConclusion: this.filterUsers({ data: inputData, usedInteractive: true, foundConclusion: true }),
@@ -138,7 +145,6 @@ export const Analysis = React.createClass({
 			// if (item.reviewRating > 6) { index = 2; }
 			// scores[index] += 1;
 		});
-		console.log(scores);
 		return scores;
 	},
 
@@ -187,21 +193,23 @@ export const Analysis = React.createClass({
 
 		const renderCounts = (
 			<table style={styles.countTable}>
-				<tr style={styles.countTableBold}>
-					<td style={styles.countTableHead} colSpan={3}>Beef</td>
-					<td style={styles.countTableHead} colSpan={3}>Dino</td>
-					<td style={styles.countTableHead} colSpan={3}>Govt</td>
-				</tr>
-				<tr style={styles.countTableBold}>
-					<td>Non Inter</td><td>Had Inter</td><td>Used Inter</td>
-					<td>Non Inter</td><td>Had Inter</td><td>Used Inter</td>
-					<td>Non Inter</td><td>Had Inter</td><td>Used Inter</td>
-				</tr>
-				<tr style={{ fontSize: '1.5em' }}>
-					<td>{beefStats.noninteractive.length}</td><td>{beefStats.interactive.length}</td><td>{beefStats.usedinteractive.length}</td>
-					<td>{dinoStats.noninteractive.length}</td><td>{dinoStats.interactive.length}</td><td>{dinoStats.usedinteractive.length}</td>
-					<td>{govtStats.noninteractive.length}</td><td>{govtStats.interactive.length}</td><td>{govtStats.usedinteractive.length}</td>
-				</tr>
+				<tbody>
+					<tr style={styles.countTableBold}>
+						<td style={styles.countTableHead} colSpan={3}>Beef</td>
+						<td style={styles.countTableHead} colSpan={3}>Dino</td>
+						<td style={styles.countTableHead} colSpan={3}>Govt</td>
+					</tr>
+					<tr style={styles.countTableBold}>
+						<td>Non Inter</td><td>Had Inter</td><td>Used Inter</td>
+						<td>Non Inter</td><td>Had Inter</td><td>Used Inter</td>
+						<td>Non Inter</td><td>Had Inter</td><td>Used Inter</td>
+					</tr>
+					<tr style={{ fontSize: '1.5em' }}>
+						<td>{beefStats.noninteractive.length}</td><td>{beefStats.interactive.length}</td><td>{beefStats.usedinteractive.length}</td>
+						<td>{dinoStats.noninteractive.length}</td><td>{dinoStats.interactive.length}</td><td>{dinoStats.usedinteractive.length}</td>
+						<td>{govtStats.noninteractive.length}</td><td>{govtStats.interactive.length}</td><td>{govtStats.usedinteractive.length}</td>
+					</tr>
+				</tbody>
 			</table>
 		);
 
@@ -225,27 +233,42 @@ export const Analysis = React.createClass({
 		// 		'Used Interactive': govtStats.foundErrorInteractiveUse.length / govtStats.usedinteractive.length,
 		// 	},
 		// ];
+		
+		// Margin of Error Calculation: https://www.unc.edu/~rls/s151-2010/class23.pdf
+
 		const foundErrorData = [
 			{ 
 				name: 'Beef', 
 				'Presented Non-Interactive': beefStats.mode0FoundError.length / beefStats.mode0All.length,
+				'Presented Non-InteractiveError': 1.96 * Math.sqrt((0.5 * (1 - 0.5)) / beefStats.mode0All.length),
 				'Presented Interactive': beefStats.mode1FoundError.length / beefStats.mode1All.length,
+				'Presented InteractiveError': 1.96 * Math.sqrt((0.5 * (1 - 0.5)) / beefStats.mode1All.length),
 				'Did Not Use Interacivity': beefStats.nonInteractiveFoundError.length / beefStats.nonInteractiveAll.length,
+				'Did Not Use InteracivityError': 1.96 * Math.sqrt((0.5 * (1 - 0.5)) / beefStats.nonInteractiveAll.length),
 				'Did Use Interacivity': beefStats.interactiveFoundError.length / beefStats.interactiveAll.length,
+				'Did Use InteracivityError': 1.96 * Math.sqrt((0.5 * (1 - 0.5)) / beefStats.interactiveAll.length),
 			},
 			{ 
 				name: 'Dino', 
 				'Presented Non-Interactive': dinoStats.mode0FoundError.length / dinoStats.mode0All.length,
+				'Presented Non-InteractiveError': 1.96 * Math.sqrt((0.5 * (1 - 0.5)) / dinoStats.mode0All.length),
 				'Presented Interactive': dinoStats.mode1FoundError.length / dinoStats.mode1All.length,
+				'Presented InteractiveError': 1.96 * Math.sqrt((0.5 * (1 - 0.5)) / dinoStats.mode1All.length),
 				'Did Not Use Interacivity': dinoStats.nonInteractiveFoundError.length / dinoStats.nonInteractiveAll.length,
+				'Did Not Use InteracivityError': 1.96 * Math.sqrt((0.5 * (1 - 0.5)) / dinoStats.nonInteractiveAll.length),
 				'Did Use Interacivity': dinoStats.interactiveFoundError.length / dinoStats.interactiveAll.length,
+				'Did Use InteracivityError': 1.96 * Math.sqrt((0.5 * (1 - 0.5)) / dinoStats.interactiveAll.length),
 			},
 			{ 
 				name: 'Govt', 
 				'Presented Non-Interactive': govtStats.mode0FoundError.length / govtStats.mode0All.length,
+				'Presented Non-InteractiveError': 1.96 * Math.sqrt((0.5 * (1 - 0.5)) / govtStats.mode0All.length),
 				'Presented Interactive': govtStats.mode1FoundError.length / govtStats.mode1All.length,
+				'Presented InteractiveError': 1.96 * Math.sqrt((0.5 * (1 - 0.5)) / govtStats.mode1All.length),
 				'Did Not Use Interacivity': govtStats.nonInteractiveFoundError.length / govtStats.nonInteractiveAll.length,
+				'Did Not Use InteracivityError': 1.96 * Math.sqrt((0.5 * (1 - 0.5)) / govtStats.nonInteractiveAll.length),
 				'Did Use Interacivity': govtStats.interactiveFoundError.length / govtStats.interactiveAll.length,
+				'Did Use InteracivityError': 1.96 * Math.sqrt((0.5 * (1 - 0.5)) / govtStats.interactiveAll.length),
 			},
 		];
 
@@ -357,6 +380,30 @@ export const Analysis = React.createClass({
 
 		const renderInterestedFoundConclusion = <AnalysisBarChart keys={['Not Interested', 'Interested']} data={interestedFoundConclusionData} title={'Interest in Topic and Finding Conclusions'} yaxisLabel={'Percent Found Conclusion'} />;
 
+
+		const scoreCountsFoundErrorFalse = this.countScores([...beefStats.foundErrorFalse, ...dinoStats.foundErrorFalse, ...govtStats.foundErrorFalse]);
+		const scoreCountsFoundErrorTrue = this.countScores([...beefStats.foundErrorTrue, ...dinoStats.foundErrorTrue, ...govtStats.foundErrorTrue]);
+		
+		const foundErrorScores = scoreCountsFoundErrorFalse.map((item, index)=> {
+			return {
+				name: index,
+				'Did Not Find Error': scoreCountsFoundErrorFalse[index] / this.sumArray(scoreCountsFoundErrorFalse),
+				'Found Error': scoreCountsFoundErrorTrue[index] / this.sumArray(scoreCountsFoundErrorTrue),
+			};
+		});
+		const renderFoundErrorScores = <AnalysisAreaChart keys={['Did Not Find Error', 'Found Error']} data={foundErrorScores} title={'Score Distribution when Finding Error'} yaxisLabel={'Percentage Assigning Score'} />;
+
+		const scoreCountsFoundConclusionFalse = this.countScores([...beefStats.foundConclusionFalse, ...dinoStats.foundConclusionFalse, ...govtStats.foundConclusionFalse]);
+		const scoreCountsFoundConclusionTrue = this.countScores([...beefStats.foundConclusionTrue, ...dinoStats.foundConclusionTrue, ...govtStats.foundConclusionTrue]);
+		const foundConclusionScores = scoreCountsFoundConclusionFalse.map((item, index)=> {
+			return {
+				name: index,
+				'Did Not Find Conclusion': scoreCountsFoundConclusionFalse[index] / this.sumArray(scoreCountsFoundConclusionFalse),
+				'Found Conclusion': scoreCountsFoundConclusionTrue[index] / this.sumArray(scoreCountsFoundConclusionTrue),
+			};
+		});
+		const renderFoundConclusionScores = <AnalysisAreaChart keys={['Did Not Find Conclusion', 'Found Conclusion']} data={foundConclusionScores} title={'Score Distribution when Finding Conclusion'} yaxisLabel={'Percentage Assigning Score'} />;
+
 		return (
 			<div style={styles.container}>
 				<h1>Analysis</h1>
@@ -388,7 +435,27 @@ export const Analysis = React.createClass({
 				<div style={styles.content}>Another interpretation of interest is interest in the topic at hand leads to higher rates of detecting errors and finding alternative conclusions.</div>
 				{renderInterestedFoundError}
 				{renderInterestedFoundConclusion}
-				
+
+				<div style={styles.header}>Score Distribution when Finding Error or Conclusion</div>
+				<div style={styles.content}>One graph of interest displays the distribution of scores assigned to an experiment based on whether a user did or did not find an error or conclusion.</div>
+				{renderFoundErrorScores}
+				{renderFoundConclusionScores}
+				<div style={styles.content}>
+					<p>
+						A couple possible interpretations:
+						<ol>
+							<li>Those who are more critical, and review work more harshly, more frequently detect errors and alternative conclusions.</li>
+							<li>Finding an error or alternative conclusion causes a reviewer to be much harsher in rating.</li>
+						</ol>
+					</p>
+					<p>
+						It is intesting to note that those who did not find an error or alternative conclusions have a nearly-random, even distribution across scores (except extremes of 0 and 10). Again, two conclusions:
+						<ol>
+							<li>Those who don't know what they're doing and pretty much guess at the quality aren't critical enough to find flaws.</li>
+							<li>Without a concrete error or alternative conclusion to tie their score to, reviewers don't have a good method of assigning score.</li>
+						</ol>
+					</p>
+				</div>
 				{/* <AreaChart width={730} height={250} data={data} margin={{ top: 50, right: 30, left: 0, bottom: 0 }}>
 					<defs>
 						<linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
