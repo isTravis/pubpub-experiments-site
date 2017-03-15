@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import Radium from 'radium';
-import { ResponsiveContainer, AreaChart, XAxis, YAxis, CartesianGrid, Area, Tooltip } from 'recharts';
+import { ResponsiveContainer, AreaChart, XAxis, YAxis, CartesianGrid, Area, Tooltip, Legend } from 'recharts';
 let styles;
 
 export const AnalysisAreaChart = React.createClass({
@@ -40,6 +40,7 @@ export const AnalysisAreaChart = React.createClass({
 						<YAxis />
 						<CartesianGrid strokeDasharray="3 3" />
 						<Tooltip />
+						<Legend />
 						{keys.map((item, index)=> {
 							return <Area key={`Area-${index}`} type="monotone" dataKey={item} stroke={colors[index]} fillOpacity={1} fill={`url(#color${index})`} />;
 						})}

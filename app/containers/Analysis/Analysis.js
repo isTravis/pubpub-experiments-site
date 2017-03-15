@@ -75,11 +75,41 @@ export const Analysis = React.createClass({
 
 	analyzeCounts: function(inputData) {
 		const results = {
+			mode0All: this.filterUsers({ data: inputData, hadInteractive: false }),
+			mode1All: this.filterUsers({ data: inputData, hadInteractive: true }),
+			interactiveAll: this.filterUsers({ data: inputData, usedInteractive: true }),
+			nonInteractiveAll: this.filterUsers({ data: inputData, usedInteractive: false }),
+			nonScientistAll: this.filterUsers({ data: inputData, isScientist: false }),
+			scientistAll: this.filterUsers({ data: inputData, isScientist: true }),
+			nonInterestedAll: this.filterUsers({ data: inputData, interestedInTopic: false }),
+			interestedAll: this.filterUsers({ data: inputData, interestedInTopic: true }),
+
+			mode0FoundError: this.filterUsers({ data: inputData, hadInteractive: false, foundError: true }),
+			mode1FoundError: this.filterUsers({ data: inputData, hadInteractive: true, foundError: true }),
+			interactiveFoundError: this.filterUsers({ data: inputData, usedInteractive: true, foundError: true }),
+			nonInteractiveFoundError: this.filterUsers({ data: inputData, usedInteractive: false, foundError: true }),
+			nonScientistFoundError: this.filterUsers({ data: inputData, isScientist: false, foundError: true }),
+			scientistFoundError: this.filterUsers({ data: inputData, isScientist: true, foundError: true }),
+			nonInterestedFoundError: this.filterUsers({ data: inputData, interestedInTopic: false, foundError: true }),
+			interestedFoundError: this.filterUsers({ data: inputData, interestedInTopic: true, foundError: true }),
+
+			mode0FoundConclusion: this.filterUsers({ data: inputData, hadInteractive: false, foundConclusion: true }),
+			mode1FoundConclusion: this.filterUsers({ data: inputData, hadInteractive: true, foundConclusion: true }),
+			interactiveFoundConclusion: this.filterUsers({ data: inputData, usedInteractive: true, foundConclusion: true }),
+			nonInteractiveFoundConclusion: this.filterUsers({ data: inputData, usedInteractive: false, foundConclusion: true }),
+			nonScientistFoundConclusion: this.filterUsers({ data: inputData, isScientist: false, foundConclusion: true }),
+			scientistFoundConclusion: this.filterUsers({ data: inputData, isScientist: true, foundConclusion: true }),
+			nonInterestedFoundConclusion: this.filterUsers({ data: inputData, interestedInTopic: false, foundConclusion: true }),
+			interestedFoundConclusion: this.filterUsers({ data: inputData, interestedInTopic: true, foundConclusion: true }),
+
 			noninteractive: this.filterUsers({ data: inputData, hadInteractive: false }),
 			foundErrorNonInteractive: this.filterUsers({ data: inputData, foundError: true, hadInteractive: false }),
 			foundConclusionNonInteractive: this.filterUsers({ data: inputData, foundConclusion: true, hadInteractive: false }),
 			interactive: this.filterUsers({ data: inputData, hadInteractive: true }),
+			interactiveNotUsed: this.filterUsers({ data: inputData, hadInteractive: true, usedInteractive: false }),
 			foundErrorInteractive: this.filterUsers({ data: inputData, foundError: true, hadInteractive: true }),
+			foundErrorInteractiveNotUse: this.filterUsers({ data: inputData, foundError: true, hadInteractive: true, usedInteractive: false }),
+			foundErrorInteractiveUse: this.filterUsers({ data: inputData, foundError: true, hadInteractive: true, usedInteractive: true }),
 			foundConclusionInteractive: this.filterUsers({ data: inputData, foundConclusion: true, hadInteractive: true }),
 			usedinteractive: this.filterUsers({ data: inputData, usedInteractive: true }),
 			foundErrorUsedInteractive: this.filterUsers({ data: inputData, foundError: true, usedInteractive: true }),
@@ -90,10 +120,10 @@ export const Analysis = React.createClass({
 			foundConclusion: this.filterUsers({ data: inputData, foundConclusion: true }),
 		};
 
-		console.log('Non Interactive', results.foundErrorNonInteractive.length / results.noninteractive.length, results.foundConclusionNonInteractive.length / results.noninteractive.length, ' Total: ', results.noninteractive.length);
-		console.log('Interactive', results.foundErrorInteractive.length / results.interactive.length, results.foundConclusionInteractive.length / results.interactive.length, ' Total: ', results.interactive.length);
-		console.log('UsedInteractive', results.foundErrorUsedInteractive.length / results.usedinteractive.length, results.foundConclusionUsedInteractive.length / results.usedinteractive.length, ' Total: ', results.usedinteractive.length);
-		console.log('Percent that used if had it', results.usedinteractive.length / results.interactive.length);
+		// console.log('Non Interactive', results.foundErrorNonInteractive.length / results.noninteractive.length, results.foundConclusionNonInteractive.length / results.noninteractive.length, ' Total: ', results.noninteractive.length);
+		// console.log('Interactive', results.foundErrorInteractive.length / results.interactive.length, results.foundConclusionInteractive.length / results.interactive.length, ' Total: ', results.interactive.length);
+		// console.log('UsedInteractive', results.foundErrorUsedInteractive.length / results.usedinteractive.length, results.foundConclusionUsedInteractive.length / results.usedinteractive.length, ' Total: ', results.usedinteractive.length);
+		// console.log('Percent that used if had it', results.usedinteractive.length / results.interactive.length);
 		return results;
 	},
 
@@ -137,23 +167,23 @@ export const Analysis = React.createClass({
 		// const nonInteractives = [...govtStats.noninteractive];
 		// const interactives = [...govtStats.interactive];
 		// const usedinteractives = [...govtStats.usedinteractive];
-		const nonInteractives = [...beefStats.foundConclusion, ...dinoStats.foundConclusion, ...govtStats.foundConclusion];
-		const interactives = [...beefStats.notFoundConclusion, ...dinoStats.notFoundConclusion, ...govtStats.notFoundConclusion];
-		const usedinteractives = [...beefStats.usedinteractive, ...dinoStats.usedinteractive, ...govtStats.usedinteractive];
+		// const nonInteractives = [...beefStats.foundConclusion, ...dinoStats.foundConclusion, ...govtStats.foundConclusion];
+		// const interactives = [...beefStats.notFoundConclusion, ...dinoStats.notFoundConclusion, ...govtStats.notFoundConclusion];
+		// const usedinteractives = [...beefStats.usedinteractive, ...dinoStats.usedinteractive, ...govtStats.usedinteractive];
 
-		const nonInteractivesScores = this.countScores(nonInteractives);
-		const interactivesScores = this.countScores(interactives);
-		const usedInteractivesScores = this.countScores(usedinteractives);
+		// const nonInteractivesScores = this.countScores(nonInteractives);
+		// const interactivesScores = this.countScores(interactives);
+		// const usedInteractivesScores = this.countScores(usedinteractives);
 
-		console.log(stats.stdev(nonInteractivesScores) / this.sumArray(nonInteractivesScores));
-		const data = nonInteractivesScores.map((item, index)=> {
-			return {
-				name: index,
-				non: nonInteractivesScores[index] / this.sumArray(nonInteractivesScores),
-				int: interactivesScores[index] / this.sumArray(interactivesScores),
-				// used: usedInteractivesScores[index] / this.sumArray(usedInteractivesScores),
-			};
-		});
+		// console.log(stats.stdev(nonInteractivesScores) / this.sumArray(nonInteractivesScores));
+		// const data = nonInteractivesScores.map((item, index)=> {
+		// 	return {
+		// 		name: index,
+		// 		non: nonInteractivesScores[index] / this.sumArray(nonInteractivesScores),
+		// 		int: interactivesScores[index] / this.sumArray(interactivesScores),
+		// 		// used: usedInteractivesScores[index] / this.sumArray(usedInteractivesScores),
+		// 	};
+		// });
 
 		const renderCounts = (
 			<table style={styles.countTable}>
@@ -175,6 +205,157 @@ export const Analysis = React.createClass({
 			</table>
 		);
 
+		// const foundErrorData = [
+		// 	{ 
+		// 		name: 'Beef', 
+		// 		'Non-Interactive': beefStats.foundErrorNonInteractive.length / beefStats.noninteractive.length,
+		// 		'Had Interactive': beefStats.foundErrorInteractiveNotUse.length / beefStats.interactiveNotUsed.length,
+		// 		'Used Interactive': beefStats.foundErrorInteractiveUse.length / beefStats.usedinteractive.length,
+		// 	},
+		// 	{ 
+		// 		name: 'Dino', 
+		// 		'Non-Interactive': dinoStats.foundErrorNonInteractive.length / dinoStats.noninteractive.length,
+		// 		'Had Interactive': dinoStats.foundErrorInteractiveNotUse.length / dinoStats.interactiveNotUsed.length,
+		// 		'Used Interactive': dinoStats.foundErrorInteractiveUse.length / dinoStats.usedinteractive.length,
+		// 	},
+		// 	{ 
+		// 		name: 'Govt', 
+		// 		'Non-Interactive': govtStats.foundErrorNonInteractive.length / govtStats.noninteractive.length,
+		// 		'Had Interactive': govtStats.foundErrorInteractiveNotUse.length / govtStats.interactiveNotUsed.length,
+		// 		'Used Interactive': govtStats.foundErrorInteractiveUse.length / govtStats.usedinteractive.length,
+		// 	},
+		// ];
+		const foundErrorData = [
+			{ 
+				name: 'Beef', 
+				'Presented Non-Interactive': beefStats.mode0FoundError.length / beefStats.mode0All.length,
+				'Presented Interactive': beefStats.mode1FoundError.length / beefStats.mode1All.length,
+				'Did Not Use Interacivity': beefStats.nonInteractiveFoundError.length / beefStats.nonInteractiveAll.length,
+				'Did Use Interacivity': beefStats.interactiveFoundError.length / beefStats.interactiveAll.length,
+			},
+			{ 
+				name: 'Dino', 
+				'Presented Non-Interactive': dinoStats.mode0FoundError.length / dinoStats.mode0All.length,
+				'Presented Interactive': dinoStats.mode1FoundError.length / dinoStats.mode1All.length,
+				'Did Not Use Interacivity': dinoStats.nonInteractiveFoundError.length / dinoStats.nonInteractiveAll.length,
+				'Did Use Interacivity': dinoStats.interactiveFoundError.length / dinoStats.interactiveAll.length,
+			},
+			{ 
+				name: 'Govt', 
+				'Presented Non-Interactive': govtStats.mode0FoundError.length / govtStats.mode0All.length,
+				'Presented Interactive': govtStats.mode1FoundError.length / govtStats.mode1All.length,
+				'Did Not Use Interacivity': govtStats.nonInteractiveFoundError.length / govtStats.nonInteractiveAll.length,
+				'Did Use Interacivity': govtStats.interactiveFoundError.length / govtStats.interactiveAll.length,
+			},
+		];
+
+		const renderFoundError = <AnalysisBarChart keys={['Presented Non-Interactive', 'Presented Interactive', 'Did Not Use Interacivity', 'Did Use Interacivity']} data={foundErrorData} title={'Percent of Users Finding Error'} yaxisLabel={'Percent Found Error'} />;
+
+		const foundConclusionData = [
+			{ 
+				name: 'Beef', 
+				'Presented Non-Interactive': beefStats.mode0FoundConclusion.length / beefStats.mode0All.length,
+				'Presented Interactive': beefStats.mode1FoundConclusion.length / beefStats.mode1All.length,
+				'Did Not Use Interacivity': beefStats.nonInteractiveFoundConclusion.length / beefStats.nonInteractiveAll.length,
+				'Did Use Interacivity': beefStats.interactiveFoundConclusion.length / beefStats.interactiveAll.length,
+			},
+			{ 
+				name: 'Dino', 
+				'Presented Non-Interactive': dinoStats.mode0FoundConclusion.length / dinoStats.mode0All.length,
+				'Presented Interactive': dinoStats.mode1FoundConclusion.length / dinoStats.mode1All.length,
+				'Did Not Use Interacivity': dinoStats.nonInteractiveFoundConclusion.length / dinoStats.nonInteractiveAll.length,
+				'Did Use Interacivity': dinoStats.interactiveFoundConclusion.length / dinoStats.interactiveAll.length,
+			},
+			{ 
+				name: 'Govt', 
+				'Presented Non-Interactive': govtStats.mode0FoundConclusion.length / govtStats.mode0All.length,
+				'Presented Interactive': govtStats.mode1FoundConclusion.length / govtStats.mode1All.length,
+				'Did Not Use Interacivity': govtStats.nonInteractiveFoundConclusion.length / govtStats.nonInteractiveAll.length,
+				'Did Use Interacivity': govtStats.interactiveFoundConclusion.length / govtStats.interactiveAll.length,
+			},
+		];
+
+		const renderFoundConclusion = <AnalysisBarChart keys={['Presented Non-Interactive', 'Presented Interactive', 'Did Not Use Interacivity', 'Did Use Interacivity']} data={foundConclusionData} title={'Percent of Users Finding Conclusion'} yaxisLabel={'Percent Found Conclusion'} />;
+
+		const scientistFoundErrorData = [
+			{ 
+				name: 'Beef', 
+				'Non-Scientist': beefStats.nonScientistFoundError.length / beefStats.nonScientistAll.length,
+				'Scientist': beefStats.scientistFoundError.length / beefStats.scientistAll.length,
+			},
+			{ 
+				name: 'Dino', 
+				'Non-Scientist': dinoStats.nonScientistFoundError.length / dinoStats.nonScientistAll.length,
+				'Scientist': dinoStats.scientistFoundError.length / dinoStats.scientistAll.length,
+			},
+			{ 
+				name: 'Govt', 
+				'Non-Scientist': govtStats.nonScientistFoundError.length / govtStats.nonScientistAll.length,
+				'Scientist': govtStats.scientistFoundError.length / govtStats.scientistAll.length,
+			},
+		];
+
+		const renderScientistFoundError = <AnalysisBarChart keys={['Non-Scientist', 'Scientist']} data={scientistFoundErrorData} title={'Scientific Training and Finding Errors'} yaxisLabel={'Percent Found Error'} />;
+
+		const scientistFoundConclusionData = [
+			{ 
+				name: 'Beef', 
+				'Non-Scientist': beefStats.nonScientistFoundConclusion.length / beefStats.nonScientistAll.length,
+				'Scientist': beefStats.scientistFoundConclusion.length / beefStats.scientistAll.length,
+			},
+			{ 
+				name: 'Dino', 
+				'Non-Scientist': dinoStats.nonScientistFoundConclusion.length / dinoStats.nonScientistAll.length,
+				'Scientist': dinoStats.scientistFoundConclusion.length / dinoStats.scientistAll.length,
+			},
+			{ 
+				name: 'Govt', 
+				'Non-Scientist': govtStats.nonScientistFoundConclusion.length / govtStats.nonScientistAll.length,
+				'Scientist': govtStats.scientistFoundConclusion.length / govtStats.scientistAll.length,
+			},
+		];
+
+		const renderScientistFoundConclusion = <AnalysisBarChart keys={['Non-Scientist', 'Scientist']} data={scientistFoundConclusionData} title={'Scientific Training and Finding Conclusions'} yaxisLabel={'Percent Found Conclusion'} />;
+
+		const interestedFoundErrorData = [
+			{ 
+				name: 'Beef', 
+				'Not Interested': beefStats.nonInterestedFoundError.length / beefStats.nonInterestedAll.length,
+				'Interested': beefStats.interestedFoundError.length / beefStats.interestedAll.length,
+			},
+			{ 
+				name: 'Dino', 
+				'Not Interested': dinoStats.nonInterestedFoundError.length / dinoStats.nonInterestedAll.length,
+				'Interested': dinoStats.interestedFoundError.length / dinoStats.interestedAll.length,
+			},
+			{ 
+				name: 'Govt', 
+				'Not Interested': govtStats.nonInterestedFoundError.length / govtStats.nonInterestedAll.length,
+				'Interested': govtStats.interestedFoundError.length / govtStats.interestedAll.length,
+			},
+		];
+
+		const renderInterestedFoundError = <AnalysisBarChart keys={['Not Interested', 'Interested']} data={interestedFoundErrorData} title={'Interest in Topic and Finding Errors'} yaxisLabel={'Percent Found Error'} />;
+
+		const interestedFoundConclusionData = [
+			{ 
+				name: 'Beef', 
+				'Not Interested': beefStats.nonInterestedFoundConclusion.length / beefStats.nonInterestedAll.length,
+				'Interested': beefStats.interestedFoundConclusion.length / beefStats.interestedAll.length,
+			},
+			{ 
+				name: 'Dino', 
+				'Not Interested': dinoStats.nonInterestedFoundConclusion.length / dinoStats.nonInterestedAll.length,
+				'Interested': dinoStats.interestedFoundConclusion.length / dinoStats.interestedAll.length,
+			},
+			{ 
+				name: 'Govt', 
+				'Not Interested': govtStats.nonInterestedFoundConclusion.length / govtStats.nonInterestedAll.length,
+				'Interested': govtStats.interestedFoundConclusion.length / govtStats.interestedAll.length,
+			},
+		];
+
+		const renderInterestedFoundConclusion = <AnalysisBarChart keys={['Not Interested', 'Interested']} data={interestedFoundConclusionData} title={'Interest in Topic and Finding Conclusions'} yaxisLabel={'Percent Found Conclusion'} />;
 
 		return (
 			<div style={styles.container}>
@@ -189,21 +370,38 @@ export const Analysis = React.createClass({
 				<div style={styles.content}>The table displays a total count of participants across the three experiments. Each experiment is split into three sections to denote how many users 1) were given a non-interactive experiment, 2) were given an interactive experiment, and 3) were given an interactive experiment and used the interactivity.</div>
 				{renderCounts}
 
-				<AnalysisBarChart keys={['non', 'int']} data={data} title={'Analysis Title'} yaxisLabel={'Percent Did it'}/>
+				<div style={styles.header}>Found Error</div>
+				<div style={styles.content}>A primary focus is to understand whether an interactive experiment leads users to more frequently find the principle error. We plot the percentage of users, for each experiment that found the error given that they 1) were presented a non-interactive experiment, 2) were presented an interactive experiment, 3) did not use the interactive figure (wether presented or not), 4) did use the interactive figure.</div>
+				{renderFoundError}
 
-				<AreaChart width={730} height={250} data={data} margin={{ top: 50, right: 30, left: 0, bottom: 0 }}>
+				<div style={styles.header}>Found Conclusion</div>
+				<div style={styles.content}>A primary focus is to understand whether an interactive experiment leads users to more frequently find a correct alternative conclusion. We plot the percentage of users, for each experiment that found the error given that they 1) were presented a non-interactive experiment, 2) were presented an interactive experiment, 3) did not use the interactive figure (wether presented or not), 4) did use the interactive figure.</div>
+				{renderFoundConclusion}
+				
+
+				<div style={styles.header}>Scientific Training</div>
+				<div style={styles.content}>Another interpretation of interest is whether users who identify themselves as a scientist had a higher instance of detecting errors and finding alternative conclusions. The hopeful conclusion is that those who are scientifically trained are better suited to review such work.</div>
+				{renderScientistFoundError}
+				{renderScientistFoundConclusion}
+
+				<div style={styles.header}>Interest in Topic</div>
+				<div style={styles.content}>Another interpretation of interest is interest in the topic at hand leads to higher rates of detecting errors and finding alternative conclusions.</div>
+				{renderInterestedFoundError}
+				{renderInterestedFoundConclusion}
+				
+				{/* <AreaChart width={730} height={250} data={data} margin={{ top: 50, right: 30, left: 0, bottom: 0 }}>
 					<defs>
 						<linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-							<stop offset="5%" stopColor="#8884d8" stopOpacity={0.8}/>
-							<stop offset="95%" stopColor="#8884d8" stopOpacity={0}/>
+							<stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
+							<stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
 						</linearGradient>
 						<linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-							<stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8}/>
-							<stop offset="95%" stopColor="#82ca9d" stopOpacity={0}/>
+							<stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
+							<stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
 						</linearGradient>
 						<linearGradient id="colorTv" x1="0" y1="0" x2="0" y2="1">
-							<stop offset="5%" stopColor="#32ca9d" stopOpacity={0.8}/>
-							<stop offset="95%" stopColor="#32ca9d" stopOpacity={0}/>
+							<stop offset="5%" stopColor="#32ca9d" stopOpacity={0.8} />
+							<stop offset="95%" stopColor="#32ca9d" stopOpacity={0} />
 						</linearGradient>
 					</defs>
 					<XAxis dataKey="name" />
@@ -213,7 +411,7 @@ export const Analysis = React.createClass({
 					<Area type="monotone" dataKey="non" stroke="#8884d8" fillOpacity={1} fill="url(#colorUv)" />
 					<Area type="monotone" dataKey="int" stroke="#82ca9d" fillOpacity={1} fill="url(#colorPv)" />
 					<Area type="monotone" dataKey="used" stroke="#32ca9d" fillOpacity={1} fill="url(#colorTv)" />
-				</AreaChart>
+				</AreaChart> */}
 			</div>
 		);
 	}
