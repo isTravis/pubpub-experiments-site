@@ -74,13 +74,13 @@ body {
   padding: 0;
 }
 
-.article-body table {
+table {
   border-collapse: collapse;
   border-spacing: 0;
 }
 
-.article-body td,
-.article-body th {
+td,
+th {
   padding: 0;
 }
 
@@ -388,8 +388,14 @@ body {
   word-break: keep-all;
 }
 
-.article-body table th {
+table th {
   font-weight: bold;
+}
+
+table th,
+table td {
+  padding: 4px;
+  border: 1px solid #ddd;
 }
 
 .article-body table th,
@@ -398,7 +404,8 @@ body {
   border: 1px solid #ddd;
 }
 
-.article-body table tr {
+
+table tr {
   background-color: #fff;
   border-top: 1px solid #ccc;
 }
