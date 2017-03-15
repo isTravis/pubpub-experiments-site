@@ -14,7 +14,7 @@ export const AnalysisAreaChart = React.createClass({
 	render() {
 		const keys = this.props.keys || [];
 		const data = this.props.data || [];
-		const colors = ['#8884d8', '#82ca9d', '#32ca9d'];
+		const colors = ['#1abc9c', '#3498db', '#9b59b6', '#e67e22'];
 		return (
 			<div style={styles.container}>
 				<div style={styles.title}>{this.props.title}</div>

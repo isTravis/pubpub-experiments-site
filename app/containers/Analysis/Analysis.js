@@ -76,6 +76,8 @@ export const Analysis = React.createClass({
 
 	analyzeCounts: function(inputData) {
 		const results = {
+			all: this.filterUsers({ data: inputData }),
+
 			mode0All: this.filterUsers({ data: inputData, hadInteractive: false }),
 			mode1All: this.filterUsers({ data: inputData, hadInteractive: true }),
 			interactiveAll: this.filterUsers({ data: inputData, usedInteractive: true }),
@@ -139,6 +141,20 @@ export const Analysis = React.createClass({
 		// const scores = [0, 0, 0];
 		data.forEach((item)=> {
 			scores[item.reviewRating] += 1;
+			// let index;
+			// if (item.reviewRating < 4) { index = 0; }
+			// if (item.reviewRating >= 4 && item.reviewRating <= 6) { index = 1; }
+			// if (item.reviewRating > 6) { index = 2; }
+			// scores[index] += 1;
+		});
+		return scores;
+	},
+
+	countScoreTimes: function(data) {
+		const scores = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+		// const scores = [0, 0, 0];
+		data.forEach((item)=> {
+			scores[item.reviewRating] += Number(item.timeOnReview);
 			// let index;
 			// if (item.reviewRating < 4) { index = 0; }
 			// if (item.reviewRating >= 4 && item.reviewRating <= 6) { index = 1; }
@@ -393,6 +409,7 @@ export const Analysis = React.createClass({
 		});
 		const renderFoundErrorScores = <AnalysisAreaChart keys={['Did Not Find Error', 'Found Error']} data={foundErrorScores} title={'Score Distribution when Finding Error'} yaxisLabel={'Percentage Assigning Score'} />;
 
+
 		const scoreCountsFoundConclusionFalse = this.countScores([...beefStats.foundConclusionFalse, ...dinoStats.foundConclusionFalse, ...govtStats.foundConclusionFalse]);
 		const scoreCountsFoundConclusionTrue = this.countScores([...beefStats.foundConclusionTrue, ...dinoStats.foundConclusionTrue, ...govtStats.foundConclusionTrue]);
 		const foundConclusionScores = scoreCountsFoundConclusionFalse.map((item, index)=> {
@@ -403,6 +420,59 @@ export const Analysis = React.createClass({
 			};
 		});
 		const renderFoundConclusionScores = <AnalysisAreaChart keys={['Did Not Find Conclusion', 'Found Conclusion']} data={foundConclusionScores} title={'Score Distribution when Finding Conclusion'} yaxisLabel={'Percentage Assigning Score'} />;
+
+
+		const scoreCountTimes = this.countScoreTimes([...beefStats.all, ...dinoStats.all, ...govtStats.all]);
+		const scoreCounts = this.countScores([...beefStats.all, ...dinoStats.all, ...govtStats.all]);
+		const scoreTimesData = scoreCounts.map((item, index)=> {
+			return {
+				name: index,
+				'All': scoreCountTimes[index] / scoreCounts[index],
+				// 'Found Error': scoreCountTimesFoundError[index] / scoreCountsFoundError[index] || 0,
+				// 'Found Conclusion': scoreCountTimesFoundConclusion[index] / scoreCountsFoundConclusion[index] || 0,
+			};
+		});
+		const renderScoreTimes = <AnalysisAreaChart keys={['All']} data={scoreTimesData} title={'Time Spent Reviewing vs Score'} yaxisLabel={'Average Time (s)'} />;
+
+		const scoreCountTimesFoundErrorTrue = this.countScoreTimes([...beefStats.foundErrorTrue, ...dinoStats.foundErrorTrue, ...govtStats.foundErrorTrue]);
+		// const scoreCountsFoundErrorTrue = this.countScores([...beefStats.foundErrorTrue, ...dinoStats.foundErrorTrue, ...govtStats.foundErrorTrue]);
+		const scoreCountTimesFoundConclusionTrue = this.countScoreTimes([...beefStats.foundConclusionTrue, ...dinoStats.foundConclusionTrue, ...govtStats.foundConclusionTrue]);
+		// const scoreCountsFoundConclusionTrue = this.countScores([...beefStats.foundConclusionTrue, ...dinoStats.foundConclusionTrue, ...govtStats.foundConclusionTrue]);
+
+		const scoreCountTimesFoundErrorFalse = this.countScoreTimes([...beefStats.foundErrorFalse, ...dinoStats.foundErrorFalse, ...govtStats.foundErrorFalse]);
+		// const scoreCountsFoundErrorFalse = this.countScores([...beefStats.foundErrorFalse, ...dinoStats.foundErrorFalse, ...govtStats.foundErrorFalse]);
+		const scoreCountTimesFoundConclusionFalse = this.countScoreTimes([...beefStats.foundConclusionFalse, ...dinoStats.foundConclusionFalse, ...govtStats.foundConclusionFalse]);
+		// const scoreCountsFoundConclusionFalse = this.countScores([...beefStats.foundConclusionFalse, ...dinoStats.foundConclusionFalse, ...govtStats.foundConclusionFalse]);
+
+		const timesFoundErrorFalse = [...beefStats.foundErrorFalse, ...dinoStats.foundErrorFalse, ...govtStats.foundErrorFalse].map(item => item.timeOnReview);
+		const timesFoundErrorTrue = [...beefStats.foundErrorTrue, ...dinoStats.foundErrorTrue, ...govtStats.foundErrorTrue].map(item => item.timeOnReview);
+		const timesFoundConclusionFalse = [...beefStats.foundConclusionFalse, ...dinoStats.foundConclusionFalse, ...govtStats.foundConclusionFalse].map(item => item.timeOnReview);
+		const timesFoundConclusionTrue = [...beefStats.foundConclusionTrue, ...dinoStats.foundConclusionTrue, ...govtStats.foundConclusionTrue].map(item => item.timeOnReview);
+		
+		const timesData = [
+			{
+				name: 'Found Error Average',
+				'False': this.sumArray(scoreCountTimesFoundErrorFalse) / this.sumArray(scoreCountsFoundErrorFalse),
+				'True': this.sumArray(scoreCountTimesFoundErrorTrue) / this.sumArray(scoreCountsFoundErrorTrue),
+			},
+			{
+				name: 'Found Error Mean',
+				'False': stats.mean(timesFoundErrorFalse),
+				'True': stats.mean(timesFoundErrorTrue),
+			},
+			{
+				name: 'Found Conclusion Average',
+				'False': this.sumArray(scoreCountTimesFoundConclusionFalse) / this.sumArray(scoreCountsFoundConclusionFalse),
+				'True': this.sumArray(scoreCountTimesFoundConclusionTrue) / this.sumArray(scoreCountsFoundConclusionTrue),
+			},
+			{
+				name: 'Found Conclusion Mean',
+				'False': stats.mean(timesFoundConclusionFalse),
+				'True': stats.mean(timesFoundConclusionTrue),
+			},
+		];
+		const renderResultTimes = <AnalysisBarChart keys={['False', 'True']} data={timesData} title={'Time vs Result'} yaxisLabel={'Time (s)'} />;
+		
 
 		return (
 			<div style={styles.container}>
@@ -441,20 +511,25 @@ export const Analysis = React.createClass({
 				{renderFoundErrorScores}
 				{renderFoundConclusionScores}
 				<div style={styles.content}>
-					<p>
-						A couple possible interpretations:
-						<ol>
-							<li>Those who are more critical, and review work more harshly, more frequently detect errors and alternative conclusions.</li>
-							<li>Finding an error or alternative conclusion causes a reviewer to be much harsher in rating.</li>
-						</ol>
-					</p>
-					<p>
-						It is intesting to note that those who did not find an error or alternative conclusions have a nearly-random, even distribution across scores (except extremes of 0 and 10). Again, two conclusions:
-						<ol>
-							<li>Those who don't know what they're doing and pretty much guess at the quality aren't critical enough to find flaws.</li>
-							<li>Without a concrete error or alternative conclusion to tie their score to, reviewers don't have a good method of assigning score.</li>
-						</ol>
-					</p>
+					<p>A couple possible interpretations:</p>
+					<ol>
+						<li>Those who are more critical, and review work more harshly, more frequently detect errors and alternative conclusions.</li>
+						<li>Finding an error or alternative conclusion causes a reviewer to be much harsher in rating.</li>
+					</ol>
+					<p>It is intesting to note that those who did not find an error or alternative conclusions have a nearly-random, even distribution across scores (except extremes of 0 and 10). Again, two conclusions:</p>
+					<ol>
+						<li>Those who don't know what they're doing and pretty much guess at the quality aren't critical enough to find flaws.</li>
+						<li>Without a concrete error or alternative conclusion to tie their score to, reviewers don't have a good method of assigning score.</li>
+					</ol>
+				</div>
+
+				<div style={styles.header}>Time Analyses</div>
+				<div style={styles.content}>These graphs plot the relationship between time spent on the review and associated scores, error found percentages, conclusion found percentages, etc. One thing we want to be sure of is that the lack of found error and found conclusion events did not happen due to people simply rushing through and ignoring the work.</div>
+				{renderScoreTimes}
+				{renderResultTimes}
+				<div style={styles.content}>
+					<p>Users who found an error or a conclusion spent a bit more time (7 minutes, rather than 6) than those who did not. However, those who did not find the error or conclusion did not spend a trivial amount of time, assuaging the fear that those who didn't find the error simply skimped through.</p>
+					<p>The longer time for spent by those who found an error or conclusion could have also been spent writing lenghtier reviews to report their finding.</p>
 				</div>
 				{/* <AreaChart width={730} height={250} data={data} margin={{ top: 50, right: 30, left: 0, bottom: 0 }}>
 					<defs>
