@@ -40,7 +40,8 @@ export const Govt = React.createClass({
 			workerId: query.workerId,
 			assignmentId: query.assignmentId,
 			hitId: query.hitId,
-			mode: Math.round(Math.random()),
+			// mode: Math.round(Math.random()),
+			mode: 1,
 		});
 		this.props.dispatch(checkUniqueWorker(query.workerId));
 	},
