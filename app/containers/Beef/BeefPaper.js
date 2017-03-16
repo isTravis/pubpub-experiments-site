@@ -26,6 +26,8 @@ export const BeefPaper = React.createClass({
 			offsets: defaultOffsets,
 			offsetInteractions: defaultOffsets.map(item => 0),
 			startTime: new Date().getTime(),
+			writingTime: 0,
+			writingStart: undefined,
 			data: {
 				deaths: [70, 35, 1],
 				foods: {
@@ -76,6 +78,7 @@ export const BeefPaper = React.createClass({
 			offsetValues: JSON.stringify(this.state.offsets),
 			offsetInteractions: JSON.stringify(this.state.offsetInteractions),
 			timeOnReview: Math.round((new Date().getTime() - this.state.startTime) / 1000),
+			timeWriting: Math.round(this.state.writingTime / 1000),
 			scrollValues: JSON.stringify(this.scrollValues)
 		});
 	},
@@ -88,6 +91,17 @@ export const BeefPaper = React.createClass({
 		this.setState({ 
 			offsets: offsets,
 			offsetInteractions: offsetInteractions,
+		});
+	},
+
+	reviewFocus: function() {
+		this.setState({ writingStart: new Date().getTime() });
+	},
+
+	reviewBlur: function() {
+		this.setState({ 
+			writingTime: this.state.writingTime + (new Date().getTime() - this.state.writingStart),
+			writingStart: undefined
 		});
 	},
 
@@ -153,7 +167,7 @@ export const BeefPaper = React.createClass({
 
 				<hr />
 				<p style={styles.text}>Please write your review of the work. We ask you to assume the role of a scientist and provide critical feedback to the authors.</p>
-				<Textarea value={this.state.reviewContent} onChange={evt => this.setState({ reviewContent: evt.target.value })} style={styles.input} />
+				<Textarea onFocus={this.reviewFocus} onBlur={this.reviewBlur} value={this.state.reviewContent} onChange={evt => this.setState({ reviewContent: evt.target.value })} style={styles.input} />
 
 				<hr />
 				<div style={styles.inputBlock}>
