@@ -118,29 +118,7 @@ export const Analysis = React.createClass({
 			hasReviewedFoundConclusion: this.filterUsers({ data: inputData, hasReviewed: true, foundConclusion: true }),
 			hasNotBeenReviewedFoundConclusion: this.filterUsers({ data: inputData, hasBeenReviewed: false, foundConclusion: true }),
 			hasBeenReviewedFoundConclusion: this.filterUsers({ data: inputData, hasBeenReviewed: true, foundConclusion: true }),
-
-			// noninteractive: this.filterUsers({ data: inputData, hadInteractive: false }),
-			// foundErrorNonInteractive: this.filterUsers({ data: inputData, foundError: true, hadInteractive: false }),
-			// foundConclusionNonInteractive: this.filterUsers({ data: inputData, foundConclusion: true, hadInteractive: false }),
-			// interactive: this.filterUsers({ data: inputData, hadInteractive: true }),
-			// interactiveNotUsed: this.filterUsers({ data: inputData, hadInteractive: true, usedInteractive: false }),
-			// foundErrorInteractive: this.filterUsers({ data: inputData, foundError: true, hadInteractive: true }),
-			// foundErrorInteractiveNotUse: this.filterUsers({ data: inputData, foundError: true, hadInteractive: true, usedInteractive: false }),
-			// foundErrorInteractiveUse: this.filterUsers({ data: inputData, foundError: true, hadInteractive: true, usedInteractive: true }),
-			// foundConclusionInteractive: this.filterUsers({ data: inputData, foundConclusion: true, hadInteractive: true }),
-			// usedinteractive: this.filterUsers({ data: inputData, usedInteractive: true }),
-			// foundErrorUsedInteractive: this.filterUsers({ data: inputData, foundError: true, usedInteractive: true }),
-			// foundConclusionUsedInteractive: this.filterUsers({ data: inputData, foundConclusion: true, usedInteractive: true }),
-			// notFoundError: this.filterUsers({ data: inputData, foundError: false }),
-			// foundError: this.filterUsers({ data: inputData, foundError: true }),
-			// notFoundConclusion: this.filterUsers({ data: inputData, foundConclusion: false }),
-			// foundConclusion: this.filterUsers({ data: inputData, foundConclusion: true }),
 		};
-
-		// console.log('Non Interactive', results.foundErrorNonInteractive.length / results.noninteractive.length, results.foundConclusionNonInteractive.length / results.noninteractive.length, ' Total: ', results.noninteractive.length);
-		// console.log('Interactive', results.foundErrorInteractive.length / results.interactive.length, results.foundConclusionInteractive.length / results.interactive.length, ' Total: ', results.interactive.length);
-		// console.log('UsedInteractive', results.foundErrorUsedInteractive.length / results.usedinteractive.length, results.foundConclusionUsedInteractive.length / results.usedinteractive.length, ' Total: ', results.usedinteractive.length);
-		// console.log('Percent that used if had it', results.usedinteractive.length / results.interactive.length);
 		return results;
 	},
 
@@ -160,14 +138,8 @@ export const Analysis = React.createClass({
 
 	countScoreTimes: function(data) {
 		const scores = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-		// const scores = [0, 0, 0];
 		data.forEach((item)=> {
 			scores[item.reviewRating] += Number(item.timeOnReview);
-			// let index;
-			// if (item.reviewRating < 4) { index = 0; }
-			// if (item.reviewRating >= 4 && item.reviewRating <= 6) { index = 1; }
-			// if (item.reviewRating > 6) { index = 2; }
-			// scores[index] += 1;
 		});
 		return scores;
 	},
@@ -183,42 +155,10 @@ export const Analysis = React.createClass({
 	},
 	render() {
 		const t0 = performance.now();
-		// console.log('Beef');
-		// console.log('---------------');
 		const beefStats = this.analyzeCounts(beefData);
-
-		// console.log('Dino');
-		// console.log('---------------');
 		const dinoStats = this.analyzeCounts(dinoData);
-
-		// console.log('Govt');
-		// console.log('---------------');
 		const govtStats = this.analyzeCounts(govtData);
 		
-		// const nonInteractives = [...beefStats.noninteractive, ...dinoStats.noninteractive, ...govtStats.noninteractive];
-		// const interactives = [...beefStats.interactive, ...dinoStats.interactive, ...govtStats.interactive];
-		// const usedinteractives = [...beefStats.usedinteractive, ...dinoStats.usedinteractive, ...govtStats.usedinteractive];
-		// const nonInteractives = [...govtStats.noninteractive];
-		// const interactives = [...govtStats.interactive];
-		// const usedinteractives = [...govtStats.usedinteractive];
-		// const nonInteractives = [...beefStats.foundConclusion, ...dinoStats.foundConclusion, ...govtStats.foundConclusion];
-		// const interactives = [...beefStats.notFoundConclusion, ...dinoStats.notFoundConclusion, ...govtStats.notFoundConclusion];
-		// const usedinteractives = [...beefStats.usedinteractive, ...dinoStats.usedinteractive, ...govtStats.usedinteractive];
-
-		// const nonInteractivesScores = this.countScores(nonInteractives);
-		// const interactivesScores = this.countScores(interactives);
-		// const usedInteractivesScores = this.countScores(usedinteractives);
-
-		// console.log(stats.stdev(nonInteractivesScores) / this.sumArray(nonInteractivesScores));
-		// const data = nonInteractivesScores.map((item, index)=> {
-		// 	return {
-		// 		name: index,
-		// 		non: nonInteractivesScores[index] / this.sumArray(nonInteractivesScores),
-		// 		int: interactivesScores[index] / this.sumArray(interactivesScores),
-		// 		// used: usedInteractivesScores[index] / this.sumArray(usedInteractivesScores),
-		// 	};
-		// });
-
 		const renderCounts = (
 			<table style={styles.countTable}>
 				<tbody>
@@ -240,29 +180,6 @@ export const Analysis = React.createClass({
 				</tbody>
 			</table>
 		);
-
-		// const foundErrorData = [
-		// 	{ 
-		// 		name: 'Beef', 
-		// 		'Non-Interactive': beefStats.foundErrorNonInteractive.length / beefStats.noninteractive.length,
-		// 		'Had Interactive': beefStats.foundErrorInteractiveNotUse.length / beefStats.interactiveNotUsed.length,
-		// 		'Used Interactive': beefStats.foundErrorInteractiveUse.length / beefStats.usedinteractive.length,
-		// 	},
-		// 	{ 
-		// 		name: 'Dino', 
-		// 		'Non-Interactive': dinoStats.foundErrorNonInteractive.length / dinoStats.noninteractive.length,
-		// 		'Had Interactive': dinoStats.foundErrorInteractiveNotUse.length / dinoStats.interactiveNotUsed.length,
-		// 		'Used Interactive': dinoStats.foundErrorInteractiveUse.length / dinoStats.usedinteractive.length,
-		// 	},
-		// 	{ 
-		// 		name: 'Govt', 
-		// 		'Non-Interactive': govtStats.foundErrorNonInteractive.length / govtStats.noninteractive.length,
-		// 		'Had Interactive': govtStats.foundErrorInteractiveNotUse.length / govtStats.interactiveNotUsed.length,
-		// 		'Used Interactive': govtStats.foundErrorInteractiveUse.length / govtStats.usedinteractive.length,
-		// 	},
-		// ];
-		
-		// Margin of Error Calculation: https://www.unc.edu/~rls/s151-2010/class23.pdf
 
 		const foundErrorData = [
 			{ 
@@ -297,6 +214,17 @@ export const Analysis = React.createClass({
 				'Did Not Use InteracivityError': this.calcError(govtStats.nonInteractiveAll.length),
 				'Did Use Interacivity': govtStats.interactiveFoundError.length / govtStats.interactiveAll.length,
 				'Did Use InteracivityError': this.calcError(govtStats.interactiveAll.length),
+			},
+			{ 
+				name: 'All', 
+				'Presented Non-Interactive': [...beefStats.mode0FoundError, ...dinoStats.mode0FoundError, ...govtStats.mode0FoundError].length / [...beefStats.mode0All, ...dinoStats.mode0All, ...govtStats.mode0All].length,
+				'Presented Non-InteractiveError': this.calcError([...beefStats.mode0All, ...dinoStats.mode0All, ...govtStats.mode0All].length),
+				'Presented Interactive': [...beefStats.mode1FoundError, ...dinoStats.mode1FoundError, ...govtStats.mode1FoundError].length / [...beefStats.mode1All, ...dinoStats.mode1All, ...govtStats.mode1All].length,
+				'Presented InteractiveError': this.calcError([...beefStats.mode1All, ...dinoStats.mode1All, ...govtStats.mode1All].length),
+				'Did Not Use Interacivity': [...beefStats.nonInteractiveFoundError, ...dinoStats.nonInteractiveFoundError, ...govtStats.nonInteractiveFoundError].length / [...beefStats.nonInteractiveAll, ...dinoStats.nonInteractiveAll, ...govtStats.nonInteractiveAll].length,
+				'Did Not Use InteracivityError': this.calcError([...beefStats.nonInteractiveAll, ...dinoStats.nonInteractiveAll, ...govtStats.nonInteractiveAll].length),
+				'Did Use Interacivity': [...beefStats.interactiveFoundError, ...dinoStats.interactiveFoundError, ...govtStats.interactiveFoundError].length / [...beefStats.interactiveAll, ...dinoStats.interactiveAll, ...govtStats.interactiveAll].length,
+				'Did Use InteracivityError': this.calcError([...beefStats.interactiveAll, ...dinoStats.interactiveAll, ...govtStats.interactiveAll].length),
 			},
 		];
 
@@ -335,6 +263,17 @@ export const Analysis = React.createClass({
 				'Did Not Use InteracivityError': this.calcError(govtStats.nonInteractiveAll.length),
 				'Did Use Interacivity': govtStats.interactiveFoundConclusion.length / govtStats.interactiveAll.length,
 				'Did Use InteracivityError': this.calcError(govtStats.interactiveAll.length),
+			},
+			{ 
+				name: 'All', 
+				'Presented Non-Interactive': [...beefStats.mode0FoundConclusion, ...dinoStats.mode0FoundConclusion, ...govtStats.mode0FoundConclusion].length / [...beefStats.mode0All, ...dinoStats.mode0All, ...govtStats.mode0All].length,
+				'Presented Non-InteractiveError': this.calcError([...beefStats.mode0All, ...dinoStats.mode0All, ...govtStats.mode0All].length),
+				'Presented Interactive': [...beefStats.mode1FoundConclusion, ...dinoStats.mode1FoundConclusion, ...govtStats.mode1FoundConclusion].length / [...beefStats.mode1All, ...dinoStats.mode1All, ...govtStats.mode1All].length,
+				'Presented InteractiveError': this.calcError([...beefStats.mode1All, ...dinoStats.mode1All, ...govtStats.mode1All].length),
+				'Did Not Use Interacivity': [...beefStats.nonInteractiveFoundConclusion, ...dinoStats.nonInteractiveFoundConclusion, ...govtStats.nonInteractiveFoundConclusion].length / [...beefStats.nonInteractiveAll, ...dinoStats.nonInteractiveAll, ...govtStats.nonInteractiveAll].length,
+				'Did Not Use InteracivityError': this.calcError([...beefStats.nonInteractiveAll, ...dinoStats.nonInteractiveAll, ...govtStats.nonInteractiveAll].length),
+				'Did Use Interacivity': [...beefStats.interactiveFoundConclusion, ...dinoStats.interactiveFoundConclusion, ...govtStats.interactiveFoundConclusion].length / [...beefStats.interactiveAll, ...dinoStats.interactiveAll, ...govtStats.interactiveAll].length,
+				'Did Use InteracivityError': this.calcError([...beefStats.interactiveAll, ...dinoStats.interactiveAll, ...govtStats.interactiveAll].length),
 			},
 		];
 
@@ -462,15 +401,6 @@ export const Analysis = React.createClass({
 		const renderInterestedFoundConclusion = <AnalysisBarChart keys={['Not Interested', 'Interested']} data={interestedFoundConclusionData} title={'Interest in Topic and Finding Conclusions'} yaxisLabel={'Percent Found Conclusion'} />;
 
 
-
-
-
-
-
-
-
-
-
 		const hasReviewedFoundErrorData = [
 			{ 
 				name: 'Beef', 
@@ -537,7 +467,6 @@ export const Analysis = React.createClass({
 		const renderHasReviewedFoundConclusion = <AnalysisBarChart keys={['Has Not Reviewed', 'Has Reviewed']} data={hasReviewedFoundConclusionData} title={'Has Previously Peer Reviewed and Finding Conclusions'} yaxisLabel={'Percent Found Conclusion'} />;
 
 
-
 		const hasBeenReviewedFoundErrorData = [
 			{ 
 				name: 'Beef', 
@@ -602,22 +531,6 @@ export const Analysis = React.createClass({
 			},
 		];
 		const renderHasBeenReviewedFoundConclusion = <AnalysisBarChart keys={['Has Not Been Reviewed', 'Has Been Reviewed']} data={hasBeenReviewedFoundConclusionData} title={'Has Previously Been Peer Reviewed and Finding Conclusions'} yaxisLabel={'Percent Found Conclusion'} />;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 		const scoreCountsFoundErrorFalse = this.countScores([...beefStats.foundErrorFalse, ...dinoStats.foundErrorFalse, ...govtStats.foundErrorFalse]);
@@ -787,29 +700,6 @@ export const Analysis = React.createClass({
 
 				</div>
 
-				{/* <AreaChart width={730} height={250} data={data} margin={{ top: 50, right: 30, left: 0, bottom: 0 }}>
-					<defs>
-						<linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-							<stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
-							<stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
-						</linearGradient>
-						<linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-							<stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
-							<stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
-						</linearGradient>
-						<linearGradient id="colorTv" x1="0" y1="0" x2="0" y2="1">
-							<stop offset="5%" stopColor="#32ca9d" stopOpacity={0.8} />
-							<stop offset="95%" stopColor="#32ca9d" stopOpacity={0} />
-						</linearGradient>
-					</defs>
-					<XAxis dataKey="name" />
-					<YAxis />
-					<CartesianGrid strokeDasharray="3 3" />
-					<Tooltip />
-					<Area type="monotone" dataKey="non" stroke="#8884d8" fillOpacity={1} fill="url(#colorUv)" />
-					<Area type="monotone" dataKey="int" stroke="#82ca9d" fillOpacity={1} fill="url(#colorPv)" />
-					<Area type="monotone" dataKey="used" stroke="#32ca9d" fillOpacity={1} fill="url(#colorTv)" />
-				</AreaChart> */}
 			</div>
 		);
 	}
