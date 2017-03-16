@@ -78,8 +78,8 @@ export const Analysis = React.createClass({
 
 			mode0All: this.filterUsers({ data: inputData, hadInteractive: false }),
 			mode1All: this.filterUsers({ data: inputData, hadInteractive: true }),
-			interactiveAll: this.filterUsers({ data: inputData, usedInteractive: true }),
-			nonInteractiveAll: this.filterUsers({ data: inputData, usedInteractive: false }),
+			interactiveAll: this.filterUsers({ data: inputData, hadInteractive: true, usedInteractive: true }),
+			nonInteractiveAll: this.filterUsers({ data: inputData, hadInteractive: true, usedInteractive: false }),
 			nonScientistAll: this.filterUsers({ data: inputData, isScientist: false }),
 			scientistAll: this.filterUsers({ data: inputData, isScientist: true }),
 			nonInterestedAll: this.filterUsers({ data: inputData, interestedInTopic: false }),
@@ -93,8 +93,8 @@ export const Analysis = React.createClass({
 			foundErrorTrue: this.filterUsers({ data: inputData, foundError: true }),
 			mode0FoundError: this.filterUsers({ data: inputData, hadInteractive: false, foundError: true }),
 			mode1FoundError: this.filterUsers({ data: inputData, hadInteractive: true, foundError: true }),
-			interactiveFoundError: this.filterUsers({ data: inputData, usedInteractive: true, foundError: true }),
-			nonInteractiveFoundError: this.filterUsers({ data: inputData, usedInteractive: false, foundError: true }),
+			interactiveFoundError: this.filterUsers({ data: inputData, hadInteractive: true, usedInteractive: true, foundError: true }),
+			nonInteractiveFoundError: this.filterUsers({ data: inputData, hadInteractive: true, usedInteractive: false, foundError: true }),
 			nonScientistFoundError: this.filterUsers({ data: inputData, isScientist: false, foundError: true }),
 			scientistFoundError: this.filterUsers({ data: inputData, isScientist: true, foundError: true }),
 			nonInterestedFoundError: this.filterUsers({ data: inputData, interestedInTopic: false, foundError: true }),
@@ -108,8 +108,8 @@ export const Analysis = React.createClass({
 			foundConclusionTrue: this.filterUsers({ data: inputData, foundConclusion: true }),
 			mode0FoundConclusion: this.filterUsers({ data: inputData, hadInteractive: false, foundConclusion: true }),
 			mode1FoundConclusion: this.filterUsers({ data: inputData, hadInteractive: true, foundConclusion: true }),
-			interactiveFoundConclusion: this.filterUsers({ data: inputData, usedInteractive: true, foundConclusion: true }),
-			nonInteractiveFoundConclusion: this.filterUsers({ data: inputData, usedInteractive: false, foundConclusion: true }),
+			interactiveFoundConclusion: this.filterUsers({ data: inputData, hadInteractive: true, usedInteractive: true, foundConclusion: true }),
+			nonInteractiveFoundConclusion: this.filterUsers({ data: inputData, hadInteractive: true, usedInteractive: false, foundConclusion: true }),
 			nonScientistFoundConclusion: this.filterUsers({ data: inputData, isScientist: false, foundConclusion: true }),
 			scientistFoundConclusion: this.filterUsers({ data: inputData, isScientist: true, foundConclusion: true }),
 			nonInterestedFoundConclusion: this.filterUsers({ data: inputData, interestedInTopic: false, foundConclusion: true }),
@@ -119,22 +119,22 @@ export const Analysis = React.createClass({
 			hasNotBeenReviewedFoundConclusion: this.filterUsers({ data: inputData, hasBeenReviewed: false, foundConclusion: true }),
 			hasBeenReviewedFoundConclusion: this.filterUsers({ data: inputData, hasBeenReviewed: true, foundConclusion: true }),
 
-			noninteractive: this.filterUsers({ data: inputData, hadInteractive: false }),
-			foundErrorNonInteractive: this.filterUsers({ data: inputData, foundError: true, hadInteractive: false }),
-			foundConclusionNonInteractive: this.filterUsers({ data: inputData, foundConclusion: true, hadInteractive: false }),
-			interactive: this.filterUsers({ data: inputData, hadInteractive: true }),
-			interactiveNotUsed: this.filterUsers({ data: inputData, hadInteractive: true, usedInteractive: false }),
-			foundErrorInteractive: this.filterUsers({ data: inputData, foundError: true, hadInteractive: true }),
-			foundErrorInteractiveNotUse: this.filterUsers({ data: inputData, foundError: true, hadInteractive: true, usedInteractive: false }),
-			foundErrorInteractiveUse: this.filterUsers({ data: inputData, foundError: true, hadInteractive: true, usedInteractive: true }),
-			foundConclusionInteractive: this.filterUsers({ data: inputData, foundConclusion: true, hadInteractive: true }),
-			usedinteractive: this.filterUsers({ data: inputData, usedInteractive: true }),
-			foundErrorUsedInteractive: this.filterUsers({ data: inputData, foundError: true, usedInteractive: true }),
-			foundConclusionUsedInteractive: this.filterUsers({ data: inputData, foundConclusion: true, usedInteractive: true }),
-			notFoundError: this.filterUsers({ data: inputData, foundError: false }),
-			foundError: this.filterUsers({ data: inputData, foundError: true }),
-			notFoundConclusion: this.filterUsers({ data: inputData, foundConclusion: false }),
-			foundConclusion: this.filterUsers({ data: inputData, foundConclusion: true }),
+			// noninteractive: this.filterUsers({ data: inputData, hadInteractive: false }),
+			// foundErrorNonInteractive: this.filterUsers({ data: inputData, foundError: true, hadInteractive: false }),
+			// foundConclusionNonInteractive: this.filterUsers({ data: inputData, foundConclusion: true, hadInteractive: false }),
+			// interactive: this.filterUsers({ data: inputData, hadInteractive: true }),
+			// interactiveNotUsed: this.filterUsers({ data: inputData, hadInteractive: true, usedInteractive: false }),
+			// foundErrorInteractive: this.filterUsers({ data: inputData, foundError: true, hadInteractive: true }),
+			// foundErrorInteractiveNotUse: this.filterUsers({ data: inputData, foundError: true, hadInteractive: true, usedInteractive: false }),
+			// foundErrorInteractiveUse: this.filterUsers({ data: inputData, foundError: true, hadInteractive: true, usedInteractive: true }),
+			// foundConclusionInteractive: this.filterUsers({ data: inputData, foundConclusion: true, hadInteractive: true }),
+			// usedinteractive: this.filterUsers({ data: inputData, usedInteractive: true }),
+			// foundErrorUsedInteractive: this.filterUsers({ data: inputData, foundError: true, usedInteractive: true }),
+			// foundConclusionUsedInteractive: this.filterUsers({ data: inputData, foundConclusion: true, usedInteractive: true }),
+			// notFoundError: this.filterUsers({ data: inputData, foundError: false }),
+			// foundError: this.filterUsers({ data: inputData, foundError: true }),
+			// notFoundConclusion: this.filterUsers({ data: inputData, foundConclusion: false }),
+			// foundConclusion: this.filterUsers({ data: inputData, foundConclusion: true }),
 		};
 
 		// console.log('Non Interactive', results.foundErrorNonInteractive.length / results.noninteractive.length, results.foundConclusionNonInteractive.length / results.noninteractive.length, ' Total: ', results.noninteractive.length);
@@ -233,9 +233,9 @@ export const Analysis = React.createClass({
 						<td>Non Inter</td><td>Had Inter</td><td>Used Inter</td>
 					</tr>
 					<tr style={{ fontSize: '1.5em' }}>
-						<td>{beefStats.noninteractive.length}</td><td>{beefStats.interactive.length}</td><td>{beefStats.usedinteractive.length}</td>
-						<td>{dinoStats.noninteractive.length}</td><td>{dinoStats.interactive.length}</td><td>{dinoStats.usedinteractive.length}</td>
-						<td>{govtStats.noninteractive.length}</td><td>{govtStats.interactive.length}</td><td>{govtStats.usedinteractive.length}</td>
+						<td>{beefStats.mode0All.length}</td><td>{beefStats.mode1All.length}</td><td>{beefStats.interactiveAll.length}</td>
+						<td>{dinoStats.mode0All.length}</td><td>{dinoStats.mode1All.length}</td><td>{dinoStats.interactiveAll.length}</td>
+						<td>{govtStats.mode0All.length}</td><td>{govtStats.mode1All.length}</td><td>{govtStats.interactiveAll.length}</td>
 					</tr>
 				</tbody>
 			</table>
