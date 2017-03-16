@@ -1,8 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router';
 import Radium from 'radium';
 import stats from 'stats-lite';
-import { AreaChart, XAxis, YAxis, CartesianGrid, Area, Tooltip } from 'recharts';
 import AnalysisBarChart from './AnalysisBarChart';
 import AnalysisAreaChart from './AnalysisAreaChart';
 let styles;
@@ -86,6 +84,10 @@ export const Analysis = React.createClass({
 			scientistAll: this.filterUsers({ data: inputData, isScientist: true }),
 			nonInterestedAll: this.filterUsers({ data: inputData, interestedInTopic: false }),
 			interestedAll: this.filterUsers({ data: inputData, interestedInTopic: true }),
+			hasNotReviewedAll: this.filterUsers({ data: inputData, hasReviewed: false }),
+			hasReviewedAll: this.filterUsers({ data: inputData, hasReviewed: true }),
+			hasNotBeenReviewedAll: this.filterUsers({ data: inputData, hasBeenReviewed: false }),
+			hasBeenReviewedAll: this.filterUsers({ data: inputData, hasBeenReviewed: true }),
 
 			foundErrorFalse: this.filterUsers({ data: inputData, foundError: false }),
 			foundErrorTrue: this.filterUsers({ data: inputData, foundError: true }),
@@ -97,9 +99,11 @@ export const Analysis = React.createClass({
 			scientistFoundError: this.filterUsers({ data: inputData, isScientist: true, foundError: true }),
 			nonInterestedFoundError: this.filterUsers({ data: inputData, interestedInTopic: false, foundError: true }),
 			interestedFoundError: this.filterUsers({ data: inputData, interestedInTopic: true, foundError: true }),
+			hasNotReviewedFoundError: this.filterUsers({ data: inputData, hasReviewed: false, foundError: true }),
+			hasReviewedFoundError: this.filterUsers({ data: inputData, hasReviewed: true, foundError: true }),
+			hasNotBeenReviewedFoundError: this.filterUsers({ data: inputData, hasBeenReviewed: false, foundError: true }),
+			hasBeenReviewedFoundError: this.filterUsers({ data: inputData, hasBeenReviewed: true, foundError: true }),
 
-			foundConclusionFalse: this.filterUsers({ data: inputData, foundConclusion: false }),
-			foundConclusionTrue: this.filterUsers({ data: inputData, foundConclusion: true }),
 			foundConclusionFalse: this.filterUsers({ data: inputData, foundConclusion: false }),
 			foundConclusionTrue: this.filterUsers({ data: inputData, foundConclusion: true }),
 			mode0FoundConclusion: this.filterUsers({ data: inputData, hadInteractive: false, foundConclusion: true }),
@@ -110,6 +114,10 @@ export const Analysis = React.createClass({
 			scientistFoundConclusion: this.filterUsers({ data: inputData, isScientist: true, foundConclusion: true }),
 			nonInterestedFoundConclusion: this.filterUsers({ data: inputData, interestedInTopic: false, foundConclusion: true }),
 			interestedFoundConclusion: this.filterUsers({ data: inputData, interestedInTopic: true, foundConclusion: true }),
+			hasNotReviewedFoundConclusion: this.filterUsers({ data: inputData, hasReviewed: false, foundConclusion: true }),
+			hasReviewedFoundConclusion: this.filterUsers({ data: inputData, hasReviewed: true, foundConclusion: true }),
+			hasNotBeenReviewedFoundConclusion: this.filterUsers({ data: inputData, hasBeenReviewed: false, foundConclusion: true }),
+			hasBeenReviewedFoundConclusion: this.filterUsers({ data: inputData, hasBeenReviewed: true, foundConclusion: true }),
 
 			noninteractive: this.filterUsers({ data: inputData, hadInteractive: false }),
 			foundErrorNonInteractive: this.filterUsers({ data: inputData, foundError: true, hadInteractive: false }),
@@ -408,6 +416,13 @@ export const Analysis = React.createClass({
 				'Interested': govtStats.interestedFoundError.length / govtStats.interestedAll.length,
 				'InterestedError': this.calcError(govtStats.interestedAll.length),
 			},
+			{ 
+				name: 'All', 
+				'Not Interested': [...beefStats.nonInterestedFoundError, ...dinoStats.nonInterestedFoundError, ...govtStats.nonInterestedFoundError].length / [...beefStats.nonInterestedAll, ...dinoStats.nonInterestedAll, ...govtStats.nonInterestedAll].length,
+				'Not InterestedError': this.calcError([...beefStats.nonInterestedAll, ...dinoStats.nonInterestedAll, ...govtStats.nonInterestedAll].length),
+				'Interested': [...beefStats.interestedFoundError, ...dinoStats.interestedFoundError, ...govtStats.interestedFoundError].length / [...beefStats.interestedAll, ...dinoStats.interestedAll, ...govtStats.interestedAll].length,
+				'InterestedError': this.calcError([...beefStats.interestedAll, ...dinoStats.interestedAll, ...govtStats.interestedAll].length),
+			},
 		];
 
 		const renderInterestedFoundError = <AnalysisBarChart keys={['Not Interested', 'Interested']} data={interestedFoundErrorData} title={'Interest in Topic and Finding Errors'} yaxisLabel={'Percent Found Error'} />;
@@ -434,9 +449,175 @@ export const Analysis = React.createClass({
 				'Interested': govtStats.interestedFoundConclusion.length / govtStats.interestedAll.length,
 				'InterestedError': this.calcError(govtStats.interestedAll.length),
 			},
+			{ 
+				name: 'All', 
+				'Not Interested': [...beefStats.nonInterestedFoundConclusion, ...dinoStats.nonInterestedFoundConclusion, ...govtStats.nonInterestedFoundConclusion].length / [...beefStats.nonInterestedAll, ...dinoStats.nonInterestedAll, ...govtStats.nonInterestedAll].length,
+				'Not InterestedError': this.calcError([...beefStats.nonInterestedAll, ...dinoStats.nonInterestedAll, ...govtStats.nonInterestedAll].length),
+				'Interested': [...beefStats.interestedFoundConclusion, ...dinoStats.interestedFoundConclusion, ...govtStats.interestedFoundConclusion].length / [...beefStats.interestedAll, ...dinoStats.interestedAll, ...govtStats.interestedAll].length,
+				'InterestedError': this.calcError([...beefStats.interestedAll, ...dinoStats.interestedAll, ...govtStats.interestedAll].length),
+			},
+
 		];
 
 		const renderInterestedFoundConclusion = <AnalysisBarChart keys={['Not Interested', 'Interested']} data={interestedFoundConclusionData} title={'Interest in Topic and Finding Conclusions'} yaxisLabel={'Percent Found Conclusion'} />;
+
+
+
+
+
+
+
+
+
+
+
+		const hasReviewedFoundErrorData = [
+			{ 
+				name: 'Beef', 
+				'Has Not Reviewed': beefStats.hasNotReviewedFoundError.length / beefStats.hasNotReviewedAll.length,
+				'Has Not ReviewedError': this.calcError(beefStats.hasNotReviewedAll.length),
+				'Has Reviewed': beefStats.hasReviewedFoundError.length / beefStats.hasReviewedAll.length,
+				'Has ReviewedError': this.calcError(beefStats.hasReviewedAll.length),
+			},
+			{ 
+				name: 'Dino', 
+				'Has Not Reviewed': dinoStats.hasNotReviewedFoundError.length / dinoStats.hasNotReviewedAll.length,
+				'Has Not ReviewedError': this.calcError(dinoStats.hasNotReviewedAll.length),
+				'Has Reviewed': dinoStats.hasReviewedFoundError.length / dinoStats.hasReviewedAll.length,
+				'Has ReviewedError': this.calcError(dinoStats.hasReviewedAll.length),
+			},
+			{ 
+				name: 'Govt', 
+				'Has Not Reviewed': govtStats.hasNotReviewedFoundError.length / govtStats.hasNotReviewedAll.length,
+				'Has Not ReviewedError': this.calcError(govtStats.hasNotReviewedAll.length),
+				'Has Reviewed': govtStats.hasReviewedFoundError.length / govtStats.hasReviewedAll.length,
+				'Has ReviewedError': this.calcError(govtStats.hasReviewedAll.length),
+			},
+			{ 
+				name: 'All', 
+				'Has Not Reviewed': [...beefStats.hasNotReviewedFoundError, ...dinoStats.hasNotReviewedFoundError, ...govtStats.hasNotReviewedFoundError].length / [...beefStats.hasNotReviewedAll, ...dinoStats.hasNotReviewedAll, ...govtStats.hasNotReviewedAll].length,
+				'Has Not ReviewedError': this.calcError([...beefStats.hasNotReviewedAll, ...dinoStats.hasNotReviewedAll, ...govtStats.hasNotReviewedAll].length),
+				'Has Reviewed': [...beefStats.hasReviewedFoundError, ...dinoStats.hasReviewedFoundError, ...govtStats.hasReviewedFoundError].length / [...beefStats.hasReviewedAll, ...dinoStats.hasReviewedAll, ...govtStats.hasReviewedAll].length,
+				'Has ReviewedError': this.calcError([...beefStats.hasReviewedAll, ...dinoStats.hasReviewedAll, ...govtStats.hasReviewedAll].length),
+			},
+		];
+		const renderHasReviewedFoundError = <AnalysisBarChart keys={['Has Not Reviewed', 'Has Reviewed']} data={hasReviewedFoundErrorData} title={'Has Previously Peer Reviewed and Finding Errors'} yaxisLabel={'Percent Found Error'} />;
+
+
+		const hasReviewedFoundConclusionData = [
+			{ 
+				name: 'Beef', 
+				'Has Not Reviewed': beefStats.hasNotReviewedFoundConclusion.length / beefStats.hasNotReviewedAll.length,
+				'Has Not ReviewedError': this.calcError(beefStats.hasNotReviewedAll.length),
+				'Has Reviewed': beefStats.hasReviewedFoundConclusion.length / beefStats.hasReviewedAll.length,
+				'Has ReviewedError': this.calcError(beefStats.hasReviewedAll.length),
+			},
+			{ 
+				name: 'Dino', 
+				'Has Not Reviewed': dinoStats.hasNotReviewedFoundConclusion.length / dinoStats.hasNotReviewedAll.length,
+				'Has Not ReviewedError': this.calcError(dinoStats.hasNotReviewedAll.length),
+				'Has Reviewed': dinoStats.hasReviewedFoundConclusion.length / dinoStats.hasReviewedAll.length,
+				'Has ReviewedError': this.calcError(dinoStats.hasReviewedAll.length),
+			},
+			{ 
+				name: 'Govt', 
+				'Has Not Reviewed': govtStats.hasNotReviewedFoundConclusion.length / govtStats.hasNotReviewedAll.length,
+				'Has Not ReviewedError': this.calcError(govtStats.hasNotReviewedAll.length),
+				'Has Reviewed': govtStats.hasReviewedFoundConclusion.length / govtStats.hasReviewedAll.length,
+				'Has ReviewedError': this.calcError(govtStats.hasReviewedAll.length),
+			},
+			{ 
+				name: 'All', 
+				'Has Not Reviewed': [...beefStats.hasNotReviewedFoundConclusion, ...dinoStats.hasNotReviewedFoundConclusion, ...govtStats.hasNotReviewedFoundConclusion].length / [...beefStats.hasNotReviewedAll, ...dinoStats.hasNotReviewedAll, ...govtStats.hasNotReviewedAll].length,
+				'Has Not ReviewedError': this.calcError([...beefStats.hasNotReviewedAll, ...dinoStats.hasNotReviewedAll, ...govtStats.hasNotReviewedAll].length),
+				'Has Reviewed': [...beefStats.hasReviewedFoundConclusion, ...dinoStats.hasReviewedFoundConclusion, ...govtStats.hasReviewedFoundConclusion].length / [...beefStats.hasReviewedAll, ...dinoStats.hasReviewedAll, ...govtStats.hasReviewedAll].length,
+				'Has ReviewedError': this.calcError([...beefStats.hasReviewedAll, ...dinoStats.hasReviewedAll, ...govtStats.hasReviewedAll].length),
+			},
+		];
+		const renderHasReviewedFoundConclusion = <AnalysisBarChart keys={['Has Not Reviewed', 'Has Reviewed']} data={hasReviewedFoundConclusionData} title={'Has Previously Peer Reviewed and Finding Conclusions'} yaxisLabel={'Percent Found Conclusion'} />;
+
+
+
+		const hasBeenReviewedFoundErrorData = [
+			{ 
+				name: 'Beef', 
+				'Has Not Been Reviewed': beefStats.hasNotBeenReviewedFoundError.length / beefStats.hasNotBeenReviewedAll.length,
+				'Has Not Been ReviewedError': this.calcError(beefStats.hasNotBeenReviewedAll.length),
+				'Has Been Reviewed': beefStats.hasBeenReviewedFoundError.length / beefStats.hasBeenReviewedAll.length,
+				'Has Been ReviewedError': this.calcError(beefStats.hasBeenReviewedAll.length),
+			},
+			{ 
+				name: 'Dino', 
+				'Has Not Been Reviewed': dinoStats.hasNotBeenReviewedFoundError.length / dinoStats.hasNotBeenReviewedAll.length,
+				'Has Not Been ReviewedError': this.calcError(dinoStats.hasNotBeenReviewedAll.length),
+				'Has Been Reviewed': dinoStats.hasBeenReviewedFoundError.length / dinoStats.hasBeenReviewedAll.length,
+				'Has Been ReviewedError': this.calcError(dinoStats.hasBeenReviewedAll.length),
+			},
+			{ 
+				name: 'Govt', 
+				'Has Not Been Reviewed': govtStats.hasNotBeenReviewedFoundError.length / govtStats.hasNotBeenReviewedAll.length,
+				'Has Not Been ReviewedError': this.calcError(govtStats.hasNotBeenReviewedAll.length),
+				'Has Been Reviewed': govtStats.hasBeenReviewedFoundError.length / govtStats.hasBeenReviewedAll.length,
+				'Has Been ReviewedError': this.calcError(govtStats.hasBeenReviewedAll.length),
+			},
+			{ 
+				name: 'All', 
+				'Has Not Been Reviewed': [...beefStats.hasNotBeenReviewedFoundError, ...dinoStats.hasNotBeenReviewedFoundError, ...govtStats.hasNotBeenReviewedFoundError].length / [...beefStats.hasNotBeenReviewedAll, ...dinoStats.hasNotBeenReviewedAll, ...govtStats.hasNotBeenReviewedAll].length,
+				'Has Not Been ReviewedError': this.calcError([...beefStats.hasNotBeenReviewedAll, ...dinoStats.hasNotBeenReviewedAll, ...govtStats.hasNotBeenReviewedAll].length),
+				'Has Been Reviewed': [...beefStats.hasBeenReviewedFoundError, ...dinoStats.hasBeenReviewedFoundError, ...govtStats.hasBeenReviewedFoundError].length / [...beefStats.hasBeenReviewedAll, ...dinoStats.hasBeenReviewedAll, ...govtStats.hasBeenReviewedAll].length,
+				'Has Been ReviewedError': this.calcError([...beefStats.hasBeenReviewedAll, ...dinoStats.hasBeenReviewedAll, ...govtStats.hasBeenReviewedAll].length),
+			},
+		];
+		const renderHasBeenReviewedFoundError = <AnalysisBarChart keys={['Has Not Been Reviewed', 'Has Been Reviewed']} data={hasBeenReviewedFoundErrorData} title={'Has Previously Been Peer Reviewed and Finding Errors'} yaxisLabel={'Percent Found Error'} />;
+
+
+		const hasBeenReviewedFoundConclusionData = [
+			{ 
+				name: 'Beef', 
+				'Has Not Been Reviewed': beefStats.hasNotBeenReviewedFoundConclusion.length / beefStats.hasNotBeenReviewedAll.length,
+				'Has Not Been ReviewedError': this.calcError(beefStats.hasNotBeenReviewedAll.length),
+				'Has Been Reviewed': beefStats.hasBeenReviewedFoundConclusion.length / beefStats.hasBeenReviewedAll.length,
+				'Has Been ReviewedError': this.calcError(beefStats.hasBeenReviewedAll.length),
+			},
+			{ 
+				name: 'Dino', 
+				'Has Not Been Reviewed': dinoStats.hasNotBeenReviewedFoundConclusion.length / dinoStats.hasNotBeenReviewedAll.length,
+				'Has Not Been ReviewedError': this.calcError(dinoStats.hasNotBeenReviewedAll.length),
+				'Has Been Reviewed': dinoStats.hasBeenReviewedFoundConclusion.length / dinoStats.hasBeenReviewedAll.length,
+				'Has Been ReviewedError': this.calcError(dinoStats.hasBeenReviewedAll.length),
+			},
+			{ 
+				name: 'Govt', 
+				'Has Not Been Reviewed': govtStats.hasNotBeenReviewedFoundConclusion.length / govtStats.hasNotBeenReviewedAll.length,
+				'Has Not Been ReviewedError': this.calcError(govtStats.hasNotBeenReviewedAll.length),
+				'Has Been Reviewed': govtStats.hasBeenReviewedFoundConclusion.length / govtStats.hasBeenReviewedAll.length,
+				'Has Been ReviewedError': this.calcError(govtStats.hasBeenReviewedAll.length),
+			},
+			{ 
+				name: 'All', 
+				'Has Not Been Reviewed': [...beefStats.hasNotBeenReviewedFoundConclusion, ...dinoStats.hasNotBeenReviewedFoundConclusion, ...govtStats.hasNotBeenReviewedFoundConclusion].length / [...beefStats.hasNotBeenReviewedAll, ...dinoStats.hasNotBeenReviewedAll, ...govtStats.hasNotBeenReviewedAll].length,
+				'Has Not Been ReviewedError': this.calcError([...beefStats.hasNotBeenReviewedAll, ...dinoStats.hasNotBeenReviewedAll, ...govtStats.hasNotBeenReviewedAll].length),
+				'Has Been Reviewed': [...beefStats.hasBeenReviewedFoundConclusion, ...dinoStats.hasBeenReviewedFoundConclusion, ...govtStats.hasBeenReviewedFoundConclusion].length / [...beefStats.hasBeenReviewedAll, ...dinoStats.hasBeenReviewedAll, ...govtStats.hasBeenReviewedAll].length,
+				'Has Been ReviewedError': this.calcError([...beefStats.hasBeenReviewedAll, ...dinoStats.hasBeenReviewedAll, ...govtStats.hasBeenReviewedAll].length),
+			},
+		];
+		const renderHasBeenReviewedFoundConclusion = <AnalysisBarChart keys={['Has Not Been Reviewed', 'Has Been Reviewed']} data={hasBeenReviewedFoundConclusionData} title={'Has Previously Been Peer Reviewed and Finding Conclusions'} yaxisLabel={'Percent Found Conclusion'} />;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 		const scoreCountsFoundErrorFalse = this.countScores([...beefStats.foundErrorFalse, ...dinoStats.foundErrorFalse, ...govtStats.foundErrorFalse]);
@@ -560,6 +741,17 @@ export const Analysis = React.createClass({
 				<div style={styles.content}>Another interpretation of interest is interest in the topic at hand leads to higher rates of detecting errors and finding alternative conclusions.</div>
 				{renderInterestedFoundError}
 				{renderInterestedFoundConclusion}
+
+
+				<div style={styles.header}>Has Previously Peer Reviewed</div>
+				<div style={styles.content}>Plotting the rates of finding errors and conclusions for users who have previously peer reviewed.</div>
+				{renderHasReviewedFoundError}
+				{renderHasReviewedFoundConclusion}
+
+				<div style={styles.header}>Has Previously Been Peer Reviewed</div>
+				<div style={styles.content}>Plotting the rates of finding errors and conclusions for users who have previously been subject to peer review.</div>
+				{renderHasBeenReviewedFoundError}
+				{renderHasBeenReviewedFoundConclusion}
 
 				<div style={styles.header}>Score Distribution when Finding Error or Conclusion</div>
 				<div style={styles.content}>One graph of interest displays the distribution of scores assigned to an experiment based on whether a user did or did not find an error or conclusion.</div>

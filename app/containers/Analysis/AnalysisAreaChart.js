@@ -43,7 +43,7 @@ export const AnalysisAreaChart = React.createClass({
 						<XAxis dataKey="name" />
 						<YAxis />
 						<CartesianGrid strokeDasharray="3 3" />
-						<Tooltip formatter={(val)=> { return roundTo(val, 3); }} />
+						<Tooltip formatter={(val)=> { return roundTo(val, 4); }} />
 						<Legend />
 						{keys.map((item, index)=> {
 							return <Area key={`Area-${index}`} type="monotone" dataKey={item} stroke={colors[index]} fillOpacity={1} fill={`url(#color${index})`} />;

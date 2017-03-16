@@ -43,7 +43,7 @@ export const AnalysisBarChart = React.createClass({
 						<XAxis dataKey="name" />
 						<YAxis />
 						<CartesianGrid strokeDasharray="3 3" />
-						<Tooltip formatter={(val)=> { return roundTo(val, 3); }} />
+						<Tooltip formatter={(val)=> { return roundTo(val, 4); }} />
 						<Legend />
 						{keys.map((item, index)=> {
 							return (
