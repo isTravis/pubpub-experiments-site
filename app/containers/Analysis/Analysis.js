@@ -3,6 +3,13 @@ import Radium from 'radium';
 import stats from 'stats-lite';
 import AnalysisBarChart from './AnalysisBarChart';
 import AnalysisAreaChart from './AnalysisAreaChart';
+import AnalysisStackedBarChart from './AnalysisStackedBarChart';
+import GraphPresentedVsNotPresented from './GraphPresentedVsNotPresented';
+import GraphNotPresentedVsNotUsed from './GraphNotPresentedVsNotUsed';
+import GraphUsedVsNotUsed from './GraphUsedVsNotUsed';
+import GraphScientists from './GraphScientists';
+import GraphInterested from './GraphInterested';
+
 let styles;
 
 import dinoData from '../../../data/dinoData.js';
@@ -159,6 +166,19 @@ export const Analysis = React.createClass({
 		const dinoStats = this.analyzeCounts(dinoData);
 		const govtStats = this.analyzeCounts(govtData);
 		
+		const allData = {
+			beefStats: beefStats,
+			dinoStats: dinoStats,
+			govtStats: govtStats,
+		};
+
+		const allFunctions = {
+			sumArray: this.sumArray,
+			calcError: this.calcError,
+			countScores: this.countScores,
+			countScoreTimes: this.countScoreTimes,
+		};
+
 		const renderCounts = (
 			<table style={styles.countTable}>
 				<tbody>
@@ -188,10 +208,10 @@ export const Analysis = React.createClass({
 				'Presented Non-InteractiveError': this.calcError(beefStats.mode0All.length),
 				'Presented Interactive': beefStats.mode1FoundError.length / beefStats.mode1All.length,
 				'Presented InteractiveError': this.calcError(beefStats.mode1All.length),
-				'Did Not Use Interacivity': beefStats.nonInteractiveFoundError.length / beefStats.nonInteractiveAll.length,
-				'Did Not Use InteracivityError': this.calcError(beefStats.nonInteractiveAll.length),
-				'Did Use Interacivity': beefStats.interactiveFoundError.length / beefStats.interactiveAll.length,
-				'Did Use InteracivityError': this.calcError(beefStats.interactiveAll.length),
+				// 'Did Not Use Interacivity': beefStats.nonInteractiveFoundError.length / beefStats.nonInteractiveAll.length,
+				// 'Did Not Use InteracivityError': this.calcError(beefStats.nonInteractiveAll.length),
+				// 'Did Use Interacivity': beefStats.interactiveFoundError.length / beefStats.interactiveAll.length,
+				// 'Did Use InteracivityError': this.calcError(beefStats.interactiveAll.length),
 			},
 			{ 
 				name: 'Dino', 
@@ -199,10 +219,10 @@ export const Analysis = React.createClass({
 				'Presented Non-InteractiveError': this.calcError(dinoStats.mode0All.length),
 				'Presented Interactive': dinoStats.mode1FoundError.length / dinoStats.mode1All.length,
 				'Presented InteractiveError': this.calcError(dinoStats.mode1All.length),
-				'Did Not Use Interacivity': dinoStats.nonInteractiveFoundError.length / dinoStats.nonInteractiveAll.length,
-				'Did Not Use InteracivityError': this.calcError(dinoStats.nonInteractiveAll.length),
-				'Did Use Interacivity': dinoStats.interactiveFoundError.length / dinoStats.interactiveAll.length,
-				'Did Use InteracivityError': this.calcError(dinoStats.interactiveAll.length),
+				// 'Did Not Use Interacivity': dinoStats.nonInteractiveFoundError.length / dinoStats.nonInteractiveAll.length,
+				// 'Did Not Use InteracivityError': this.calcError(dinoStats.nonInteractiveAll.length),
+				// 'Did Use Interacivity': dinoStats.interactiveFoundError.length / dinoStats.interactiveAll.length,
+				// 'Did Use InteracivityError': this.calcError(dinoStats.interactiveAll.length),
 			},
 			{ 
 				name: 'Govt', 
@@ -210,10 +230,10 @@ export const Analysis = React.createClass({
 				'Presented Non-InteractiveError': this.calcError(govtStats.mode0All.length),
 				'Presented Interactive': govtStats.mode1FoundError.length / govtStats.mode1All.length,
 				'Presented InteractiveError': this.calcError(govtStats.mode1All.length),
-				'Did Not Use Interacivity': govtStats.nonInteractiveFoundError.length / govtStats.nonInteractiveAll.length,
-				'Did Not Use InteracivityError': this.calcError(govtStats.nonInteractiveAll.length),
-				'Did Use Interacivity': govtStats.interactiveFoundError.length / govtStats.interactiveAll.length,
-				'Did Use InteracivityError': this.calcError(govtStats.interactiveAll.length),
+				// 'Did Not Use Interacivity': govtStats.nonInteractiveFoundError.length / govtStats.nonInteractiveAll.length,
+				// 'Did Not Use InteracivityError': this.calcError(govtStats.nonInteractiveAll.length),
+				// 'Did Use Interacivity': govtStats.interactiveFoundError.length / govtStats.interactiveAll.length,
+				// 'Did Use InteracivityError': this.calcError(govtStats.interactiveAll.length),
 			},
 			{ 
 				name: 'All', 
@@ -221,6 +241,57 @@ export const Analysis = React.createClass({
 				'Presented Non-InteractiveError': this.calcError([...beefStats.mode0All, ...dinoStats.mode0All, ...govtStats.mode0All].length),
 				'Presented Interactive': [...beefStats.mode1FoundError, ...dinoStats.mode1FoundError, ...govtStats.mode1FoundError].length / [...beefStats.mode1All, ...dinoStats.mode1All, ...govtStats.mode1All].length,
 				'Presented InteractiveError': this.calcError([...beefStats.mode1All, ...dinoStats.mode1All, ...govtStats.mode1All].length),
+				// 'Did Not Use Interacivity': [...beefStats.nonInteractiveFoundError, ...dinoStats.nonInteractiveFoundError, ...govtStats.nonInteractiveFoundError].length / [...beefStats.nonInteractiveAll, ...dinoStats.nonInteractiveAll, ...govtStats.nonInteractiveAll].length,
+				// 'Did Not Use InteracivityError': this.calcError([...beefStats.nonInteractiveAll, ...dinoStats.nonInteractiveAll, ...govtStats.nonInteractiveAll].length),
+				// 'Did Use Interacivity': [...beefStats.interactiveFoundError, ...dinoStats.interactiveFoundError, ...govtStats.interactiveFoundError].length / [...beefStats.interactiveAll, ...dinoStats.interactiveAll, ...govtStats.interactiveAll].length,
+				// 'Did Use InteracivityError': this.calcError([...beefStats.interactiveAll, ...dinoStats.interactiveAll, ...govtStats.interactiveAll].length),
+			},
+		];
+
+		// const renderFoundError = <AnalysisBarChart keys={['Presented Non-Interactive', 'Presented Interactive', 'Did Not Use Interacivity', 'Did Use Interacivity']} data={foundErrorData} title={'Percentage of Users Finding Error'} yaxisLabel={'Percent Found Error'} />;
+		const renderFoundError = <AnalysisBarChart keys={['Presented Non-Interactive', 'Presented Interactive']} data={foundErrorData} title={'Percentage of Users Finding Error'} yaxisLabel={'Percent Found Error'} />;
+
+
+		const foundErrorDataUsed = [
+			{ 
+				name: 'Beef', 
+				// 'Presented Non-Interactive': beefStats.mode0FoundError.length / beefStats.mode0All.length,
+				// 'Presented Non-InteractiveError': this.calcError(beefStats.mode0All.length),
+				// 'Presented Interactive': beefStats.mode1FoundError.length / beefStats.mode1All.length,
+				// 'Presented InteractiveError': this.calcError(beefStats.mode1All.length),
+				'Did Not Use Interacivity': beefStats.nonInteractiveFoundError.length / beefStats.nonInteractiveAll.length,
+				'Did Not Use InteracivityError': this.calcError(beefStats.nonInteractiveAll.length),
+				'Did Use Interacivity': beefStats.interactiveFoundError.length / beefStats.interactiveAll.length,
+				'Did Use InteracivityError': this.calcError(beefStats.interactiveAll.length),
+			},
+			{ 
+				name: 'Dino', 
+				// 'Presented Non-Interactive': dinoStats.mode0FoundError.length / dinoStats.mode0All.length,
+				// 'Presented Non-InteractiveError': this.calcError(dinoStats.mode0All.length),
+				// 'Presented Interactive': dinoStats.mode1FoundError.length / dinoStats.mode1All.length,
+				// 'Presented InteractiveError': this.calcError(dinoStats.mode1All.length),
+				'Did Not Use Interacivity': dinoStats.nonInteractiveFoundError.length / dinoStats.nonInteractiveAll.length,
+				'Did Not Use InteracivityError': this.calcError(dinoStats.nonInteractiveAll.length),
+				'Did Use Interacivity': dinoStats.interactiveFoundError.length / dinoStats.interactiveAll.length,
+				'Did Use InteracivityError': this.calcError(dinoStats.interactiveAll.length),
+			},
+			{ 
+				name: 'Govt', 
+				// 'Presented Non-Interactive': govtStats.mode0FoundError.length / govtStats.mode0All.length,
+				// 'Presented Non-InteractiveError': this.calcError(govtStats.mode0All.length),
+				// 'Presented Interactive': govtStats.mode1FoundError.length / govtStats.mode1All.length,
+				// 'Presented InteractiveError': this.calcError(govtStats.mode1All.length),
+				'Did Not Use Interacivity': govtStats.nonInteractiveFoundError.length / govtStats.nonInteractiveAll.length,
+				'Did Not Use InteracivityError': this.calcError(govtStats.nonInteractiveAll.length),
+				'Did Use Interacivity': govtStats.interactiveFoundError.length / govtStats.interactiveAll.length,
+				'Did Use InteracivityError': this.calcError(govtStats.interactiveAll.length),
+			},
+			{ 
+				name: 'All', 
+				// 'Presented Non-Interactive': [...beefStats.mode0FoundError, ...dinoStats.mode0FoundError, ...govtStats.mode0FoundError].length / [...beefStats.mode0All, ...dinoStats.mode0All, ...govtStats.mode0All].length,
+				// 'Presented Non-InteractiveError': this.calcError([...beefStats.mode0All, ...dinoStats.mode0All, ...govtStats.mode0All].length),
+				// 'Presented Interactive': [...beefStats.mode1FoundError, ...dinoStats.mode1FoundError, ...govtStats.mode1FoundError].length / [...beefStats.mode1All, ...dinoStats.mode1All, ...govtStats.mode1All].length,
+				// 'Presented InteractiveError': this.calcError([...beefStats.mode1All, ...dinoStats.mode1All, ...govtStats.mode1All].length),
 				'Did Not Use Interacivity': [...beefStats.nonInteractiveFoundError, ...dinoStats.nonInteractiveFoundError, ...govtStats.nonInteractiveFoundError].length / [...beefStats.nonInteractiveAll, ...dinoStats.nonInteractiveAll, ...govtStats.nonInteractiveAll].length,
 				'Did Not Use InteracivityError': this.calcError([...beefStats.nonInteractiveAll, ...dinoStats.nonInteractiveAll, ...govtStats.nonInteractiveAll].length),
 				'Did Use Interacivity': [...beefStats.interactiveFoundError, ...dinoStats.interactiveFoundError, ...govtStats.interactiveFoundError].length / [...beefStats.interactiveAll, ...dinoStats.interactiveAll, ...govtStats.interactiveAll].length,
@@ -228,7 +299,9 @@ export const Analysis = React.createClass({
 			},
 		];
 
-		const renderFoundError = <AnalysisBarChart keys={['Presented Non-Interactive', 'Presented Interactive', 'Did Not Use Interacivity', 'Did Use Interacivity']} data={foundErrorData} title={'Percent of Users Finding Error'} yaxisLabel={'Percent Found Error'} />;
+		// const renderFoundErrorUsed = <AnalysisBarChart keys={['Presented Non-Interactive', 'Presented Interactive', 'Did Not Use Interacivity', 'Did Use Interacivity']} data={foundErrorData} title={'Percentage of Users Finding Error'} yaxisLabel={'Percent Found Error'} colorOffset={2} />;
+		const renderFoundErrorUsed = <AnalysisBarChart keys={['Did Not Use Interacivity', 'Did Use Interacivity']} data={foundErrorDataUsed} title={'Percentage of Users Finding Error'} yaxisLabel={'Percent Found Error'} colorOffset={2} />;
+
 
 		const foundConclusionData = [
 			{ 
@@ -237,10 +310,10 @@ export const Analysis = React.createClass({
 				'Presented Non-InteractiveError': this.calcError(beefStats.mode0All.length),
 				'Presented Interactive': beefStats.mode1FoundConclusion.length / beefStats.mode1All.length,
 				'Presented InteractiveError': this.calcError(beefStats.mode1All.length),
-				'Did Not Use Interacivity': beefStats.nonInteractiveFoundConclusion.length / beefStats.nonInteractiveAll.length,
-				'Did Not Use InteracivityError': this.calcError(beefStats.nonInteractiveAll.length),
-				'Did Use Interacivity': beefStats.interactiveFoundConclusion.length / beefStats.interactiveAll.length,
-				'Did Use InteracivityError': this.calcError(beefStats.interactiveAll.length),
+				// 'Did Not Use Interacivity': beefStats.nonInteractiveFoundConclusion.length / beefStats.nonInteractiveAll.length,
+				// 'Did Not Use InteracivityError': this.calcError(beefStats.nonInteractiveAll.length),
+				// 'Did Use Interacivity': beefStats.interactiveFoundConclusion.length / beefStats.interactiveAll.length,
+				// 'Did Use InteracivityError': this.calcError(beefStats.interactiveAll.length),
 			},
 			{ 
 				name: 'Dino', 
@@ -248,10 +321,10 @@ export const Analysis = React.createClass({
 				'Presented Non-InteractiveError': this.calcError(dinoStats.mode0All.length),
 				'Presented Interactive': dinoStats.mode1FoundConclusion.length / dinoStats.mode1All.length,
 				'Presented InteractiveError': this.calcError(dinoStats.mode1All.length),
-				'Did Not Use Interacivity': dinoStats.nonInteractiveFoundConclusion.length / dinoStats.nonInteractiveAll.length,
-				'Did Not Use InteracivityError': this.calcError(dinoStats.nonInteractiveAll.length),
-				'Did Use Interacivity': dinoStats.interactiveFoundConclusion.length / dinoStats.interactiveAll.length,
-				'Did Use InteracivityError': this.calcError(dinoStats.interactiveAll.length),
+				// 'Did Not Use Interacivity': dinoStats.nonInteractiveFoundConclusion.length / dinoStats.nonInteractiveAll.length,
+				// 'Did Not Use InteracivityError': this.calcError(dinoStats.nonInteractiveAll.length),
+				// 'Did Use Interacivity': dinoStats.interactiveFoundConclusion.length / dinoStats.interactiveAll.length,
+				// 'Did Use InteracivityError': this.calcError(dinoStats.interactiveAll.length),
 			},
 			{ 
 				name: 'Govt', 
@@ -259,10 +332,10 @@ export const Analysis = React.createClass({
 				'Presented Non-InteractiveError': this.calcError(govtStats.mode0All.length),
 				'Presented Interactive': govtStats.mode1FoundConclusion.length / govtStats.mode1All.length,
 				'Presented InteractiveError': this.calcError(govtStats.mode1All.length),
-				'Did Not Use Interacivity': govtStats.nonInteractiveFoundConclusion.length / govtStats.nonInteractiveAll.length,
-				'Did Not Use InteracivityError': this.calcError(govtStats.nonInteractiveAll.length),
-				'Did Use Interacivity': govtStats.interactiveFoundConclusion.length / govtStats.interactiveAll.length,
-				'Did Use InteracivityError': this.calcError(govtStats.interactiveAll.length),
+				// 'Did Not Use Interacivity': govtStats.nonInteractiveFoundConclusion.length / govtStats.nonInteractiveAll.length,
+				// 'Did Not Use InteracivityError': this.calcError(govtStats.nonInteractiveAll.length),
+				// 'Did Use Interacivity': govtStats.interactiveFoundConclusion.length / govtStats.interactiveAll.length,
+				// 'Did Use InteracivityError': this.calcError(govtStats.interactiveAll.length),
 			},
 			{ 
 				name: 'All', 
@@ -270,6 +343,59 @@ export const Analysis = React.createClass({
 				'Presented Non-InteractiveError': this.calcError([...beefStats.mode0All, ...dinoStats.mode0All, ...govtStats.mode0All].length),
 				'Presented Interactive': [...beefStats.mode1FoundConclusion, ...dinoStats.mode1FoundConclusion, ...govtStats.mode1FoundConclusion].length / [...beefStats.mode1All, ...dinoStats.mode1All, ...govtStats.mode1All].length,
 				'Presented InteractiveError': this.calcError([...beefStats.mode1All, ...dinoStats.mode1All, ...govtStats.mode1All].length),
+				// 'Did Not Use Interacivity': [...beefStats.nonInteractiveFoundConclusion, ...dinoStats.nonInteractiveFoundConclusion, ...govtStats.nonInteractiveFoundConclusion].length / [...beefStats.nonInteractiveAll, ...dinoStats.nonInteractiveAll, ...govtStats.nonInteractiveAll].length,
+				// 'Did Not Use InteracivityError': this.calcError([...beefStats.nonInteractiveAll, ...dinoStats.nonInteractiveAll, ...govtStats.nonInteractiveAll].length),
+				// 'Did Use Interacivity': [...beefStats.interactiveFoundConclusion, ...dinoStats.interactiveFoundConclusion, ...govtStats.interactiveFoundConclusion].length / [...beefStats.interactiveAll, ...dinoStats.interactiveAll, ...govtStats.interactiveAll].length,
+				// 'Did Use InteracivityError': this.calcError([...beefStats.interactiveAll, ...dinoStats.interactiveAll, ...govtStats.interactiveAll].length),
+			},
+		];
+
+
+
+		// const renderFoundConclusion = <AnalysisBarChart keys={['Presented Non-Interactive', 'Presented Interactive', 'Did Not Use Interacivity', 'Did Use Interacivity']} data={foundConclusionData} title={'Percentage of Users Finding Conclusion'} yaxisLabel={'Percent Found Conclusion'} />;
+		const renderFoundConclusion = <AnalysisBarChart keys={['Presented Non-Interactive', 'Presented Interactive']} data={foundConclusionData} title={'Percentage of Users Finding Conclusion'} yaxisLabel={'Percent Found Conclusion'} />;
+
+
+		const foundConclusionDataUsed = [
+			{ 
+				name: 'Beef', 
+				// 'Presented Non-Interactive': beefStats.mode0FoundConclusion.length / beefStats.mode0All.length,
+				// 'Presented Non-InteractiveError': this.calcError(beefStats.mode0All.length),
+				// 'Presented Interactive': beefStats.mode1FoundConclusion.length / beefStats.mode1All.length,
+				// 'Presented InteractiveError': this.calcError(beefStats.mode1All.length),
+				'Did Not Use Interacivity': beefStats.nonInteractiveFoundConclusion.length / beefStats.nonInteractiveAll.length,
+				'Did Not Use InteracivityError': this.calcError(beefStats.nonInteractiveAll.length),
+				'Did Use Interacivity': beefStats.interactiveFoundConclusion.length / beefStats.interactiveAll.length,
+				'Did Use InteracivityError': this.calcError(beefStats.interactiveAll.length),
+			},
+			{ 
+				name: 'Dino', 
+				// 'Presented Non-Interactive': dinoStats.mode0FoundConclusion.length / dinoStats.mode0All.length,
+				// 'Presented Non-InteractiveError': this.calcError(dinoStats.mode0All.length),
+				// 'Presented Interactive': dinoStats.mode1FoundConclusion.length / dinoStats.mode1All.length,
+				// 'Presented InteractiveError': this.calcError(dinoStats.mode1All.length),
+				'Did Not Use Interacivity': dinoStats.nonInteractiveFoundConclusion.length / dinoStats.nonInteractiveAll.length,
+				'Did Not Use InteracivityError': this.calcError(dinoStats.nonInteractiveAll.length),
+				'Did Use Interacivity': dinoStats.interactiveFoundConclusion.length / dinoStats.interactiveAll.length,
+				'Did Use InteracivityError': this.calcError(dinoStats.interactiveAll.length),
+			},
+			{ 
+				name: 'Govt', 
+				// 'Presented Non-Interactive': govtStats.mode0FoundConclusion.length / govtStats.mode0All.length,
+				// 'Presented Non-InteractiveError': this.calcError(govtStats.mode0All.length),
+				// 'Presented Interactive': govtStats.mode1FoundConclusion.length / govtStats.mode1All.length,
+				// 'Presented InteractiveError': this.calcError(govtStats.mode1All.length),
+				'Did Not Use Interacivity': govtStats.nonInteractiveFoundConclusion.length / govtStats.nonInteractiveAll.length,
+				'Did Not Use InteracivityError': this.calcError(govtStats.nonInteractiveAll.length),
+				'Did Use Interacivity': govtStats.interactiveFoundConclusion.length / govtStats.interactiveAll.length,
+				'Did Use InteracivityError': this.calcError(govtStats.interactiveAll.length),
+			},
+			{ 
+				name: 'All', 
+				// 'Presented Non-Interactive': [...beefStats.mode0FoundConclusion, ...dinoStats.mode0FoundConclusion, ...govtStats.mode0FoundConclusion].length / [...beefStats.mode0All, ...dinoStats.mode0All, ...govtStats.mode0All].length,
+				// 'Presented Non-InteractiveError': this.calcError([...beefStats.mode0All, ...dinoStats.mode0All, ...govtStats.mode0All].length),
+				// 'Presented Interactive': [...beefStats.mode1FoundConclusion, ...dinoStats.mode1FoundConclusion, ...govtStats.mode1FoundConclusion].length / [...beefStats.mode1All, ...dinoStats.mode1All, ...govtStats.mode1All].length,
+				// 'Presented InteractiveError': this.calcError([...beefStats.mode1All, ...dinoStats.mode1All, ...govtStats.mode1All].length),
 				'Did Not Use Interacivity': [...beefStats.nonInteractiveFoundConclusion, ...dinoStats.nonInteractiveFoundConclusion, ...govtStats.nonInteractiveFoundConclusion].length / [...beefStats.nonInteractiveAll, ...dinoStats.nonInteractiveAll, ...govtStats.nonInteractiveAll].length,
 				'Did Not Use InteracivityError': this.calcError([...beefStats.nonInteractiveAll, ...dinoStats.nonInteractiveAll, ...govtStats.nonInteractiveAll].length),
 				'Did Use Interacivity': [...beefStats.interactiveFoundConclusion, ...dinoStats.interactiveFoundConclusion, ...govtStats.interactiveFoundConclusion].length / [...beefStats.interactiveAll, ...dinoStats.interactiveAll, ...govtStats.interactiveAll].length,
@@ -277,9 +403,81 @@ export const Analysis = React.createClass({
 			},
 		];
 
+		// const renderFoundConclusionUsed = <AnalysisBarChart keys={['Presented Non-Interactive', 'Presented Interactive', 'Did Not Use Interacivity', 'Did Use Interacivity']} data={foundConclusionData} title={'Percentage of Users Finding Conclusion'} yaxisLabel={'Percent Found Conclusion'} colorOffset={2} />;
+		const renderFoundConclusionUsed = <AnalysisBarChart keys={['Did Not Use Interacivity', 'Did Use Interacivity']} data={foundConclusionDataUsed} title={'Percentage of Users Finding Conclusion'} yaxisLabel={'Percent Found Conclusion'} colorOffset={2} />;
 
 
-		const renderFoundConclusion = <AnalysisBarChart keys={['Presented Non-Interactive', 'Presented Interactive', 'Did Not Use Interacivity', 'Did Use Interacivity']} data={foundConclusionData} title={'Percent of Users Finding Conclusion'} yaxisLabel={'Percent Found Conclusion'} />;
+		/* Not Presented vs Not used */
+		const notPresentedNotUsedfoundErrorData = [
+			{ 
+				name: 'Beef', 
+				'Presented Non-Interactive': beefStats.mode0FoundError.length / beefStats.mode0All.length,
+				'Presented Non-InteractiveError': this.calcError(beefStats.mode0All.length),
+				'Did Not Use Interacivity': beefStats.nonInteractiveFoundError.length / beefStats.nonInteractiveAll.length,
+				'Did Not Use InteracivityError': this.calcError(beefStats.nonInteractiveAll.length),
+			},
+			{ 
+				name: 'Dino', 
+				'Presented Non-Interactive': dinoStats.mode0FoundError.length / dinoStats.mode0All.length,
+				'Presented Non-InteractiveError': this.calcError(dinoStats.mode0All.length),
+				'Did Not Use Interacivity': dinoStats.nonInteractiveFoundError.length / dinoStats.nonInteractiveAll.length,
+				'Did Not Use InteracivityError': this.calcError(dinoStats.nonInteractiveAll.length),
+			},
+			{ 
+				name: 'Govt', 
+				'Presented Non-Interactive': govtStats.mode0FoundError.length / govtStats.mode0All.length,
+				'Presented Non-InteractiveError': this.calcError(govtStats.mode0All.length),
+				'Did Not Use Interacivity': govtStats.nonInteractiveFoundError.length / govtStats.nonInteractiveAll.length,
+				'Did Not Use InteracivityError': this.calcError(govtStats.nonInteractiveAll.length),
+			},
+			{ 
+				name: 'All', 
+				'Presented Non-Interactive': [...beefStats.mode0FoundError, ...dinoStats.mode0FoundError, ...govtStats.mode0FoundError].length / [...beefStats.mode0All, ...dinoStats.mode0All, ...govtStats.mode0All].length,
+				'Presented Non-InteractiveError': this.calcError([...beefStats.mode0All, ...dinoStats.mode0All, ...govtStats.mode0All].length),
+				'Did Not Use Interacivity': [...beefStats.nonInteractiveFoundError, ...dinoStats.nonInteractiveFoundError, ...govtStats.nonInteractiveFoundError].length / [...beefStats.nonInteractiveAll, ...dinoStats.nonInteractiveAll, ...govtStats.nonInteractiveAll].length,
+				'Did Not Use InteracivityError': this.calcError([...beefStats.nonInteractiveAll, ...dinoStats.nonInteractiveAll, ...govtStats.nonInteractiveAll].length),
+			},
+		];
+
+		// const renderFoundError = <AnalysisBarChart keys={['Presented Non-Interactive', 'Presented Interactive', 'Did Not Use Interacivity', 'Did Use Interacivity']} data={foundErrorData} title={'Percentage of Users Finding Error'} yaxisLabel={'Percent Found Error'} />;
+		const renderNotPresentedNotUsedFoundError = <AnalysisBarChart keys={['Presented Non-Interactive', 'Did Not Use Interacivity']} data={notPresentedNotUsedfoundErrorData} title={'Percentage of Users Finding Error'} yaxisLabel={'Percent Found Error'} />;
+
+		const notPresentedNotUsedfoundConclusionData = [
+			{ 
+				name: 'Beef', 
+				'Presented Non-Interactive': beefStats.mode0FoundConclusion.length / beefStats.mode0All.length,
+				'Presented Non-InteractiveError': this.calcError(beefStats.mode0All.length),
+				'Did Not Use Interacivity': beefStats.nonInteractiveFoundConclusion.length / beefStats.nonInteractiveAll.length,
+				'Did Not Use InteracivityError': this.calcError(beefStats.nonInteractiveAll.length),
+			},
+			{ 
+				name: 'Dino', 
+				'Presented Non-Interactive': dinoStats.mode0FoundConclusion.length / dinoStats.mode0All.length,
+				'Presented Non-InteractiveError': this.calcError(dinoStats.mode0All.length),
+				'Did Not Use Interacivity': dinoStats.nonInteractiveFoundConclusion.length / dinoStats.nonInteractiveAll.length,
+				'Did Not Use InteracivityError': this.calcError(dinoStats.nonInteractiveAll.length),
+			},
+			{ 
+				name: 'Govt', 
+				'Presented Non-Interactive': govtStats.mode0FoundConclusion.length / govtStats.mode0All.length,
+				'Presented Non-InteractiveError': this.calcError(govtStats.mode0All.length),
+				'Did Not Use Interacivity': govtStats.nonInteractiveFoundConclusion.length / govtStats.nonInteractiveAll.length,
+				'Did Not Use InteracivityError': this.calcError(govtStats.nonInteractiveAll.length),
+			},
+			{ 
+				name: 'All', 
+				'Presented Non-Interactive': [...beefStats.mode0FoundConclusion, ...dinoStats.mode0FoundConclusion, ...govtStats.mode0FoundConclusion].length / [...beefStats.mode0All, ...dinoStats.mode0All, ...govtStats.mode0All].length,
+				'Presented Non-InteractiveError': this.calcError([...beefStats.mode0All, ...dinoStats.mode0All, ...govtStats.mode0All].length),
+				'Did Not Use Interacivity': [...beefStats.nonInteractiveFoundConclusion, ...dinoStats.nonInteractiveFoundConclusion, ...govtStats.nonInteractiveFoundConclusion].length / [...beefStats.nonInteractiveAll, ...dinoStats.nonInteractiveAll, ...govtStats.nonInteractiveAll].length,
+				'Did Not Use InteracivityError': this.calcError([...beefStats.nonInteractiveAll, ...dinoStats.nonInteractiveAll, ...govtStats.nonInteractiveAll].length),
+			},
+		];
+
+		const renderNotPresentedNotUsedFoundConclusion = <AnalysisBarChart keys={['Presented Non-Interactive', 'Did Not Use Interacivity']} data={notPresentedNotUsedfoundConclusionData} title={'Percentage of Users Finding Conclusion'} yaxisLabel={'Percent Found Conclusion'} />;
+
+		/* --------- */
+
+
 
 		const scientistFoundErrorData = [
 			{ 
@@ -302,6 +500,13 @@ export const Analysis = React.createClass({
 				'Non-ScientistError': this.calcError(govtStats.nonScientistAll.length),
 				'Scientist': govtStats.scientistFoundError.length / govtStats.scientistAll.length,
 				'ScientistError': this.calcError(govtStats.scientistAll.length),
+			},
+			{ 
+				name: 'All', 
+				'Non-Scientist': [...beefStats.nonScientistFoundError, ...dinoStats.nonScientistFoundError, ...govtStats.nonScientistFoundError].length / [...beefStats.nonScientistAll, ...dinoStats.nonScientistAll, ...govtStats.nonScientistAll].length,
+				'Non-ScientistError': this.calcError([...beefStats.nonScientistAll, ...dinoStats.nonScientistAll, ...govtStats.nonScientistAll].length),
+				'Scientist': [...beefStats.scientistFoundError, ...dinoStats.scientistFoundError, ...govtStats.scientistFoundError].length / [...beefStats.scientistAll, ...dinoStats.scientistAll, ...govtStats.scientistAll].length,
+				'ScientistError': this.calcError([...beefStats.scientistAll, ...dinoStats.scientistAll, ...govtStats.scientistAll].length),
 			},
 		];
 
@@ -328,6 +533,13 @@ export const Analysis = React.createClass({
 				'Non-ScientistError': this.calcError(govtStats.nonScientistAll.length),
 				'Scientist': govtStats.scientistFoundConclusion.length / govtStats.scientistAll.length,
 				'ScientistError': this.calcError(govtStats.scientistAll.length),
+			},
+			{ 
+				name: 'All', 
+				'Non-Scientist': [...beefStats.nonScientistFoundConclusion, ...dinoStats.nonScientistFoundConclusion, ...govtStats.nonScientistFoundConclusion].length / [...beefStats.nonScientistAll, ...dinoStats.nonScientistAll, ...govtStats.nonScientistAll].length,
+				'Non-ScientistError': this.calcError([...beefStats.nonScientistAll, ...dinoStats.nonScientistAll, ...govtStats.nonScientistAll].length),
+				'Scientist': [...beefStats.scientistFoundConclusion, ...dinoStats.scientistFoundConclusion, ...govtStats.scientistFoundConclusion].length / [...beefStats.scientistAll, ...dinoStats.scientistAll, ...govtStats.scientistAll].length,
+				'ScientistError': this.calcError([...beefStats.scientistAll, ...dinoStats.scientistAll, ...govtStats.scientistAll].length),
 			},
 		];
 
@@ -533,6 +745,7 @@ export const Analysis = React.createClass({
 		const renderHasBeenReviewedFoundConclusion = <AnalysisBarChart keys={['Has Not Been Reviewed', 'Has Been Reviewed']} data={hasBeenReviewedFoundConclusionData} title={'Has Previously Been Peer Reviewed and Finding Conclusions'} yaxisLabel={'Percent Found Conclusion'} />;
 
 
+		/* Found Error vs Scores */
 		const scoreCountsFoundErrorFalse = this.countScores([...beefStats.foundErrorFalse, ...dinoStats.foundErrorFalse, ...govtStats.foundErrorFalse]);
 		const scoreCountsFoundErrorTrue = this.countScores([...beefStats.foundErrorTrue, ...dinoStats.foundErrorTrue, ...govtStats.foundErrorTrue]);
 		
@@ -556,7 +769,25 @@ export const Analysis = React.createClass({
 			};
 		});
 		const renderFoundConclusionScores = <AnalysisAreaChart keys={['Did Not Find Conclusion', 'Found Conclusion']} data={foundConclusionScores} title={'Score Distribution when Finding Conclusion'} yaxisLabel={'Percentage Assigning Score'} />;
+		/* --------- */
 
+
+		/* Used Interactive vs Scores */
+		/* --------- */
+		const scoreCountsUsedInteractiveFalse = this.countScores([...beefStats.nonInteractiveAll, ...dinoStats.nonInteractiveAll, ...govtStats.nonInteractiveAll]);
+		const scoreCountsUsedInteractiveTrue = this.countScores([...beefStats.interactiveAll, ...dinoStats.interactiveAll, ...govtStats.interactiveAll]);
+		
+		const usedInteractiveScores = scoreCountsUsedInteractiveFalse.map((item, index)=> {
+			return {
+				name: index,
+				'Did Not Use Interactive': scoreCountsUsedInteractiveFalse[index] / this.sumArray(scoreCountsUsedInteractiveFalse),
+				'Used Interactive': scoreCountsUsedInteractiveTrue[index] / this.sumArray(scoreCountsUsedInteractiveTrue),
+				// 'Difference': (scoreCountsUsedInteractiveTrue[index] / this.sumArray(scoreCountsUsedInteractiveTrue)) - (scoreCountsUsedInteractiveFalse[index] / this.sumArray(scoreCountsUsedInteractiveFalse)),
+			};
+		});
+		const renderUsedInteractiveScores = <AnalysisAreaChart keys={['Did Not Use Interactive', 'Used Interactive']} data={usedInteractiveScores} title={'Score Distribution vs Interactivity'} yaxisLabel={'Percentage Assigning Score'} />;
+		/* --------- */
+		/* --------- */
 
 		const scoreCountTimes = this.countScoreTimes([...beefStats.all, ...dinoStats.all, ...govtStats.all]);
 		const scoreCounts = this.countScores([...beefStats.all, ...dinoStats.all, ...govtStats.all]);
@@ -570,53 +801,148 @@ export const Analysis = React.createClass({
 		});
 		const renderScoreTimes = <AnalysisAreaChart keys={['All']} data={scoreTimesData} title={'Time Spent Reviewing vs Score'} yaxisLabel={'Average Time (s)'} />;
 
-		const scoreCountTimesFoundErrorTrue = this.countScoreTimes([...beefStats.foundErrorTrue, ...dinoStats.foundErrorTrue, ...govtStats.foundErrorTrue]);
+
+		// const scoreCountTimesFoundErrorTrue = this.countScoreTimes([...beefStats.foundErrorTrue, ...dinoStats.foundErrorTrue, ...govtStats.foundErrorTrue]);
 		// const scoreCountsFoundErrorTrue = this.countScores([...beefStats.foundErrorTrue, ...dinoStats.foundErrorTrue, ...govtStats.foundErrorTrue]);
-		const scoreCountTimesFoundConclusionTrue = this.countScoreTimes([...beefStats.foundConclusionTrue, ...dinoStats.foundConclusionTrue, ...govtStats.foundConclusionTrue]);
+		// const scoreCountTimesFoundConclusionTrue = this.countScoreTimes([...beefStats.foundConclusionTrue, ...dinoStats.foundConclusionTrue, ...govtStats.foundConclusionTrue]);
 		// const scoreCountsFoundConclusionTrue = this.countScores([...beefStats.foundConclusionTrue, ...dinoStats.foundConclusionTrue, ...govtStats.foundConclusionTrue]);
 
-		const scoreCountTimesFoundErrorFalse = this.countScoreTimes([...beefStats.foundErrorFalse, ...dinoStats.foundErrorFalse, ...govtStats.foundErrorFalse]);
+		// const scoreCountTimesFoundErrorFalse = this.countScoreTimes([...beefStats.foundErrorFalse, ...dinoStats.foundErrorFalse, ...govtStats.foundErrorFalse]);
 		// const scoreCountsFoundErrorFalse = this.countScores([...beefStats.foundErrorFalse, ...dinoStats.foundErrorFalse, ...govtStats.foundErrorFalse]);
-		const scoreCountTimesFoundConclusionFalse = this.countScoreTimes([...beefStats.foundConclusionFalse, ...dinoStats.foundConclusionFalse, ...govtStats.foundConclusionFalse]);
+		// const scoreCountTimesFoundConclusionFalse = this.countScoreTimes([...beefStats.foundConclusionFalse, ...dinoStats.foundConclusionFalse, ...govtStats.foundConclusionFalse]);
 		// const scoreCountsFoundConclusionFalse = this.countScores([...beefStats.foundConclusionFalse, ...dinoStats.foundConclusionFalse, ...govtStats.foundConclusionFalse]);
 
-		const timesFoundErrorFalse = [...beefStats.foundErrorFalse, ...dinoStats.foundErrorFalse, ...govtStats.foundErrorFalse].map(item => item.timeOnReview);
-		const timesFoundErrorTrue = [...beefStats.foundErrorTrue, ...dinoStats.foundErrorTrue, ...govtStats.foundErrorTrue].map(item => item.timeOnReview);
-		const timesFoundConclusionFalse = [...beefStats.foundConclusionFalse, ...dinoStats.foundConclusionFalse, ...govtStats.foundConclusionFalse].map(item => item.timeOnReview);
-		const timesFoundConclusionTrue = [...beefStats.foundConclusionTrue, ...dinoStats.foundConclusionTrue, ...govtStats.foundConclusionTrue].map(item => item.timeOnReview);
+		const timesFoundErrorFalse = [...beefStats.foundErrorFalse, ...dinoStats.foundErrorFalse, ...govtStats.foundErrorFalse].filter(item => !!item.timeWriting).map(item => item.timeOnReview);
+		const timesFoundErrorTrue = [...beefStats.foundErrorTrue, ...dinoStats.foundErrorTrue, ...govtStats.foundErrorTrue].filter(item => !!item.timeWriting).map(item => item.timeOnReview);
+		const timesFoundConclusionFalse = [...beefStats.foundConclusionFalse, ...dinoStats.foundConclusionFalse, ...govtStats.foundConclusionFalse].filter(item => !!item.timeWriting).map(item => item.timeOnReview);
+		const timesFoundConclusionTrue = [...beefStats.foundConclusionTrue, ...dinoStats.foundConclusionTrue, ...govtStats.foundConclusionTrue].filter(item => !!item.timeWriting).map(item => item.timeOnReview);
 		
 		const timesData = [
 			{
 				name: 'Found Error Average',
-				'False': this.sumArray(scoreCountTimesFoundErrorFalse) / this.sumArray(scoreCountsFoundErrorFalse),
-				'FalseError': this.calcError([...beefStats.foundErrorFalse, ...dinoStats.foundErrorFalse, ...govtStats.foundErrorFalse].length) * (this.sumArray(scoreCountTimesFoundErrorFalse) / this.sumArray(scoreCountsFoundErrorFalse)),
-				'True': this.sumArray(scoreCountTimesFoundErrorTrue) / this.sumArray(scoreCountsFoundErrorTrue),
-				'TrueError': this.calcError([...beefStats.foundErrorTrue, ...dinoStats.foundErrorTrue, ...govtStats.foundErrorTrue].length) * (this.sumArray(scoreCountTimesFoundErrorTrue) / this.sumArray(scoreCountsFoundErrorTrue)),
+				'Did Not Find Error': stats.mean(timesFoundErrorFalse),
+				'Did Not Find ErrorError': this.calcError([...beefStats.foundErrorFalse, ...dinoStats.foundErrorFalse, ...govtStats.foundErrorFalse].length) * (stats.mean(timesFoundErrorFalse)),
+				'Found Error': stats.mean(timesFoundErrorTrue),
+				'Found ErrorError': this.calcError([...beefStats.foundErrorTrue, ...dinoStats.foundErrorTrue, ...govtStats.foundErrorTrue].length) * (stats.mean(timesFoundErrorTrue)),
 			},
 			{
 				name: 'Found Error Median',
-				'False': stats.median(timesFoundErrorFalse),
-				'FalseError': this.calcError([...beefStats.foundErrorFalse, ...dinoStats.foundErrorFalse, ...govtStats.foundErrorFalse].length) * (stats.median(timesFoundErrorFalse)),
-				'True': stats.median(timesFoundErrorTrue),
-				'TrueError': this.calcError([...beefStats.foundErrorTrue, ...dinoStats.foundErrorTrue, ...govtStats.foundErrorTrue].length) * (stats.median(timesFoundErrorTrue)),
+				'Did Not Find Error': stats.median(timesFoundErrorFalse),
+				'Did Not Find ErrorError': this.calcError([...beefStats.foundErrorFalse, ...dinoStats.foundErrorFalse, ...govtStats.foundErrorFalse].length) * (stats.median(timesFoundErrorFalse)),
+				'Found Error': stats.median(timesFoundErrorTrue),
+				'Found ErrorError': this.calcError([...beefStats.foundErrorTrue, ...dinoStats.foundErrorTrue, ...govtStats.foundErrorTrue].length) * (stats.median(timesFoundErrorTrue)),
 			},
 			{
 				name: 'Found Conclusion Average',
-				'False': this.sumArray(scoreCountTimesFoundConclusionFalse) / this.sumArray(scoreCountsFoundConclusionFalse),
-				'FalseError': this.calcError([...beefStats.foundConclusionFalse, ...dinoStats.foundConclusionFalse, ...govtStats.foundConclusionFalse].length) * (this.sumArray(scoreCountTimesFoundConclusionFalse) / this.sumArray(scoreCountsFoundConclusionFalse)),
-				'True': this.sumArray(scoreCountTimesFoundConclusionTrue) / this.sumArray(scoreCountsFoundConclusionTrue),
-				'TrueError': this.calcError([...beefStats.foundConclusionTrue, ...dinoStats.foundConclusionTrue, ...govtStats.foundConclusionTrue].length) * (this.sumArray(scoreCountTimesFoundConclusionTrue) / this.sumArray(scoreCountsFoundConclusionTrue)),
+				'Did Not Find Error': stats.mean(timesFoundConclusionFalse),
+				'Did Not Find ErrorError': this.calcError([...beefStats.foundConclusionFalse, ...dinoStats.foundConclusionFalse, ...govtStats.foundConclusionFalse].length) * (stats.mean(timesFoundConclusionFalse)),
+				'Found Error': stats.mean(timesFoundConclusionTrue),
+				'Found ErrorError': this.calcError([...beefStats.foundConclusionTrue, ...dinoStats.foundConclusionTrue, ...govtStats.foundConclusionTrue].length) * (stats.mean(timesFoundConclusionTrue)),
 			},
 			{
 				name: 'Found Conclusion Median',
-				'False': stats.median(timesFoundConclusionFalse),
-				'FalseError': this.calcError([...beefStats.foundConclusionFalse, ...dinoStats.foundConclusionFalse, ...govtStats.foundConclusionFalse].length) * (stats.median(timesFoundConclusionFalse)),
-				'True': stats.median(timesFoundConclusionTrue),
-				'TrueError': this.calcError([...beefStats.foundConclusionTrue, ...dinoStats.foundConclusionTrue, ...govtStats.foundConclusionTrue].length) * (stats.median(timesFoundConclusionTrue)),
+				'Did Not Find Error': stats.median(timesFoundConclusionFalse),
+				'Did Not Find ErrorError': this.calcError([...beefStats.foundConclusionFalse, ...dinoStats.foundConclusionFalse, ...govtStats.foundConclusionFalse].length) * (stats.median(timesFoundConclusionFalse)),
+				'Found Error': stats.median(timesFoundConclusionTrue),
+				'Found ErrorError': this.calcError([...beefStats.foundConclusionTrue, ...dinoStats.foundConclusionTrue, ...govtStats.foundConclusionTrue].length) * (stats.median(timesFoundConclusionTrue)),
 			},
 		];
 
-		const renderResultTimes = <AnalysisBarChart keys={['False', 'True']} data={timesData} title={'Time vs Result'} yaxisLabel={'Time (s)'} />;
+		const renderResultTimes = <AnalysisBarChart keys={['Did Not Find Error', 'Found Error']} data={timesData} title={'Time vs Result'} yaxisLabel={'Time (s)'} yDomain={[0, 600]}/>;
+
+		const timesWritingFoundErrorFalse = [...beefStats.foundErrorFalse, ...dinoStats.foundErrorFalse, ...govtStats.foundErrorFalse].filter(item => !!item.timeWriting).map(item => item.timeWriting);
+		const timesWritingFoundErrorTrue = [...beefStats.foundErrorTrue, ...dinoStats.foundErrorTrue, ...govtStats.foundErrorTrue].filter(item => !!item.timeWriting).map(item => item.timeWriting);
+		const timesWritingFoundConclusionFalse = [...beefStats.foundConclusionFalse, ...dinoStats.foundConclusionFalse, ...govtStats.foundConclusionFalse].filter(item => !!item.timeWriting).map(item => item.timeWriting);
+		const timesWritingFoundConclusionTrue = [...beefStats.foundConclusionTrue, ...dinoStats.foundConclusionTrue, ...govtStats.foundConclusionTrue].filter(item => !!item.timeWriting).map(item => item.timeWriting);
+		
+		const timesWritingData = [
+			{
+				name: 'Found Writing Average',
+				'Did Not Find Writing': stats.mean(timesWritingFoundErrorFalse),
+				'Did Not Find WritingError': this.calcError([...beefStats.foundErrorFalse, ...dinoStats.foundErrorFalse, ...govtStats.foundErrorFalse].length) * (stats.mean(timesWritingFoundErrorFalse)),
+				'Found Writing': stats.mean(timesWritingFoundErrorTrue),
+				'Found WritingError': this.calcError([...beefStats.foundErrorTrue, ...dinoStats.foundErrorTrue, ...govtStats.foundErrorTrue].length) * (stats.mean(timesWritingFoundErrorTrue)),
+			},
+			{
+				name: 'Found Writing Median',
+				'Did Not Find Writing': stats.median(timesWritingFoundErrorFalse),
+				'Did Not Find WritingError': this.calcError([...beefStats.foundErrorFalse, ...dinoStats.foundErrorFalse, ...govtStats.foundErrorFalse].length) * (stats.median(timesWritingFoundErrorFalse)),
+				'Found Writing': stats.median(timesWritingFoundErrorTrue),
+				'Found WritingError': this.calcError([...beefStats.foundErrorTrue, ...dinoStats.foundErrorTrue, ...govtStats.foundErrorTrue].length) * (stats.median(timesWritingFoundErrorTrue)),
+			},
+			{
+				name: 'Found Conclusion Average',
+				'Did Not Find Writing': stats.mean(timesWritingFoundConclusionFalse),
+				'Did Not Find WritingError': this.calcError([...beefStats.foundConclusionFalse, ...dinoStats.foundConclusionFalse, ...govtStats.foundConclusionFalse].length) * (stats.mean(timesWritingFoundConclusionFalse)),
+				'Found Writing': stats.mean(timesWritingFoundConclusionTrue),
+				'Found WritingError': this.calcError([...beefStats.foundConclusionTrue, ...dinoStats.foundConclusionTrue, ...govtStats.foundConclusionTrue].length) * (stats.mean(timesWritingFoundConclusionTrue)),
+			},
+			{
+				name: 'Found Conclusion Median',
+				'Did Not Find Writing': stats.median(timesWritingFoundConclusionFalse),
+				'Did Not Find WritingError': this.calcError([...beefStats.foundConclusionFalse, ...dinoStats.foundConclusionFalse, ...govtStats.foundConclusionFalse].length) * (stats.median(timesWritingFoundConclusionFalse)),
+				'Found Writing': stats.median(timesWritingFoundConclusionTrue),
+				'Found WritingError': this.calcError([...beefStats.foundConclusionTrue, ...dinoStats.foundConclusionTrue, ...govtStats.foundConclusionTrue].length) * (stats.median(timesWritingFoundConclusionTrue)),
+			},
+		];
+
+		const renderResultTimesWriting = <AnalysisBarChart keys={['Did Not Find Writing', 'Found Writing']} data={timesWritingData} title={'Time Writing vs Result'} yaxisLabel={'Time (s)'} yDomain={[0, 600]} />;
+
+
+		const timesSubtractedFoundErrorFalse = timesFoundErrorFalse.map((item, index) => item - timesWritingFoundErrorFalse[index]);
+		const timesSubtractedFoundErrorTrue = timesFoundErrorTrue.map((item, index) => item - timesWritingFoundErrorTrue[index]);
+		const timesSubtractedFoundConclusionFalse = timesFoundConclusionFalse.map((item, index) => item - timesWritingFoundConclusionFalse[index]);
+		const timesSubtractedFoundConclusionTrue = timesFoundConclusionTrue.map((item, index) => item - timesWritingFoundConclusionTrue[index]);
+
+		const timesSubtractedData = [
+			{
+				name: 'Found Error Average',
+				'Did Not Find Reading': stats.mean(timesSubtractedFoundErrorFalse),
+				'Did Not Find ReadingError': this.calcError([...beefStats.foundErrorFalse, ...dinoStats.foundErrorFalse, ...govtStats.foundErrorFalse].length) * (stats.mean(timesSubtractedFoundErrorFalse)),
+				'Did Not Find Writing': stats.mean(timesWritingFoundErrorFalse),
+				'Did Not Find WritingError': this.calcError([...beefStats.foundErrorFalse, ...dinoStats.foundErrorFalse, ...govtStats.foundErrorFalse].length) * (stats.mean(timesWritingFoundErrorFalse)),
+				'Found Reading': stats.mean(timesSubtractedFoundErrorTrue),
+				'Found ReadingError': this.calcError([...beefStats.foundErrorTrue, ...dinoStats.foundErrorTrue, ...govtStats.foundErrorTrue].length) * (stats.mean(timesSubtractedFoundErrorTrue)),
+				'Found Writing': stats.mean(timesWritingFoundErrorTrue),
+				'Found WritingError': this.calcError([...beefStats.foundErrorTrue, ...dinoStats.foundErrorTrue, ...govtStats.foundErrorTrue].length) * (stats.mean(timesWritingFoundErrorTrue)),
+			},
+			{
+				name: 'Found Error Median',
+				'Did Not Find Reading': stats.median(timesSubtractedFoundErrorFalse),
+				'Did Not Find ReadingError': this.calcError([...beefStats.foundErrorFalse, ...dinoStats.foundErrorFalse, ...govtStats.foundErrorFalse].length) * (stats.median(timesSubtractedFoundErrorFalse)),
+				'Did Not Find Writing': stats.median(timesWritingFoundErrorFalse),
+				'Did Not Find WritingError': this.calcError([...beefStats.foundErrorFalse, ...dinoStats.foundErrorFalse, ...govtStats.foundErrorFalse].length) * (stats.median(timesWritingFoundErrorFalse)),
+				'Found Reading': stats.median(timesSubtractedFoundErrorTrue),
+				'Found ReadingError': this.calcError([...beefStats.foundErrorTrue, ...dinoStats.foundErrorTrue, ...govtStats.foundErrorTrue].length) * (stats.median(timesSubtractedFoundErrorTrue)),
+				'Found Writing': stats.median(timesWritingFoundErrorTrue),
+				'Found WritingError': this.calcError([...beefStats.foundErrorTrue, ...dinoStats.foundErrorTrue, ...govtStats.foundErrorTrue].length) * (stats.median(timesWritingFoundErrorTrue)),
+			},
+			{
+				name: 'Found Conclusion Average',
+				'Did Not Find Reading': stats.mean(timesSubtractedFoundConclusionFalse),
+				'Did Not Find ReadingError': this.calcError([...beefStats.foundConclusionFalse, ...dinoStats.foundConclusionFalse, ...govtStats.foundConclusionFalse].length) * (stats.mean(timesSubtractedFoundConclusionFalse)),
+				'Did Not Find Writing': stats.mean(timesWritingFoundConclusionFalse),
+				'Did Not Find WritingError': this.calcError([...beefStats.foundConclusionFalse, ...dinoStats.foundConclusionFalse, ...govtStats.foundConclusionFalse].length) * (stats.mean(timesWritingFoundConclusionFalse)),
+				'Found Reading': stats.mean(timesSubtractedFoundConclusionTrue),
+				'Found ReadingError': this.calcError([...beefStats.foundConclusionTrue, ...dinoStats.foundConclusionTrue, ...govtStats.foundConclusionTrue].length) * (stats.mean(timesSubtractedFoundConclusionTrue)),
+				'Found Writing': stats.mean(timesWritingFoundConclusionTrue),
+				'Found WritingError': this.calcError([...beefStats.foundConclusionTrue, ...dinoStats.foundConclusionTrue, ...govtStats.foundConclusionTrue].length) * (stats.mean(timesWritingFoundConclusionTrue)),
+			},
+			{
+				name: 'Found Conclusion Median',
+				'Did Not Find Reading': stats.median(timesSubtractedFoundConclusionFalse),
+				'Did Not Find ReadingError': this.calcError([...beefStats.foundConclusionFalse, ...dinoStats.foundConclusionFalse, ...govtStats.foundConclusionFalse].length) * (stats.median(timesSubtractedFoundConclusionFalse)),
+				'Did Not Find Writing': stats.median(timesWritingFoundConclusionFalse),
+				'Did Not Find WritingError': this.calcError([...beefStats.foundConclusionFalse, ...dinoStats.foundConclusionFalse, ...govtStats.foundConclusionFalse].length) * (stats.median(timesWritingFoundConclusionFalse)),
+				'Found Reading': stats.median(timesSubtractedFoundConclusionTrue),
+				'Found ReadingError': this.calcError([...beefStats.foundConclusionTrue, ...dinoStats.foundConclusionTrue, ...govtStats.foundConclusionTrue].length) * (stats.median(timesSubtractedFoundConclusionTrue)),
+				'Found Writing': stats.median(timesWritingFoundConclusionTrue),
+				'Found WritingError': this.calcError([...beefStats.foundConclusionTrue, ...dinoStats.foundConclusionTrue, ...govtStats.foundConclusionTrue].length) * (stats.median(timesWritingFoundConclusionTrue)),
+			},
+		];
+
+		const renderResultTimesStacked = <AnalysisStackedBarChart keys={['Did Not Find Writing', 'Did Not Find Reading', 'Found Writing', 'Found Reading']} data={timesSubtractedData} title={'Time Writing vs Result'} yaxisLabel={'Time (s)'} yDomain={[0, 600]} />;
+		const renderResultTimesUntacked = <AnalysisBarChart keys={['Did Not Find Reading', 'Found Reading', 'Did Not Find Writing', 'Found Writing']} data={timesSubtractedData} title={'Time Reading and Writing vs Result'} yaxisLabel={'Time (s)'} yDomain={[0, 600]} />;
 		
 		const t1 = performance.now();
 		console.log(`Calculations took ${t1 - t0}ms`);
@@ -640,10 +966,18 @@ export const Analysis = React.createClass({
 				<div style={styles.content}>A primary focus is to understand whether an interactive experiment leads users to more frequently find the principle error. We plot the percentage of users, for each experiment that found the error given that they 1) were presented a non-interactive experiment, 2) were presented an interactive experiment, 3) did not use the interactive figure (wether presented or not), 4) did use the interactive figure.</div>
 				{renderFoundError}
 
+				{renderFoundErrorUsed}
+
 				<div style={styles.header}>Found Conclusion</div>
 				<div style={styles.content}>A primary focus is to understand whether an interactive experiment leads users to more frequently find a correct alternative conclusion. We plot the percentage of users, for each experiment that found the error given that they 1) were presented a non-interactive experiment, 2) were presented an interactive experiment, 3) did not use the interactive figure (wether presented or not), 4) did use the interactive figure.</div>
 				{renderFoundConclusion}
+				{renderFoundConclusionUsed}
 				
+
+				<div style={styles.header}>Not Presented vs Not Used</div>
+				<div style={styles.content}>Want to determine if simply being presented the interactive element - though not using it has any impact</div>
+				{renderNotPresentedNotUsedFoundError}
+				{renderNotPresentedNotUsedFoundConclusion}
 
 				<div style={styles.header}>Scientific Training</div>
 				<div style={styles.content}>Another interpretation of interest is whether users who identify themselves as a scientist had a higher instance of detecting errors and finding alternative conclusions. The hopeful conclusion is that those who are scientifically trained are better suited to review such work.</div>
@@ -670,6 +1004,7 @@ export const Analysis = React.createClass({
 				<div style={styles.content}>One graph of interest displays the distribution of scores assigned to an experiment based on whether a user did or did not find an error or conclusion.</div>
 				{renderFoundErrorScores}
 				{renderFoundConclusionScores}
+
 				<div style={styles.content}>
 					<p>A couple possible interpretations:</p>
 					<ol>
@@ -683,6 +1018,8 @@ export const Analysis = React.createClass({
 					</ol>
 				</div>
 
+				{renderUsedInteractiveScores}
+
 				<div style={styles.header}>Time Analyses</div>
 				<div style={styles.content}>These graphs plot the relationship between time spent on the review and associated scores, error found percentages, conclusion found percentages, etc. One thing we want to be sure of is that the lack of found error and found conclusion events did not happen due to people simply rushing through and ignoring the work.</div>
 				{renderScoreTimes}
@@ -692,6 +1029,11 @@ export const Analysis = React.createClass({
 					<p>The longer time for spent by those who found an error or conclusion could have also been spent writing lenghtier reviews to report their finding.</p>
 				</div>
 
+				{renderResultTimesWriting}
+
+				{renderResultTimesStacked}
+				{renderResultTimesUntacked}
+
 				<div style={styles.header}>Margins of Error</div>
 				<div style={styles.content}>
 					<p>For the bar graphs, we calculate the margins of error with the following formula:</p>
@@ -699,6 +1041,13 @@ export const Analysis = React.createClass({
 					<p>We set our confidence interval to 95% which leads to a z-score of 1.96. We assume no prior judgement of the correct value of p, and therefore set it to 0.5. n is our sample size for the given data.</p>
 
 				</div>
+
+				<GraphPresentedVsNotPresented allData={allData} allFunctions={allFunctions} />
+				<GraphNotPresentedVsNotUsed allData={allData} allFunctions={allFunctions} />
+				<GraphUsedVsNotUsed allData={allData} allFunctions={allFunctions} />
+				<GraphScientists allData={allData} allFunctions={allFunctions} />
+				<GraphInterested allData={allData} allFunctions={allFunctions} />
+				
 
 			</div>
 		);
