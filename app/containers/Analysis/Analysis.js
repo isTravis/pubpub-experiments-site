@@ -9,6 +9,8 @@ import GraphNotPresentedVsNotUsed from './GraphNotPresentedVsNotUsed';
 import GraphUsedVsNotUsed from './GraphUsedVsNotUsed';
 import GraphScientists from './GraphScientists';
 import GraphInterested from './GraphInterested';
+import GraphHasBeenReviewed from './GraphHasBeenReviewed';
+import GraphHasReviewed from './GraphHasReviewed';
 
 let styles;
 
@@ -1047,7 +1049,8 @@ export const Analysis = React.createClass({
 				<GraphUsedVsNotUsed allData={allData} allFunctions={allFunctions} />
 				<GraphScientists allData={allData} allFunctions={allFunctions} />
 				<GraphInterested allData={allData} allFunctions={allFunctions} />
-				
+				<GraphHasBeenReviewed allData={allData} allFunctions={allFunctions} />
+				<GraphHasReviewed allData={allData} allFunctions={allFunctions} />
 
 			</div>
 		);
