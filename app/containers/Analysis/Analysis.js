@@ -779,6 +779,15 @@ export const Analysis = React.createClass({
 		const scoreCountsUsedInteractiveFalse = this.countScores([...beefStats.nonInteractiveAll, ...dinoStats.nonInteractiveAll, ...govtStats.nonInteractiveAll]);
 		const scoreCountsUsedInteractiveTrue = this.countScores([...beefStats.interactiveAll, ...dinoStats.interactiveAll, ...govtStats.interactiveAll]);
 		
+		console.log('median');
+		console.log(stats.median([...beefStats.nonInteractiveAll, ...dinoStats.nonInteractiveAll, ...govtStats.nonInteractiveAll].map(item=> item.reviewRating)));
+		console.log(stats.median([...beefStats.interactiveAll, ...dinoStats.interactiveAll, ...govtStats.interactiveAll].map(item=> item.reviewRating)));
+		console.log('mean');
+		console.log(stats.mean([...beefStats.nonInteractiveAll, ...dinoStats.nonInteractiveAll, ...govtStats.nonInteractiveAll].map(item=> item.reviewRating)));
+		console.log(stats.mean([...beefStats.interactiveAll, ...dinoStats.interactiveAll, ...govtStats.interactiveAll].map(item=> item.reviewRating)));
+		console.log('error')
+		console.log(this.calcError([...beefStats.nonInteractiveAll, ...dinoStats.nonInteractiveAll, ...govtStats.nonInteractiveAll].length));
+		console.log(this.calcError([...beefStats.interactiveAll, ...dinoStats.interactiveAll, ...govtStats.interactiveAll].length));
 		const usedInteractiveScores = scoreCountsUsedInteractiveFalse.map((item, index)=> {
 			return {
 				name: index,
