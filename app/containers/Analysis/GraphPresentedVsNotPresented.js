@@ -67,14 +67,14 @@ export const GraphPresentedVsNotPresented = React.createClass({
 				<table className={'table'}>
 					<tr className={'table-header'}>
 						<td />
-						<td>Non Interactive <br />All</td>
-						<td>Non Interactive <br />Found Error</td>
-						<td>Non Interactive <br />Found Conclusion</td>
-						<td>Interactive <br />All</td>
-						<td>Interactive <br />Found Error</td>
-						<td>Interactive <br />Found Conclusion</td>
-						<td>Found Error <br />p-value</td>
-						<td>Found Conclusion <br />p-value</td>
+						<td>Non Interactive <br /><i>All</i></td>
+						<td>Non Interactive <br /><i>Found Error</i></td>
+						<td>Non Interactive <br /><i>Found Conclusion</i></td>
+						<td>Interactive <br /><i>All</i></td>
+						<td>Interactive <br /><i>Found Error</i></td>
+						<td>Interactive <br /><i>Found Conclusion</i></td>
+						<td>Found Error <br /><i>p-value</i></td>
+						<td>Found Conclusion <br /><i>p-value</i></td>
 					</tr>
 					<tr>
 						<td>Beef</td>

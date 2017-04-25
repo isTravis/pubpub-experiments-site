@@ -68,14 +68,14 @@ export const GraphScientists = React.createClass({
 				<table className={'table'}>
 					<tr className={'table-header'}>
 						<td />
-						<td>Non-Scientist <br />All</td>
-						<td>Non-Scientist <br />Found Error</td>
-						<td>Non-Scientist <br />Found Conclusion</td>
-						<td>Scientist <br />All</td>
-						<td>Scientist <br />Found Error</td>
-						<td>Scientist <br />Found Conclusion</td>
-						<td>Found Error <br />p-value</td>
-						<td>Found Conclusion <br />p-value</td>
+						<td>Non-Scientist <br /><i>All</i></td>
+						<td>Non-Scientist <br /><i>Found Error</i></td>
+						<td>Non-Scientist <br /><i>Found Conclusion</i></td>
+						<td>Scientist <br /><i>All</i></td>
+						<td>Scientist <br /><i>Found Error</i></td>
+						<td>Scientist <br /><i>Found Conclusion</i></td>
+						<td>Found Error <br /><i>p-value</i></td>
+						<td>Found Conclusion <br /><i>p-value</i></td>
 					</tr>
 					<tr>
 						<td>Beef</td>

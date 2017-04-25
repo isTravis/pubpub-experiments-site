@@ -67,14 +67,14 @@ export const GraphHasReviewed = React.createClass({
 				<table className={'table'}>
 					<tr className={'table-header'}>
 						<td />
-						<td>Has Not Reviewed <br />All</td>
-						<td>Has Not Reviewed <br />Found Error</td>
-						<td>Has Not Reviewed <br />Found Conclusion</td>
-						<td>Has Reviewed <br />All</td>
-						<td>Has Reviewed <br />Found Error</td>
-						<td>Has Reviewed <br />Found Conclusion</td>
-						<td>Found Error <br />p-value</td>
-						<td>Found Conclusion <br />p-value</td>
+						<td>Has Not Reviewed <br /><i>All</i></td>
+						<td>Has Not Reviewed <br /><i>Found Error</i></td>
+						<td>Has Not Reviewed <br /><i>Found Conclusion</i></td>
+						<td>Has Reviewed <br /><i>All</i></td>
+						<td>Has Reviewed <br /><i>Found Error</i></td>
+						<td>Has Reviewed <br /><i>Found Conclusion</i></td>
+						<td>Found Error <br /><i>p-value</i></td>
+						<td>Found Conclusion <br /><i>p-value</i></td>
 					</tr>
 					<tr>
 						<td>Beef</td>

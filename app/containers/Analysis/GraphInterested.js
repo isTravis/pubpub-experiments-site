@@ -67,14 +67,14 @@ export const GraphInterested = React.createClass({
 				<table className={'table'}>
 					<tr className={'table-header'}>
 						<td />
-						<td>Non-Interested <br />All</td>
-						<td>Non-Interested <br />Found Error</td>
-						<td>Non-Interested <br />Found Conclusion</td>
-						<td>Interested <br />All</td>
-						<td>Interested <br />Found Error</td>
-						<td>Interested <br />Found Conclusion</td>
-						<td>Found Error <br />p-value</td>
-						<td>Found Conclusion <br />p-value</td>
+						<td>Non-Interested <br /><i>All</i></td>
+						<td>Non-Interested <br /><i>Found Error</i></td>
+						<td>Non-Interested <br /><i>Found Conclusion</i></td>
+						<td>Interested <br /><i>All</i></td>
+						<td>Interested <br /><i>Found Error</i></td>
+						<td>Interested <br /><i>Found Conclusion</i></td>
+						<td>Found Error <br /><i>p-value</i></td>
+						<td>Found Conclusion <br /><i>p-value</i></td>
 					</tr>
 					<tr>
 						<td>Beef</td>

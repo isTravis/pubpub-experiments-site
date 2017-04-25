@@ -637,7 +637,17 @@ table.table {
 }
 table.table tr.table-header td{
   text-align: left;
+  background-color: #F5F5F5;
+  font-size: 1em;
 }
 table.table tr td {
   text-align: center;
+  font-size: 1.1em;
+}
+
+table.table tr td:first-child {
+  text-align: left;
+  background-color: #F5F5F5;
+  padding-right: 1em;
+  font-size: 1em;
 }
