@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import AnalysisBarChart from './AnalysisBarChart';
+import chiTest from 'chi-squared-test';
 
 export const GraphPresentedVsNotPresented = React.createClass({
 	propTypes: {
@@ -60,8 +61,109 @@ export const GraphPresentedVsNotPresented = React.createClass({
 				'Used Interactive - Found ConclusionError': utils.calcError([...beefStats.interactiveAll, ...dinoStats.interactiveAll, ...govtStats.interactiveAll].length),
 			},
 		];
-
-		return <AnalysisBarChart keys={['Skipped Interactive - Found Error', 'Used Interactive - Found Error', 'Skipped Interactive - Found Conclusion', 'Used Interactive - Found Conclusion']} data={graphData} title={'Performance vs Use of Interactive Figure'} yaxisLabel={'Percent Users'} />;
+		
+		return (
+			<div>
+				<AnalysisBarChart keys={['Skipped Interactive - Found Error', 'Used Interactive - Found Error', 'Skipped Interactive - Found Conclusion', 'Used Interactive - Found Conclusion']} data={graphData} title={'Performance vs Use of Interactive Figure'} yaxisLabel={'Percent Users'} />
+				<table className={'table'}>
+					<tr className={'table-header'}>
+						<td />
+						<td>Skipped Interactive <br />All</td>
+						<td>Skipped Interactive <br />Found Error</td>
+						<td>Skipped Interactive <br />Found Conclusion</td>
+						<td>Used Interactive <br />All</td>
+						<td>Used Interactive <br />Found Error</td>
+						<td>Used Interactive <br />Found Conclusion</td>
+						<td>Found Error <br />p-value</td>
+						<td>Found Conclusion <br />p-value</td>
+					</tr>
+					<tr>
+						<td>Beef</td>
+						<td>{beefStats.nonInteractiveAll.length}</td>
+						<td>{beefStats.nonInteractiveFoundError.length}</td>
+						<td>{beefStats.nonInteractiveFoundConclusion.length}</td>
+						<td>{beefStats.interactiveAll.length}</td>
+						<td>{beefStats.interactiveFoundError.length}</td>
+						<td>{beefStats.interactiveFoundConclusion.length}</td>
+						<td>{utils.calculatePValue(
+							beefStats.nonInteractiveAll.length, 
+							beefStats.nonInteractiveFoundError.length, 
+							beefStats.interactiveAll.length, 
+							beefStats.interactiveFoundError.length)}
+						</td>
+						<td>{utils.calculatePValue(
+							beefStats.nonInteractiveAll.length, 
+							beefStats.nonInteractiveFoundConclusion.length, 
+							beefStats.interactiveAll.length, 
+							beefStats.interactiveFoundConclusion.length)}
+						</td>
+					</tr>
+					<tr>
+						<td>Dino</td>
+						<td>{dinoStats.nonInteractiveAll.length}</td>
+						<td>{dinoStats.nonInteractiveFoundError.length}</td>
+						<td>{dinoStats.nonInteractiveFoundConclusion.length}</td>
+						<td>{dinoStats.interactiveAll.length}</td>
+						<td>{dinoStats.interactiveFoundError.length}</td>
+						<td>{dinoStats.interactiveFoundConclusion.length}</td>
+						<td>{utils.calculatePValue(
+							dinoStats.nonInteractiveAll.length, 
+							dinoStats.nonInteractiveFoundError.length, 
+							dinoStats.interactiveAll.length, 
+							dinoStats.interactiveFoundError.length)}
+						</td>
+						<td>{utils.calculatePValue(
+							dinoStats.nonInteractiveAll.length, 
+							dinoStats.nonInteractiveFoundConclusion.length, 
+							dinoStats.interactiveAll.length, 
+							dinoStats.interactiveFoundConclusion.length)}
+						</td>
+					</tr>
+					<tr>
+						<td>Govt</td>
+						<td>{govtStats.nonInteractiveAll.length}</td>
+						<td>{govtStats.nonInteractiveFoundError.length}</td>
+						<td>{govtStats.nonInteractiveFoundConclusion.length}</td>
+						<td>{govtStats.interactiveAll.length}</td>
+						<td>{govtStats.interactiveFoundError.length}</td>
+						<td>{govtStats.interactiveFoundConclusion.length}</td>
+						<td>{utils.calculatePValue(
+							govtStats.nonInteractiveAll.length, 
+							govtStats.nonInteractiveFoundError.length, 
+							govtStats.interactiveAll.length, 
+							govtStats.interactiveFoundError.length)}
+						</td>
+						<td>{utils.calculatePValue(
+							govtStats.nonInteractiveAll.length, 
+							govtStats.nonInteractiveFoundConclusion.length, 
+							govtStats.interactiveAll.length, 
+							govtStats.interactiveFoundConclusion.length)}
+						</td>
+					</tr>
+					<tr>
+						<td>All</td>
+						<td>{[...beefStats.nonInteractiveAll, ...dinoStats.nonInteractiveAll, ...govtStats.nonInteractiveAll].length}</td>
+						<td>{[...beefStats.nonInteractiveFoundError, ...dinoStats.nonInteractiveFoundError, ...govtStats.nonInteractiveFoundError].length}</td>
+						<td>{[...beefStats.nonInteractiveFoundConclusion, ...dinoStats.nonInteractiveFoundConclusion, ...govtStats.nonInteractiveFoundConclusion].length}</td>
+						<td>{[...beefStats.interactiveAll, ...dinoStats.interactiveAll, ...govtStats.interactiveAll].length}</td>
+						<td>{[...beefStats.interactiveFoundError, ...dinoStats.interactiveFoundError, ...govtStats.interactiveFoundError].length}</td>
+						<td>{[...beefStats.interactiveFoundConclusion, ...dinoStats.interactiveFoundConclusion, ...govtStats.interactiveFoundConclusion].length}</td>
+						<td>{utils.calculatePValue(
+							[...beefStats.nonInteractiveAll, ...dinoStats.nonInteractiveAll, ...govtStats.nonInteractiveAll].length,
+							[...beefStats.nonInteractiveFoundError, ...dinoStats.nonInteractiveFoundError, ...govtStats.nonInteractiveFoundError].length, 
+							[...beefStats.interactiveAll, ...dinoStats.interactiveAll, ...govtStats.interactiveAll].length,
+							[...beefStats.interactiveFoundError, ...dinoStats.interactiveFoundError, ...govtStats.interactiveFoundError].length)}
+						</td>
+						<td>{utils.calculatePValue(
+							[...beefStats.nonInteractiveAll, ...dinoStats.nonInteractiveAll, ...govtStats.nonInteractiveAll].length,
+							[...beefStats.nonInteractiveFoundConclusion, ...dinoStats.nonInteractiveFoundConclusion, ...govtStats.nonInteractiveFoundConclusion].length,
+							[...beefStats.interactiveAll, ...dinoStats.interactiveAll, ...govtStats.interactiveAll].length,
+							[...beefStats.interactiveFoundConclusion, ...dinoStats.interactiveFoundConclusion, ...govtStats.interactiveFoundConclusion].length)}
+						</td>
+					</tr>
+				</table>
+			</div>
+		);
 		
 	}
 });

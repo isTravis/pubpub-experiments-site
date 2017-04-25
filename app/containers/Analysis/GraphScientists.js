@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import AnalysisBarChart from './AnalysisBarChart';
 
+
 export const GraphScientists = React.createClass({
 	propTypes: {
 		allData: PropTypes.object,
@@ -60,8 +61,109 @@ export const GraphScientists = React.createClass({
 				'Scientist - Found ConclusionError': utils.calcError([...beefStats.scientistAll, ...dinoStats.scientistAll, ...govtStats.scientistAll].length),
 			},
 		];
-
-		return <AnalysisBarChart keys={['Non-Scientist - Found Error', 'Scientist - Found Error', 'Non-Scientist - Found Conclusion', 'Scientist - Found Conclusion']} data={graphData} title={'Performance vs Scientific Training'} yaxisLabel={'Percent Users'} />;
+		
+		return (
+			<div>
+				<AnalysisBarChart keys={['Non-Scientist - Found Error', 'Scientist - Found Error', 'Non-Scientist - Found Conclusion', 'Scientist - Found Conclusion']} data={graphData} title={'Performance vs Scientific Training'} yaxisLabel={'Percent Users'} />		
+				<table className={'table'}>
+					<tr className={'table-header'}>
+						<td />
+						<td>Non-Scientist <br />All</td>
+						<td>Non-Scientist <br />Found Error</td>
+						<td>Non-Scientist <br />Found Conclusion</td>
+						<td>Scientist <br />All</td>
+						<td>Scientist <br />Found Error</td>
+						<td>Scientist <br />Found Conclusion</td>
+						<td>Found Error <br />p-value</td>
+						<td>Found Conclusion <br />p-value</td>
+					</tr>
+					<tr>
+						<td>Beef</td>
+						<td>{beefStats.nonScientistAll.length}</td>
+						<td>{beefStats.nonScientistFoundError.length}</td>
+						<td>{beefStats.nonScientistFoundConclusion.length}</td>
+						<td>{beefStats.scientistAll.length}</td>
+						<td>{beefStats.scientistFoundError.length}</td>
+						<td>{beefStats.scientistFoundConclusion.length}</td>
+						<td>{utils.calculatePValue(
+							beefStats.nonScientistAll.length, 
+							beefStats.nonScientistFoundError.length, 
+							beefStats.scientistAll.length, 
+							beefStats.scientistFoundError.length)}
+						</td>
+						<td>{utils.calculatePValue(
+							beefStats.nonScientistAll.length, 
+							beefStats.nonScientistFoundConclusion.length, 
+							beefStats.scientistAll.length, 
+							beefStats.scientistFoundConclusion.length)}
+						</td>
+					</tr>
+					<tr>
+						<td>Dino</td>
+						<td>{dinoStats.nonScientistAll.length}</td>
+						<td>{dinoStats.nonScientistFoundError.length}</td>
+						<td>{dinoStats.nonScientistFoundConclusion.length}</td>
+						<td>{dinoStats.scientistAll.length}</td>
+						<td>{dinoStats.scientistFoundError.length}</td>
+						<td>{dinoStats.scientistFoundConclusion.length}</td>
+						<td>{utils.calculatePValue(
+							dinoStats.nonScientistAll.length, 
+							dinoStats.nonScientistFoundError.length, 
+							dinoStats.scientistAll.length, 
+							dinoStats.scientistFoundError.length)}
+						</td>
+						<td>{utils.calculatePValue(
+							dinoStats.nonScientistAll.length, 
+							dinoStats.nonScientistFoundConclusion.length, 
+							dinoStats.scientistAll.length, 
+							dinoStats.scientistFoundConclusion.length)}
+						</td>
+					</tr>
+					<tr>
+						<td>Govt</td>
+						<td>{govtStats.nonScientistAll.length}</td>
+						<td>{govtStats.nonScientistFoundError.length}</td>
+						<td>{govtStats.nonScientistFoundConclusion.length}</td>
+						<td>{govtStats.scientistAll.length}</td>
+						<td>{govtStats.scientistFoundError.length}</td>
+						<td>{govtStats.scientistFoundConclusion.length}</td>
+						<td>{utils.calculatePValue(
+							govtStats.nonScientistAll.length, 
+							govtStats.nonScientistFoundError.length, 
+							govtStats.scientistAll.length, 
+							govtStats.scientistFoundError.length)}
+						</td>
+						<td>{utils.calculatePValue(
+							govtStats.nonScientistAll.length, 
+							govtStats.nonScientistFoundConclusion.length, 
+							govtStats.scientistAll.length, 
+							govtStats.scientistFoundConclusion.length)}
+						</td>
+					</tr>
+					<tr>
+						<td>All</td>
+						<td>{[...beefStats.nonScientistAll, ...dinoStats.nonScientistAll, ...govtStats.nonScientistAll].length}</td>
+						<td>{[...beefStats.nonScientistFoundError, ...dinoStats.nonScientistFoundError, ...govtStats.nonScientistFoundError].length}</td>
+						<td>{[...beefStats.nonScientistFoundConclusion, ...dinoStats.nonScientistFoundConclusion, ...govtStats.nonScientistFoundConclusion].length}</td>
+						<td>{[...beefStats.scientistAll, ...dinoStats.scientistAll, ...govtStats.scientistAll].length}</td>
+						<td>{[...beefStats.scientistFoundError, ...dinoStats.scientistFoundError, ...govtStats.scientistFoundError].length}</td>
+						<td>{[...beefStats.scientistFoundConclusion, ...dinoStats.scientistFoundConclusion, ...govtStats.scientistFoundConclusion].length}</td>
+						<td>{utils.calculatePValue(
+							[...beefStats.nonScientistAll, ...dinoStats.nonScientistAll, ...govtStats.nonScientistAll].length,
+							[...beefStats.nonScientistFoundError, ...dinoStats.nonScientistFoundError, ...govtStats.nonScientistFoundError].length, 
+							[...beefStats.scientistAll, ...dinoStats.scientistAll, ...govtStats.scientistAll].length,
+							[...beefStats.scientistFoundError, ...dinoStats.scientistFoundError, ...govtStats.scientistFoundError].length)}
+						</td>
+						<td>{utils.calculatePValue(
+							[...beefStats.nonScientistAll, ...dinoStats.nonScientistAll, ...govtStats.nonScientistAll].length,
+							[...beefStats.nonScientistFoundConclusion, ...dinoStats.nonScientistFoundConclusion, ...govtStats.nonScientistFoundConclusion].length,
+							[...beefStats.scientistAll, ...dinoStats.scientistAll, ...govtStats.scientistAll].length,
+							[...beefStats.scientistFoundConclusion, ...dinoStats.scientistFoundConclusion, ...govtStats.scientistFoundConclusion].length)}
+						</td>
+					</tr>
+				</table>
+			</div>
+		);
 		
 	}
 });

@@ -631,3 +631,13 @@ table tr {
   position: relative;
   border-color: #4078c0;
 }
+
+table.table {
+  width: 100%;
+}
+table.table tr.table-header td{
+  text-align: left;
+}
+table.table tr td {
+  text-align: center;
+}

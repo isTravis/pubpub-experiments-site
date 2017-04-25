@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@blueprintjs/core": "^1.7.0",
+    "ab-test-confidence": "^1.0.0",
     "babel-core": "^6.13.2",
     "babel-eslint": "^6.1.2",
     "babel-loader": "^6.2.5",
@@ -30,6 +31,7 @@
     "babel-preset-stage-0": "^6.5.0",
     "bourbon": "^4.3.1",
     "chai": "^3.5.0",
+    "chi-squared-test": "^1.1.0",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.25.0",
     "dateformat": "^1.0.12",
@@ -51,6 +53,7 @@
     "http-proxy": "^1.14.0",
     "immutable": "^3.8.1",
     "isomorphic-fetch": "^2.2.1",
+    "jStat": "^1.5.3",
     "json-loader": "^0.5.4",
     "mkdirp": "^0.5.1",
     "mocha": "^3.1.2",
@@ -80,6 +83,7 @@
     "stats-lite": "^2.0.4",
     "style-loader": "^0.13.1",
     "testdom": "^2.0.0",
+    "ttest": "^1.1.0",
     "url-loader": "^0.5.7",
     "webpack": "^2.1.0-beta.25",
     "webpack-dev-middleware": "^1.6.1",
@@ -87,5 +91,6 @@
   },
   "engines": {
     "node": "6.1.0"
-  }
+  },
+  "devDependencies": {}
 }

@@ -61,8 +61,108 @@ export const GraphHasReviewed = React.createClass({
 			},
 		];
 
-		return <AnalysisBarChart keys={['Has Not Reviewed - Found Error', 'Has Reviewed - Found Error', 'Has Not Reviewed - Found Conclusion', 'Has Reviewed - Found Conclusion']} data={graphData} title={'Performance vs Has Peer Reviewed'} yaxisLabel={'Percent Users'} />;
-		
+		return (
+			<div>
+				<AnalysisBarChart keys={['Has Not Reviewed - Found Error', 'Has Reviewed - Found Error', 'Has Not Reviewed - Found Conclusion', 'Has Reviewed - Found Conclusion']} data={graphData} title={'Performance vs Has Peer Reviewed'} yaxisLabel={'Percent Users'} />
+				<table className={'table'}>
+					<tr className={'table-header'}>
+						<td />
+						<td>Has Not Reviewed <br />All</td>
+						<td>Has Not Reviewed <br />Found Error</td>
+						<td>Has Not Reviewed <br />Found Conclusion</td>
+						<td>Has Reviewed <br />All</td>
+						<td>Has Reviewed <br />Found Error</td>
+						<td>Has Reviewed <br />Found Conclusion</td>
+						<td>Found Error <br />p-value</td>
+						<td>Found Conclusion <br />p-value</td>
+					</tr>
+					<tr>
+						<td>Beef</td>
+						<td>{beefStats.hasNotReviewedAll.length}</td>
+						<td>{beefStats.hasNotReviewedFoundError.length}</td>
+						<td>{beefStats.hasNotReviewedFoundConclusion.length}</td>
+						<td>{beefStats.hasReviewedAll.length}</td>
+						<td>{beefStats.hasReviewedFoundError.length}</td>
+						<td>{beefStats.hasReviewedFoundConclusion.length}</td>
+						<td>{utils.calculatePValue(
+							beefStats.hasNotReviewedAll.length, 
+							beefStats.hasNotReviewedFoundError.length, 
+							beefStats.hasReviewedAll.length, 
+							beefStats.hasReviewedFoundError.length)}
+						</td>
+						<td>{utils.calculatePValue(
+							beefStats.hasNotReviewedAll.length, 
+							beefStats.hasNotReviewedFoundConclusion.length, 
+							beefStats.hasReviewedAll.length, 
+							beefStats.hasReviewedFoundConclusion.length)}
+						</td>
+					</tr>
+					<tr>
+						<td>Dino</td>
+						<td>{dinoStats.hasNotReviewedAll.length}</td>
+						<td>{dinoStats.hasNotReviewedFoundError.length}</td>
+						<td>{dinoStats.hasNotReviewedFoundConclusion.length}</td>
+						<td>{dinoStats.hasReviewedAll.length}</td>
+						<td>{dinoStats.hasReviewedFoundError.length}</td>
+						<td>{dinoStats.hasReviewedFoundConclusion.length}</td>
+						<td>{utils.calculatePValue(
+							dinoStats.hasNotReviewedAll.length, 
+							dinoStats.hasNotReviewedFoundError.length, 
+							dinoStats.hasReviewedAll.length, 
+							dinoStats.hasReviewedFoundError.length)}
+						</td>
+						<td>{utils.calculatePValue(
+							dinoStats.hasNotReviewedAll.length, 
+							dinoStats.hasNotReviewedFoundConclusion.length, 
+							dinoStats.hasReviewedAll.length, 
+							dinoStats.hasReviewedFoundConclusion.length)}
+						</td>
+					</tr>
+					<tr>
+						<td>Govt</td>
+						<td>{govtStats.hasNotReviewedAll.length}</td>
+						<td>{govtStats.hasNotReviewedFoundError.length}</td>
+						<td>{govtStats.hasNotReviewedFoundConclusion.length}</td>
+						<td>{govtStats.hasReviewedAll.length}</td>
+						<td>{govtStats.hasReviewedFoundError.length}</td>
+						<td>{govtStats.hasReviewedFoundConclusion.length}</td>
+						<td>{utils.calculatePValue(
+							govtStats.hasNotReviewedAll.length, 
+							govtStats.hasNotReviewedFoundError.length, 
+							govtStats.hasReviewedAll.length, 
+							govtStats.hasReviewedFoundError.length)}
+						</td>
+						<td>{utils.calculatePValue(
+							govtStats.hasNotReviewedAll.length, 
+							govtStats.hasNotReviewedFoundConclusion.length, 
+							govtStats.hasReviewedAll.length, 
+							govtStats.hasReviewedFoundConclusion.length)}
+						</td>
+					</tr>
+					<tr>
+						<td>All</td>
+						<td>{[...beefStats.hasNotReviewedAll, ...dinoStats.hasNotReviewedAll, ...govtStats.hasNotReviewedAll].length}</td>
+						<td>{[...beefStats.hasNotReviewedFoundError, ...dinoStats.hasNotReviewedFoundError, ...govtStats.hasNotReviewedFoundError].length}</td>
+						<td>{[...beefStats.hasNotReviewedFoundConclusion, ...dinoStats.hasNotReviewedFoundConclusion, ...govtStats.hasNotReviewedFoundConclusion].length}</td>
+						<td>{[...beefStats.hasReviewedAll, ...dinoStats.hasReviewedAll, ...govtStats.hasReviewedAll].length}</td>
+						<td>{[...beefStats.hasReviewedFoundError, ...dinoStats.hasReviewedFoundError, ...govtStats.hasReviewedFoundError].length}</td>
+						<td>{[...beefStats.hasReviewedFoundConclusion, ...dinoStats.hasReviewedFoundConclusion, ...govtStats.hasReviewedFoundConclusion].length}</td>
+						<td>{utils.calculatePValue(
+							[...beefStats.hasNotReviewedAll, ...dinoStats.hasNotReviewedAll, ...govtStats.hasNotReviewedAll].length,
+							[...beefStats.hasNotReviewedFoundError, ...dinoStats.hasNotReviewedFoundError, ...govtStats.hasNotReviewedFoundError].length, 
+							[...beefStats.hasReviewedAll, ...dinoStats.hasReviewedAll, ...govtStats.hasReviewedAll].length,
+							[...beefStats.hasReviewedFoundError, ...dinoStats.hasReviewedFoundError, ...govtStats.hasReviewedFoundError].length)}
+						</td>
+						<td>{utils.calculatePValue(
+							[...beefStats.hasNotReviewedAll, ...dinoStats.hasNotReviewedAll, ...govtStats.hasNotReviewedAll].length,
+							[...beefStats.hasNotReviewedFoundConclusion, ...dinoStats.hasNotReviewedFoundConclusion, ...govtStats.hasNotReviewedFoundConclusion].length,
+							[...beefStats.hasReviewedAll, ...dinoStats.hasReviewedAll, ...govtStats.hasReviewedAll].length,
+							[...beefStats.hasReviewedFoundConclusion, ...dinoStats.hasReviewedFoundConclusion, ...govtStats.hasReviewedFoundConclusion].length)}
+						</td>
+					</tr>
+				</table>
+			</div>
+		);
 	}
 });
 

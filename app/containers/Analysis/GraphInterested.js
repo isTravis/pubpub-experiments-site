@@ -60,9 +60,109 @@ export const GraphInterested = React.createClass({
 				'Interested - Found ConclusionError': utils.calcError([...beefStats.interestedAll, ...dinoStats.interestedAll, ...govtStats.interestedAll].length),
 			},
 		];
-
-		return <AnalysisBarChart keys={['Non-Interested - Found Error', 'Interested - Found Error', 'Non-Interested - Found Conclusion', 'Interested - Found Conclusion']} data={graphData} title={'Performance vs Interest in Topic'} yaxisLabel={'Percent Users'} />;
 		
+		return (
+			<div>
+				<AnalysisBarChart keys={['Non-Interested - Found Error', 'Interested - Found Error', 'Non-Interested - Found Conclusion', 'Interested - Found Conclusion']} data={graphData} title={'Performance vs Interest in Topic'} yaxisLabel={'Percent Users'} />
+				<table className={'table'}>
+					<tr className={'table-header'}>
+						<td />
+						<td>Non-Interested <br />All</td>
+						<td>Non-Interested <br />Found Error</td>
+						<td>Non-Interested <br />Found Conclusion</td>
+						<td>Interested <br />All</td>
+						<td>Interested <br />Found Error</td>
+						<td>Interested <br />Found Conclusion</td>
+						<td>Found Error <br />p-value</td>
+						<td>Found Conclusion <br />p-value</td>
+					</tr>
+					<tr>
+						<td>Beef</td>
+						<td>{beefStats.nonInterestedAll.length}</td>
+						<td>{beefStats.nonInterestedFoundError.length}</td>
+						<td>{beefStats.nonInterestedFoundConclusion.length}</td>
+						<td>{beefStats.interestedAll.length}</td>
+						<td>{beefStats.interestedFoundError.length}</td>
+						<td>{beefStats.interestedFoundConclusion.length}</td>
+						<td>{utils.calculatePValue(
+							beefStats.nonInterestedAll.length, 
+							beefStats.nonInterestedFoundError.length, 
+							beefStats.interestedAll.length, 
+							beefStats.interestedFoundError.length)}
+						</td>
+						<td>{utils.calculatePValue(
+							beefStats.nonInterestedAll.length, 
+							beefStats.nonInterestedFoundConclusion.length, 
+							beefStats.interestedAll.length, 
+							beefStats.interestedFoundConclusion.length)}
+						</td>
+					</tr>
+					<tr>
+						<td>Dino</td>
+						<td>{dinoStats.nonInterestedAll.length}</td>
+						<td>{dinoStats.nonInterestedFoundError.length}</td>
+						<td>{dinoStats.nonInterestedFoundConclusion.length}</td>
+						<td>{dinoStats.interestedAll.length}</td>
+						<td>{dinoStats.interestedFoundError.length}</td>
+						<td>{dinoStats.interestedFoundConclusion.length}</td>
+						<td>{utils.calculatePValue(
+							dinoStats.nonInterestedAll.length, 
+							dinoStats.nonInterestedFoundError.length, 
+							dinoStats.interestedAll.length, 
+							dinoStats.interestedFoundError.length)}
+						</td>
+						<td>{utils.calculatePValue(
+							dinoStats.nonInterestedAll.length, 
+							dinoStats.nonInterestedFoundConclusion.length, 
+							dinoStats.interestedAll.length, 
+							dinoStats.interestedFoundConclusion.length)}
+						</td>
+					</tr>
+					<tr>
+						<td>Govt</td>
+						<td>{govtStats.nonInterestedAll.length}</td>
+						<td>{govtStats.nonInterestedFoundError.length}</td>
+						<td>{govtStats.nonInterestedFoundConclusion.length}</td>
+						<td>{govtStats.interestedAll.length}</td>
+						<td>{govtStats.interestedFoundError.length}</td>
+						<td>{govtStats.interestedFoundConclusion.length}</td>
+						<td>{utils.calculatePValue(
+							govtStats.nonInterestedAll.length, 
+							govtStats.nonInterestedFoundError.length, 
+							govtStats.interestedAll.length, 
+							govtStats.interestedFoundError.length)}
+						</td>
+						<td>{utils.calculatePValue(
+							govtStats.nonInterestedAll.length, 
+							govtStats.nonInterestedFoundConclusion.length, 
+							govtStats.interestedAll.length, 
+							govtStats.interestedFoundConclusion.length)}
+						</td>
+					</tr>
+					<tr>
+						<td>All</td>
+						<td>{[...beefStats.nonInterestedAll, ...dinoStats.nonInterestedAll, ...govtStats.nonInterestedAll].length}</td>
+						<td>{[...beefStats.nonInterestedFoundError, ...dinoStats.nonInterestedFoundError, ...govtStats.nonInterestedFoundError].length}</td>
+						<td>{[...beefStats.nonInterestedFoundConclusion, ...dinoStats.nonInterestedFoundConclusion, ...govtStats.nonInterestedFoundConclusion].length}</td>
+						<td>{[...beefStats.interestedAll, ...dinoStats.interestedAll, ...govtStats.interestedAll].length}</td>
+						<td>{[...beefStats.interestedFoundError, ...dinoStats.interestedFoundError, ...govtStats.interestedFoundError].length}</td>
+						<td>{[...beefStats.interestedFoundConclusion, ...dinoStats.interestedFoundConclusion, ...govtStats.interestedFoundConclusion].length}</td>
+						<td>{utils.calculatePValue(
+							[...beefStats.nonInterestedAll, ...dinoStats.nonInterestedAll, ...govtStats.nonInterestedAll].length,
+							[...beefStats.nonInterestedFoundError, ...dinoStats.nonInterestedFoundError, ...govtStats.nonInterestedFoundError].length, 
+							[...beefStats.interestedAll, ...dinoStats.interestedAll, ...govtStats.interestedAll].length,
+							[...beefStats.interestedFoundError, ...dinoStats.interestedFoundError, ...govtStats.interestedFoundError].length)}
+						</td>
+						<td>{utils.calculatePValue(
+							[...beefStats.nonInterestedAll, ...dinoStats.nonInterestedAll, ...govtStats.nonInterestedAll].length,
+							[...beefStats.nonInterestedFoundConclusion, ...dinoStats.nonInterestedFoundConclusion, ...govtStats.nonInterestedFoundConclusion].length,
+							[...beefStats.interestedAll, ...dinoStats.interestedAll, ...govtStats.interestedAll].length,
+							[...beefStats.interestedFoundConclusion, ...dinoStats.interestedFoundConclusion, ...govtStats.interestedFoundConclusion].length)}
+						</td>
+					</tr>
+				</table>
+			</div>
+		);
 	}
 });
 

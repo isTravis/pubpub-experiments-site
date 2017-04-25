@@ -1,6 +1,9 @@
 import React from 'react';
 import Radium from 'radium';
 import stats from 'stats-lite';
+import { jStat } from 'jStat';
+import ttest from 'ttest';
+import abTestConfidence from 'ab-test-confidence';
 import AnalysisBarChart from './AnalysisBarChart';
 import AnalysisAreaChart from './AnalysisAreaChart';
 import AnalysisStackedBarChart from './AnalysisStackedBarChart';
@@ -131,6 +134,12 @@ export const Analysis = React.createClass({
 		return results;
 	},
 
+	extractScores: function(array) {
+		return array.map((item)=> {
+			return item.reviewRating;
+		});
+	},
+
 	countScores: function(data) {
 		const scores = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 		// const scores = [0, 0, 0];
@@ -162,6 +171,17 @@ export const Analysis = React.createClass({
 	calcError: function(nCount) {
 		return 1.96 * Math.sqrt((0.5 * (1 - 0.5)) / nCount);
 	},
+
+	calculatePValue: function(groupATotal, groupAActive, groupBTotal, groupBActive) {
+		const zScore = abTestConfidence.zScore(
+			{ visitors: groupATotal, conversions: groupAActive }, 
+			{ visitors: groupBTotal, conversions: groupBActive }
+		);
+		const pVal = jStat.ztest(zScore, 1);
+		if (pVal <= 0.05) { return <b>{pVal.toFixed(4)}</b>; }
+		return pVal.toFixed(4);
+	},
+
 	render() {
 		const t0 = performance.now();
 		const beefStats = this.analyzeCounts(beefData);
@@ -179,6 +199,7 @@ export const Analysis = React.createClass({
 			calcError: this.calcError,
 			countScores: this.countScores,
 			countScoreTimes: this.countScoreTimes,
+			calculatePValue: this.calculatePValue,
 		};
 
 		const renderCounts = (
@@ -759,7 +780,7 @@ export const Analysis = React.createClass({
 			};
 		});
 		const renderFoundErrorScores = <AnalysisAreaChart keys={['Did Not Find Error', 'Found Error']} data={foundErrorScores} title={'Score Distribution when Finding Error'} yaxisLabel={'Percentage Assigning Score'} />;
-
+		const foundErrorScoresPVal = ttest(this.extractScores([...beefStats.foundErrorFalse, ...dinoStats.foundErrorFalse, ...govtStats.foundErrorFalse]), this.extractScores([...beefStats.foundErrorTrue, ...dinoStats.foundErrorTrue, ...govtStats.foundErrorTrue])).pValue();
 
 		const scoreCountsFoundConclusionFalse = this.countScores([...beefStats.foundConclusionFalse, ...dinoStats.foundConclusionFalse, ...govtStats.foundConclusionFalse]);
 		const scoreCountsFoundConclusionTrue = this.countScores([...beefStats.foundConclusionTrue, ...dinoStats.foundConclusionTrue, ...govtStats.foundConclusionTrue]);
@@ -771,6 +792,7 @@ export const Analysis = React.createClass({
 			};
 		});
 		const renderFoundConclusionScores = <AnalysisAreaChart keys={['Did Not Find Conclusion', 'Found Conclusion']} data={foundConclusionScores} title={'Score Distribution when Finding Conclusion'} yaxisLabel={'Percentage Assigning Score'} />;
+		const foundConclusionScoresPVal = ttest(this.extractScores([...beefStats.foundConclusionFalse, ...dinoStats.foundConclusionFalse, ...govtStats.foundConclusionFalse]), this.extractScores([...beefStats.foundConclusionTrue, ...dinoStats.foundConclusionTrue, ...govtStats.foundConclusionTrue])).pValue();
 		/* --------- */
 
 
@@ -779,15 +801,15 @@ export const Analysis = React.createClass({
 		const scoreCountsUsedInteractiveFalse = this.countScores([...beefStats.nonInteractiveAll, ...dinoStats.nonInteractiveAll, ...govtStats.nonInteractiveAll]);
 		const scoreCountsUsedInteractiveTrue = this.countScores([...beefStats.interactiveAll, ...dinoStats.interactiveAll, ...govtStats.interactiveAll]);
 		
-		console.log('median');
-		console.log(stats.median([...beefStats.nonInteractiveAll, ...dinoStats.nonInteractiveAll, ...govtStats.nonInteractiveAll].map(item=> item.reviewRating)));
-		console.log(stats.median([...beefStats.interactiveAll, ...dinoStats.interactiveAll, ...govtStats.interactiveAll].map(item=> item.reviewRating)));
-		console.log('mean');
-		console.log(stats.mean([...beefStats.nonInteractiveAll, ...dinoStats.nonInteractiveAll, ...govtStats.nonInteractiveAll].map(item=> item.reviewRating)));
-		console.log(stats.mean([...beefStats.interactiveAll, ...dinoStats.interactiveAll, ...govtStats.interactiveAll].map(item=> item.reviewRating)));
-		console.log('error')
-		console.log(this.calcError([...beefStats.nonInteractiveAll, ...dinoStats.nonInteractiveAll, ...govtStats.nonInteractiveAll].length));
-		console.log(this.calcError([...beefStats.interactiveAll, ...dinoStats.interactiveAll, ...govtStats.interactiveAll].length));
+		// console.log('median');
+		// console.log(stats.median([...beefStats.nonInteractiveAll, ...dinoStats.nonInteractiveAll, ...govtStats.nonInteractiveAll].map(item=> item.reviewRating)));
+		// console.log(stats.median([...beefStats.interactiveAll, ...dinoStats.interactiveAll, ...govtStats.interactiveAll].map(item=> item.reviewRating)));
+		// console.log('mean');
+		// console.log(stats.mean([...beefStats.nonInteractiveAll, ...dinoStats.nonInteractiveAll, ...govtStats.nonInteractiveAll].map(item=> item.reviewRating)));
+		// console.log(stats.mean([...beefStats.interactiveAll, ...dinoStats.interactiveAll, ...govtStats.interactiveAll].map(item=> item.reviewRating)));
+		// console.log('error')
+		// console.log(this.calcError([...beefStats.nonInteractiveAll, ...dinoStats.nonInteractiveAll, ...govtStats.nonInteractiveAll].length));
+		// console.log(this.calcError([...beefStats.interactiveAll, ...dinoStats.interactiveAll, ...govtStats.interactiveAll].length));
 		const usedInteractiveScores = scoreCountsUsedInteractiveFalse.map((item, index)=> {
 			return {
 				name: index,
@@ -797,6 +819,8 @@ export const Analysis = React.createClass({
 			};
 		});
 		const renderUsedInteractiveScores = <AnalysisAreaChart keys={['Did Not Use Interactive', 'Used Interactive']} data={usedInteractiveScores} title={'Score Distribution vs Interactivity'} yaxisLabel={'Percentage Assigning Score'} />;
+		const usedInteractivityPVal = ttest(this.extractScores([...beefStats.nonInteractiveAll, ...dinoStats.nonInteractiveAll, ...govtStats.nonInteractiveAll]), this.extractScores([...beefStats.interactiveAll, ...dinoStats.interactiveAll, ...govtStats.interactiveAll])).pValue();
+
 		/* --------- */
 		/* --------- */
 
@@ -823,10 +847,10 @@ export const Analysis = React.createClass({
 		// const scoreCountTimesFoundConclusionFalse = this.countScoreTimes([...beefStats.foundConclusionFalse, ...dinoStats.foundConclusionFalse, ...govtStats.foundConclusionFalse]);
 		// const scoreCountsFoundConclusionFalse = this.countScores([...beefStats.foundConclusionFalse, ...dinoStats.foundConclusionFalse, ...govtStats.foundConclusionFalse]);
 
-		const timesFoundErrorFalse = [...beefStats.foundErrorFalse, ...dinoStats.foundErrorFalse, ...govtStats.foundErrorFalse].filter(item => !!item.timeWriting).map(item => item.timeOnReview);
-		const timesFoundErrorTrue = [...beefStats.foundErrorTrue, ...dinoStats.foundErrorTrue, ...govtStats.foundErrorTrue].filter(item => !!item.timeWriting).map(item => item.timeOnReview);
-		const timesFoundConclusionFalse = [...beefStats.foundConclusionFalse, ...dinoStats.foundConclusionFalse, ...govtStats.foundConclusionFalse].filter(item => !!item.timeWriting).map(item => item.timeOnReview);
-		const timesFoundConclusionTrue = [...beefStats.foundConclusionTrue, ...dinoStats.foundConclusionTrue, ...govtStats.foundConclusionTrue].filter(item => !!item.timeWriting).map(item => item.timeOnReview);
+		const timesFoundErrorFalse = [...beefStats.foundErrorFalse, ...dinoStats.foundErrorFalse, ...govtStats.foundErrorFalse].filter(item => !!item.timeWriting).map(item => Number(item.timeOnReview));
+		const timesFoundErrorTrue = [...beefStats.foundErrorTrue, ...dinoStats.foundErrorTrue, ...govtStats.foundErrorTrue].filter(item => !!item.timeWriting).map(item => Number(item.timeOnReview));
+		const timesFoundConclusionFalse = [...beefStats.foundConclusionFalse, ...dinoStats.foundConclusionFalse, ...govtStats.foundConclusionFalse].filter(item => !!item.timeWriting).map(item => Number(item.timeOnReview));
+		const timesFoundConclusionTrue = [...beefStats.foundConclusionTrue, ...dinoStats.foundConclusionTrue, ...govtStats.foundConclusionTrue].filter(item => !!item.timeWriting).map(item => Number(item.timeOnReview));
 		
 		const timesData = [
 			{
@@ -860,11 +884,13 @@ export const Analysis = React.createClass({
 		];
 
 		const renderResultTimes = <AnalysisBarChart keys={['Did Not Find Error', 'Found Error']} data={timesData} title={'Time vs Result'} yaxisLabel={'Time (s)'} yDomain={[0, 600]}/>;
+		const resultTimesErrorPVal = ttest(timesFoundErrorFalse, timesFoundErrorTrue).pValue();
+		const resultTimesConclusionPVal = ttest(timesFoundConclusionFalse, timesFoundConclusionTrue).pValue();
 
-		const timesWritingFoundErrorFalse = [...beefStats.foundErrorFalse, ...dinoStats.foundErrorFalse, ...govtStats.foundErrorFalse].filter(item => !!item.timeWriting).map(item => item.timeWriting);
-		const timesWritingFoundErrorTrue = [...beefStats.foundErrorTrue, ...dinoStats.foundErrorTrue, ...govtStats.foundErrorTrue].filter(item => !!item.timeWriting).map(item => item.timeWriting);
-		const timesWritingFoundConclusionFalse = [...beefStats.foundConclusionFalse, ...dinoStats.foundConclusionFalse, ...govtStats.foundConclusionFalse].filter(item => !!item.timeWriting).map(item => item.timeWriting);
-		const timesWritingFoundConclusionTrue = [...beefStats.foundConclusionTrue, ...dinoStats.foundConclusionTrue, ...govtStats.foundConclusionTrue].filter(item => !!item.timeWriting).map(item => item.timeWriting);
+		const timesWritingFoundErrorFalse = [...beefStats.foundErrorFalse, ...dinoStats.foundErrorFalse, ...govtStats.foundErrorFalse].filter(item => !!item.timeWriting).map(item => Number(item.timeWriting));
+		const timesWritingFoundErrorTrue = [...beefStats.foundErrorTrue, ...dinoStats.foundErrorTrue, ...govtStats.foundErrorTrue].filter(item => !!item.timeWriting).map(item => Number(item.timeWriting));
+		const timesWritingFoundConclusionFalse = [...beefStats.foundConclusionFalse, ...dinoStats.foundConclusionFalse, ...govtStats.foundConclusionFalse].filter(item => !!item.timeWriting).map(item => Number(item.timeWriting));
+		const timesWritingFoundConclusionTrue = [...beefStats.foundConclusionTrue, ...dinoStats.foundConclusionTrue, ...govtStats.foundConclusionTrue].filter(item => !!item.timeWriting).map(item => Number(item.timeWriting));
 		
 		const timesWritingData = [
 			{
@@ -898,7 +924,6 @@ export const Analysis = React.createClass({
 		];
 
 		const renderResultTimesWriting = <AnalysisBarChart keys={['Did Not Find Writing', 'Found Writing']} data={timesWritingData} title={'Time Writing vs Result'} yaxisLabel={'Time (s)'} yDomain={[0, 600]} />;
-
 
 		const timesSubtractedFoundErrorFalse = timesFoundErrorFalse.map((item, index) => item - timesWritingFoundErrorFalse[index]);
 		const timesSubtractedFoundErrorTrue = timesFoundErrorTrue.map((item, index) => item - timesWritingFoundErrorTrue[index]);
@@ -955,6 +980,25 @@ export const Analysis = React.createClass({
 		const renderResultTimesStacked = <AnalysisStackedBarChart keys={['Did Not Find Writing', 'Did Not Find Reading', 'Found Writing', 'Found Reading']} data={timesSubtractedData} title={'Time Writing vs Result'} yaxisLabel={'Time (s)'} yDomain={[0, 600]} />;
 		const renderResultTimesUntacked = <AnalysisBarChart keys={['Did Not Find Reading', 'Found Reading', 'Did Not Find Writing', 'Found Writing']} data={timesSubtractedData} title={'Time Reading and Writing vs Result'} yaxisLabel={'Time (s)'} yDomain={[0, 600]} />;
 		
+		// console.log('Min max for error');
+		// console.log(Math.min.apply(Math, timesSubtractedFoundErrorFalse), Math.max.apply(Math, timesSubtractedFoundErrorFalse));
+		// console.log(Math.min.apply(Math, timesSubtractedFoundErrorTrue), Math.max.apply(Math, timesSubtractedFoundErrorTrue));
+		// console.log('Min max for conclusion true');
+		// console.log(Math.min.apply(Math, timesSubtractedFoundConclusionFalse), Math.max.apply(Math, timesSubtractedFoundConclusionFalse));
+		// console.log(Math.min.apply(Math, timesSubtractedFoundConclusionTrue), Math.max.apply(Math, timesSubtractedFoundConclusionTrue));
+
+		// console.log('Min max for writing error');
+		// console.log(Math.min.apply(Math, timesWritingFoundErrorFalse), Math.max.apply(Math, timesWritingFoundErrorFalse));
+		// console.log(Math.min.apply(Math, timesWritingFoundErrorTrue), Math.max.apply(Math, timesWritingFoundErrorTrue));
+		// console.log('Min max for writing conclusion true');
+		// console.log(Math.min.apply(Math, timesWritingFoundConclusionFalse), Math.max.apply(Math, timesWritingFoundConclusionFalse));
+		// console.log(Math.min.apply(Math, timesWritingFoundConclusionTrue), Math.max.apply(Math, timesWritingFoundConclusionTrue));
+		
+		const readingErrorPVal = ttest(timesSubtractedFoundErrorFalse, timesSubtractedFoundErrorTrue).pValue();
+		const readingConclusionPVal = ttest(timesSubtractedFoundConclusionFalse, timesSubtractedFoundConclusionTrue).pValue();
+		const writingErrorPVal = ttest(timesWritingFoundErrorFalse, timesWritingFoundErrorTrue).pValue();
+		const writingConclusionPVal = ttest(timesWritingFoundConclusionFalse, timesWritingFoundConclusionTrue).pValue();
+
 		const t1 = performance.now();
 		console.log(`Calculations took ${t1 - t0}ms`);
 		return (
@@ -1014,7 +1058,9 @@ export const Analysis = React.createClass({
 				<div style={styles.header}>Score Distribution when Finding Error or Conclusion</div>
 				<div style={styles.content}>One graph of interest displays the distribution of scores assigned to an experiment based on whether a user did or did not find an error or conclusion.</div>
 				{renderFoundErrorScores}
+				<div>pValue: {foundErrorScoresPVal.toFixed(4)}</div>
 				{renderFoundConclusionScores}
+				<div>pValue: {foundConclusionScoresPVal.toFixed(4)}</div>
 
 				<div style={styles.content}>
 					<p>A couple possible interpretations:</p>
@@ -1030,11 +1076,14 @@ export const Analysis = React.createClass({
 				</div>
 
 				{renderUsedInteractiveScores}
+				<div>pValue: {usedInteractivityPVal.toFixed(4)}</div>
 
 				<div style={styles.header}>Time Analyses</div>
 				<div style={styles.content}>These graphs plot the relationship between time spent on the review and associated scores, error found percentages, conclusion found percentages, etc. One thing we want to be sure of is that the lack of found error and found conclusion events did not happen due to people simply rushing through and ignoring the work.</div>
 				{renderScoreTimes}
 				{renderResultTimes}
+				<div>resultTimesErrorPVal: {resultTimesErrorPVal.toFixed(4)}</div>
+				<div>resultTimesConclusionPVal: {resultTimesConclusionPVal.toFixed(4)}</div>
 				<div style={styles.content}>
 					<p>Users who found an error or a conclusion spent a bit more time (7 minutes, rather than 6) than those who did not. However, those who did not find the error or conclusion did not spend a trivial amount of time, assuaging the fear that those who didn't find the error simply skimped through.</p>
 					<p>The longer time for spent by those who found an error or conclusion could have also been spent writing lenghtier reviews to report their finding.</p>
@@ -1044,6 +1093,10 @@ export const Analysis = React.createClass({
 
 				{renderResultTimesStacked}
 				{renderResultTimesUntacked}
+				<div>readingErrorPVal: {readingErrorPVal.toFixed(4)}</div>
+				<div>readingConclusionPVal: {readingConclusionPVal.toFixed(4)}</div>
+				<div>writingErrorPVal: {writingErrorPVal.toFixed(4)}</div>
+				<div>writingConclusionPVal: {writingConclusionPVal.toFixed(4)}</div>
 
 				<div style={styles.header}>Margins of Error</div>
 				<div style={styles.content}>
