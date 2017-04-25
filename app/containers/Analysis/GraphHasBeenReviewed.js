@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import AnalysisBarChart from './AnalysisBarChart';
+import DataTable from './DataTable';
 
 export const GraphHasBeenReviewed = React.createClass({
 	propTypes: {
@@ -64,103 +65,30 @@ export const GraphHasBeenReviewed = React.createClass({
 		return (
 			<div>
 				<AnalysisBarChart keys={['Has Not Been Reviewed - Found Error', 'Has Been Reviewed - Found Error', 'Has Not Been Reviewed - Found Conclusion', 'Has Been Reviewed - Found Conclusion']} data={graphData} title={'Performance vs Has Been Peer Reviewed'} yaxisLabel={'Percent Users'} />
-				<table className={'table'}>
-					<tr className={'table-header'}>
-						<td />
-						<td>Not Been Reviewed <br /><i>All</i></td>
-						<td>Not Been Reviewed <br /><i>Found Error</i></td>
-						<td>Not Been Reviewed <br /><i>Found Conclusion</i></td>
-						<td>Been Reviewed <br /><i>All</i></td>
-						<td>Been Reviewed <br /><i>Found Error</i></td>
-						<td>Been Reviewed <br /><i>Found Conclusion</i></td>
-						<td>Found Error <br /><i>p-value</i></td>
-						<td>Found Conclusion <br /><i>p-value</i></td>
-					</tr>
-					<tr>
-						<td>Beef</td>
-						<td>{beefStats.hasNotBeenReviewedAll.length}</td>
-						<td>{beefStats.hasNotBeenReviewedFoundError.length}</td>
-						<td>{beefStats.hasNotBeenReviewedFoundConclusion.length}</td>
-						<td>{beefStats.hasBeenReviewedAll.length}</td>
-						<td>{beefStats.hasBeenReviewedFoundError.length}</td>
-						<td>{beefStats.hasBeenReviewedFoundConclusion.length}</td>
-						<td>{utils.calculatePValue(
-							beefStats.hasNotBeenReviewedAll.length, 
-							beefStats.hasNotBeenReviewedFoundError.length, 
-							beefStats.hasBeenReviewedAll.length, 
-							beefStats.hasBeenReviewedFoundError.length)}
-						</td>
-						<td>{utils.calculatePValue(
-							beefStats.hasNotBeenReviewedAll.length, 
-							beefStats.hasNotBeenReviewedFoundConclusion.length, 
-							beefStats.hasBeenReviewedAll.length, 
-							beefStats.hasBeenReviewedFoundConclusion.length)}
-						</td>
-					</tr>
-					<tr>
-						<td>Dino</td>
-						<td>{dinoStats.hasNotBeenReviewedAll.length}</td>
-						<td>{dinoStats.hasNotBeenReviewedFoundError.length}</td>
-						<td>{dinoStats.hasNotBeenReviewedFoundConclusion.length}</td>
-						<td>{dinoStats.hasBeenReviewedAll.length}</td>
-						<td>{dinoStats.hasBeenReviewedFoundError.length}</td>
-						<td>{dinoStats.hasBeenReviewedFoundConclusion.length}</td>
-						<td>{utils.calculatePValue(
-							dinoStats.hasNotBeenReviewedAll.length, 
-							dinoStats.hasNotBeenReviewedFoundError.length, 
-							dinoStats.hasBeenReviewedAll.length, 
-							dinoStats.hasBeenReviewedFoundError.length)}
-						</td>
-						<td>{utils.calculatePValue(
-							dinoStats.hasNotBeenReviewedAll.length, 
-							dinoStats.hasNotBeenReviewedFoundConclusion.length, 
-							dinoStats.hasBeenReviewedAll.length, 
-							dinoStats.hasBeenReviewedFoundConclusion.length)}
-						</td>
-					</tr>
-					<tr>
-						<td>Govt</td>
-						<td>{govtStats.hasNotBeenReviewedAll.length}</td>
-						<td>{govtStats.hasNotBeenReviewedFoundError.length}</td>
-						<td>{govtStats.hasNotBeenReviewedFoundConclusion.length}</td>
-						<td>{govtStats.hasBeenReviewedAll.length}</td>
-						<td>{govtStats.hasBeenReviewedFoundError.length}</td>
-						<td>{govtStats.hasBeenReviewedFoundConclusion.length}</td>
-						<td>{utils.calculatePValue(
-							govtStats.hasNotBeenReviewedAll.length, 
-							govtStats.hasNotBeenReviewedFoundError.length, 
-							govtStats.hasBeenReviewedAll.length, 
-							govtStats.hasBeenReviewedFoundError.length)}
-						</td>
-						<td>{utils.calculatePValue(
-							govtStats.hasNotBeenReviewedAll.length, 
-							govtStats.hasNotBeenReviewedFoundConclusion.length, 
-							govtStats.hasBeenReviewedAll.length, 
-							govtStats.hasBeenReviewedFoundConclusion.length)}
-						</td>
-					</tr>
-					<tr>
-						<td>All</td>
-						<td>{[...beefStats.hasNotBeenReviewedAll, ...dinoStats.hasNotBeenReviewedAll, ...govtStats.hasNotBeenReviewedAll].length}</td>
-						<td>{[...beefStats.hasNotBeenReviewedFoundError, ...dinoStats.hasNotBeenReviewedFoundError, ...govtStats.hasNotBeenReviewedFoundError].length}</td>
-						<td>{[...beefStats.hasNotBeenReviewedFoundConclusion, ...dinoStats.hasNotBeenReviewedFoundConclusion, ...govtStats.hasNotBeenReviewedFoundConclusion].length}</td>
-						<td>{[...beefStats.hasBeenReviewedAll, ...dinoStats.hasBeenReviewedAll, ...govtStats.hasBeenReviewedAll].length}</td>
-						<td>{[...beefStats.hasBeenReviewedFoundError, ...dinoStats.hasBeenReviewedFoundError, ...govtStats.hasBeenReviewedFoundError].length}</td>
-						<td>{[...beefStats.hasBeenReviewedFoundConclusion, ...dinoStats.hasBeenReviewedFoundConclusion, ...govtStats.hasBeenReviewedFoundConclusion].length}</td>
-						<td>{utils.calculatePValue(
-							[...beefStats.hasNotBeenReviewedAll, ...dinoStats.hasNotBeenReviewedAll, ...govtStats.hasNotBeenReviewedAll].length,
-							[...beefStats.hasNotBeenReviewedFoundError, ...dinoStats.hasNotBeenReviewedFoundError, ...govtStats.hasNotBeenReviewedFoundError].length, 
-							[...beefStats.hasBeenReviewedAll, ...dinoStats.hasBeenReviewedAll, ...govtStats.hasBeenReviewedAll].length,
-							[...beefStats.hasBeenReviewedFoundError, ...dinoStats.hasBeenReviewedFoundError, ...govtStats.hasBeenReviewedFoundError].length)}
-						</td>
-						<td>{utils.calculatePValue(
-							[...beefStats.hasNotBeenReviewedAll, ...dinoStats.hasNotBeenReviewedAll, ...govtStats.hasNotBeenReviewedAll].length,
-							[...beefStats.hasNotBeenReviewedFoundConclusion, ...dinoStats.hasNotBeenReviewedFoundConclusion, ...govtStats.hasNotBeenReviewedFoundConclusion].length,
-							[...beefStats.hasBeenReviewedAll, ...dinoStats.hasBeenReviewedAll, ...govtStats.hasBeenReviewedAll].length,
-							[...beefStats.hasBeenReviewedFoundConclusion, ...dinoStats.hasBeenReviewedFoundConclusion, ...govtStats.hasBeenReviewedFoundConclusion].length)}
-						</td>
-					</tr>
-				</table>
+				<DataTable
+					groupATitle={'Not Been Reviewed'}
+					groupBTitle={'Been Reviewed'}
+					utils={utils}
+					groupABeefTotal={beefStats.hasNotBeenReviewedAll.length}
+					groupABeefError={beefStats.hasNotBeenReviewedFoundError.length}
+					groupABeefConclusion={beefStats.hasNotBeenReviewedFoundConclusion.length}
+					groupBBeefTotal={beefStats.hasBeenReviewedAll.length}
+					groupBBeefError={beefStats.hasBeenReviewedFoundError.length}
+					groupBBeefConclusion={beefStats.hasBeenReviewedFoundConclusion.length}
+
+					groupADinoTotal={dinoStats.hasNotBeenReviewedAll.length}
+					groupADinoError={dinoStats.hasNotBeenReviewedFoundError.length}
+					groupADinoConclusion={dinoStats.hasNotBeenReviewedFoundConclusion.length}
+					groupBDinoTotal={dinoStats.hasBeenReviewedAll.length}
+					groupBDinoError={dinoStats.hasBeenReviewedFoundError.length}
+					groupBDinoConclusion={dinoStats.hasBeenReviewedFoundConclusion.length}
+
+					groupAGovtTotal={govtStats.hasNotBeenReviewedAll.length}
+					groupAGovtError={govtStats.hasNotBeenReviewedFoundError.length}
+					groupAGovtConclusion={govtStats.hasNotBeenReviewedFoundConclusion.length}
+					groupBGovtTotal={govtStats.hasBeenReviewedAll.length}
+					groupBGovtError={govtStats.hasBeenReviewedFoundError.length}
+					groupBGovtConclusion={govtStats.hasBeenReviewedFoundConclusion.length} />
 			</div>
 		);
 	}

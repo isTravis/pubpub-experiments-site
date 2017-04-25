@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import AnalysisBarChart from './AnalysisBarChart';
+import DataTable from './DataTable';
 
 export const GraphNotPresentedVsNotUsed = React.createClass({
 	propTypes: {
@@ -64,103 +65,30 @@ export const GraphNotPresentedVsNotUsed = React.createClass({
 		return (
 			<div>
 				<AnalysisBarChart keys={['Not Presented - Found Error', 'Not Used - Found Error', 'Not Presented - Found Conclusion', 'Not Used - Found Conclusion']} data={graphData} title={'Performance vs Non-Interactivity Type'} yaxisLabel={'Percent Users'} />
-				<table className={'table'}>
-					<tr className={'table-header'}>
-						<td />
-						<td>Not Presented <br /><i>All</i></td>
-						<td>Not Presented <br /><i>Found Error</i></td>
-						<td>Not Presented <br /><i>Found Conclusion</i></td>
-						<td>Not Used <br /><i>All</i></td>
-						<td>Not Used <br /><i>Found Error</i></td>
-						<td>Not Used <br /><i>Found Conclusion</i></td>
-						<td>Found Error <br /><i>p-value</i></td>
-						<td>Found Conclusion <br /><i>p-value</i></td>
-					</tr>
-					<tr>
-						<td>Beef</td>
-						<td>{beefStats.mode0All.length}</td>
-						<td>{beefStats.mode0FoundError.length}</td>
-						<td>{beefStats.mode0FoundConclusion.length}</td>
-						<td>{beefStats.nonInteractiveAll.length}</td>
-						<td>{beefStats.nonInteractiveFoundError.length}</td>
-						<td>{beefStats.nonInteractiveFoundConclusion.length}</td>
-						<td>{utils.calculatePValue(
-							beefStats.mode0All.length, 
-							beefStats.mode0FoundError.length, 
-							beefStats.nonInteractiveAll.length, 
-							beefStats.nonInteractiveFoundError.length)}
-						</td>
-						<td>{utils.calculatePValue(
-							beefStats.mode0All.length, 
-							beefStats.mode0FoundConclusion.length, 
-							beefStats.nonInteractiveAll.length, 
-							beefStats.nonInteractiveFoundConclusion.length)}
-						</td>
-					</tr>
-					<tr>
-						<td>Dino</td>
-						<td>{dinoStats.mode0All.length}</td>
-						<td>{dinoStats.mode0FoundError.length}</td>
-						<td>{dinoStats.mode0FoundConclusion.length}</td>
-						<td>{dinoStats.nonInteractiveAll.length}</td>
-						<td>{dinoStats.nonInteractiveFoundError.length}</td>
-						<td>{dinoStats.nonInteractiveFoundConclusion.length}</td>
-						<td>{utils.calculatePValue(
-							dinoStats.mode0All.length, 
-							dinoStats.mode0FoundError.length, 
-							dinoStats.nonInteractiveAll.length, 
-							dinoStats.nonInteractiveFoundError.length)}
-						</td>
-						<td>{utils.calculatePValue(
-							dinoStats.mode0All.length, 
-							dinoStats.mode0FoundConclusion.length, 
-							dinoStats.nonInteractiveAll.length, 
-							dinoStats.nonInteractiveFoundConclusion.length)}
-						</td>
-					</tr>
-					<tr>
-						<td>Govt</td>
-						<td>{govtStats.mode0All.length}</td>
-						<td>{govtStats.mode0FoundError.length}</td>
-						<td>{govtStats.mode0FoundConclusion.length}</td>
-						<td>{govtStats.nonInteractiveAll.length}</td>
-						<td>{govtStats.nonInteractiveFoundError.length}</td>
-						<td>{govtStats.nonInteractiveFoundConclusion.length}</td>
-						<td>{utils.calculatePValue(
-							govtStats.mode0All.length, 
-							govtStats.mode0FoundError.length, 
-							govtStats.nonInteractiveAll.length, 
-							govtStats.nonInteractiveFoundError.length)}
-						</td>
-						<td>{utils.calculatePValue(
-							govtStats.mode0All.length, 
-							govtStats.mode0FoundConclusion.length, 
-							govtStats.nonInteractiveAll.length, 
-							govtStats.nonInteractiveFoundConclusion.length)}
-						</td>
-					</tr>
-					<tr>
-						<td>All</td>
-						<td>{[...beefStats.mode0All, ...dinoStats.mode0All, ...govtStats.mode0All].length}</td>
-						<td>{[...beefStats.mode0FoundError, ...dinoStats.mode0FoundError, ...govtStats.mode0FoundError].length}</td>
-						<td>{[...beefStats.mode0FoundConclusion, ...dinoStats.mode0FoundConclusion, ...govtStats.mode0FoundConclusion].length}</td>
-						<td>{[...beefStats.nonInteractiveAll, ...dinoStats.nonInteractiveAll, ...govtStats.nonInteractiveAll].length}</td>
-						<td>{[...beefStats.nonInteractiveFoundError, ...dinoStats.nonInteractiveFoundError, ...govtStats.nonInteractiveFoundError].length}</td>
-						<td>{[...beefStats.nonInteractiveFoundConclusion, ...dinoStats.nonInteractiveFoundConclusion, ...govtStats.nonInteractiveFoundConclusion].length}</td>
-						<td>{utils.calculatePValue(
-							[...beefStats.mode0All, ...dinoStats.mode0All, ...govtStats.mode0All].length,
-							[...beefStats.mode0FoundError, ...dinoStats.mode0FoundError, ...govtStats.mode0FoundError].length, 
-							[...beefStats.nonInteractiveAll, ...dinoStats.nonInteractiveAll, ...govtStats.nonInteractiveAll].length,
-							[...beefStats.nonInteractiveFoundError, ...dinoStats.nonInteractiveFoundError, ...govtStats.nonInteractiveFoundError].length)}
-						</td>
-						<td>{utils.calculatePValue(
-							[...beefStats.mode0All, ...dinoStats.mode0All, ...govtStats.mode0All].length,
-							[...beefStats.mode0FoundConclusion, ...dinoStats.mode0FoundConclusion, ...govtStats.mode0FoundConclusion].length,
-							[...beefStats.nonInteractiveAll, ...dinoStats.nonInteractiveAll, ...govtStats.nonInteractiveAll].length,
-							[...beefStats.nonInteractiveFoundConclusion, ...dinoStats.nonInteractiveFoundConclusion, ...govtStats.nonInteractiveFoundConclusion].length)}
-						</td>
-					</tr>
-				</table>
+				<DataTable
+					groupATitle={'Not Presented'}
+					groupBTitle={'Not Used'}
+					utils={utils}
+					groupABeefTotal={beefStats.mode0All.length}
+					groupABeefError={beefStats.mode0FoundError.length}
+					groupABeefConclusion={beefStats.mode0FoundConclusion.length}
+					groupBBeefTotal={beefStats.nonInteractiveAll.length}
+					groupBBeefError={beefStats.nonInteractiveFoundError.length}
+					groupBBeefConclusion={beefStats.nonInteractiveFoundConclusion.length}
+
+					groupADinoTotal={dinoStats.mode0All.length}
+					groupADinoError={dinoStats.mode0FoundError.length}
+					groupADinoConclusion={dinoStats.mode0FoundConclusion.length}
+					groupBDinoTotal={dinoStats.nonInteractiveAll.length}
+					groupBDinoError={dinoStats.nonInteractiveFoundError.length}
+					groupBDinoConclusion={dinoStats.nonInteractiveFoundConclusion.length}
+
+					groupAGovtTotal={govtStats.mode0All.length}
+					groupAGovtError={govtStats.mode0FoundError.length}
+					groupAGovtConclusion={govtStats.mode0FoundConclusion.length}
+					groupBGovtTotal={govtStats.nonInteractiveAll.length}
+					groupBGovtError={govtStats.nonInteractiveFoundError.length}
+					groupBGovtConclusion={govtStats.nonInteractiveFoundConclusion.length} />
 			</div>
 		);
 	}

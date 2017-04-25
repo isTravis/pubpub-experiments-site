@@ -650,4 +650,5 @@ table.table tr td:first-child {
   background-color: #F5F5F5;
   padding-right: 1em;
   font-size: 1em;
+  white-space: nowrap;
 }

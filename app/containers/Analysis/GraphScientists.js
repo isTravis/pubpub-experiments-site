@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import AnalysisBarChart from './AnalysisBarChart';
-
+import DataTable from './DataTable';
 
 export const GraphScientists = React.createClass({
 	propTypes: {
@@ -65,103 +65,30 @@ export const GraphScientists = React.createClass({
 		return (
 			<div>
 				<AnalysisBarChart keys={['Non-Scientist - Found Error', 'Scientist - Found Error', 'Non-Scientist - Found Conclusion', 'Scientist - Found Conclusion']} data={graphData} title={'Performance vs Scientific Training'} yaxisLabel={'Percent Users'} />		
-				<table className={'table'}>
-					<tr className={'table-header'}>
-						<td />
-						<td>Non-Scientist <br /><i>All</i></td>
-						<td>Non-Scientist <br /><i>Found Error</i></td>
-						<td>Non-Scientist <br /><i>Found Conclusion</i></td>
-						<td>Scientist <br /><i>All</i></td>
-						<td>Scientist <br /><i>Found Error</i></td>
-						<td>Scientist <br /><i>Found Conclusion</i></td>
-						<td>Found Error <br /><i>p-value</i></td>
-						<td>Found Conclusion <br /><i>p-value</i></td>
-					</tr>
-					<tr>
-						<td>Beef</td>
-						<td>{beefStats.nonScientistAll.length}</td>
-						<td>{beefStats.nonScientistFoundError.length}</td>
-						<td>{beefStats.nonScientistFoundConclusion.length}</td>
-						<td>{beefStats.scientistAll.length}</td>
-						<td>{beefStats.scientistFoundError.length}</td>
-						<td>{beefStats.scientistFoundConclusion.length}</td>
-						<td>{utils.calculatePValue(
-							beefStats.nonScientistAll.length, 
-							beefStats.nonScientistFoundError.length, 
-							beefStats.scientistAll.length, 
-							beefStats.scientistFoundError.length)}
-						</td>
-						<td>{utils.calculatePValue(
-							beefStats.nonScientistAll.length, 
-							beefStats.nonScientistFoundConclusion.length, 
-							beefStats.scientistAll.length, 
-							beefStats.scientistFoundConclusion.length)}
-						</td>
-					</tr>
-					<tr>
-						<td>Dino</td>
-						<td>{dinoStats.nonScientistAll.length}</td>
-						<td>{dinoStats.nonScientistFoundError.length}</td>
-						<td>{dinoStats.nonScientistFoundConclusion.length}</td>
-						<td>{dinoStats.scientistAll.length}</td>
-						<td>{dinoStats.scientistFoundError.length}</td>
-						<td>{dinoStats.scientistFoundConclusion.length}</td>
-						<td>{utils.calculatePValue(
-							dinoStats.nonScientistAll.length, 
-							dinoStats.nonScientistFoundError.length, 
-							dinoStats.scientistAll.length, 
-							dinoStats.scientistFoundError.length)}
-						</td>
-						<td>{utils.calculatePValue(
-							dinoStats.nonScientistAll.length, 
-							dinoStats.nonScientistFoundConclusion.length, 
-							dinoStats.scientistAll.length, 
-							dinoStats.scientistFoundConclusion.length)}
-						</td>
-					</tr>
-					<tr>
-						<td>Govt</td>
-						<td>{govtStats.nonScientistAll.length}</td>
-						<td>{govtStats.nonScientistFoundError.length}</td>
-						<td>{govtStats.nonScientistFoundConclusion.length}</td>
-						<td>{govtStats.scientistAll.length}</td>
-						<td>{govtStats.scientistFoundError.length}</td>
-						<td>{govtStats.scientistFoundConclusion.length}</td>
-						<td>{utils.calculatePValue(
-							govtStats.nonScientistAll.length, 
-							govtStats.nonScientistFoundError.length, 
-							govtStats.scientistAll.length, 
-							govtStats.scientistFoundError.length)}
-						</td>
-						<td>{utils.calculatePValue(
-							govtStats.nonScientistAll.length, 
-							govtStats.nonScientistFoundConclusion.length, 
-							govtStats.scientistAll.length, 
-							govtStats.scientistFoundConclusion.length)}
-						</td>
-					</tr>
-					<tr>
-						<td>All</td>
-						<td>{[...beefStats.nonScientistAll, ...dinoStats.nonScientistAll, ...govtStats.nonScientistAll].length}</td>
-						<td>{[...beefStats.nonScientistFoundError, ...dinoStats.nonScientistFoundError, ...govtStats.nonScientistFoundError].length}</td>
-						<td>{[...beefStats.nonScientistFoundConclusion, ...dinoStats.nonScientistFoundConclusion, ...govtStats.nonScientistFoundConclusion].length}</td>
-						<td>{[...beefStats.scientistAll, ...dinoStats.scientistAll, ...govtStats.scientistAll].length}</td>
-						<td>{[...beefStats.scientistFoundError, ...dinoStats.scientistFoundError, ...govtStats.scientistFoundError].length}</td>
-						<td>{[...beefStats.scientistFoundConclusion, ...dinoStats.scientistFoundConclusion, ...govtStats.scientistFoundConclusion].length}</td>
-						<td>{utils.calculatePValue(
-							[...beefStats.nonScientistAll, ...dinoStats.nonScientistAll, ...govtStats.nonScientistAll].length,
-							[...beefStats.nonScientistFoundError, ...dinoStats.nonScientistFoundError, ...govtStats.nonScientistFoundError].length, 
-							[...beefStats.scientistAll, ...dinoStats.scientistAll, ...govtStats.scientistAll].length,
-							[...beefStats.scientistFoundError, ...dinoStats.scientistFoundError, ...govtStats.scientistFoundError].length)}
-						</td>
-						<td>{utils.calculatePValue(
-							[...beefStats.nonScientistAll, ...dinoStats.nonScientistAll, ...govtStats.nonScientistAll].length,
-							[...beefStats.nonScientistFoundConclusion, ...dinoStats.nonScientistFoundConclusion, ...govtStats.nonScientistFoundConclusion].length,
-							[...beefStats.scientistAll, ...dinoStats.scientistAll, ...govtStats.scientistAll].length,
-							[...beefStats.scientistFoundConclusion, ...dinoStats.scientistFoundConclusion, ...govtStats.scientistFoundConclusion].length)}
-						</td>
-					</tr>
-				</table>
+				<DataTable
+					groupATitle={'Non-Scientist'}
+					groupBTitle={'Scientist'}
+					utils={utils}
+					groupABeefTotal={beefStats.nonScientistAll.length}
+					groupABeefError={beefStats.nonScientistFoundError.length}
+					groupABeefConclusion={beefStats.nonScientistFoundConclusion.length}
+					groupBBeefTotal={beefStats.scientistAll.length}
+					groupBBeefError={beefStats.scientistFoundError.length}
+					groupBBeefConclusion={beefStats.scientistFoundConclusion.length}
+
+					groupADinoTotal={dinoStats.nonScientistAll.length}
+					groupADinoError={dinoStats.nonScientistFoundError.length}
+					groupADinoConclusion={dinoStats.nonScientistFoundConclusion.length}
+					groupBDinoTotal={dinoStats.scientistAll.length}
+					groupBDinoError={dinoStats.scientistFoundError.length}
+					groupBDinoConclusion={dinoStats.scientistFoundConclusion.length}
+
+					groupAGovtTotal={govtStats.nonScientistAll.length}
+					groupAGovtError={govtStats.nonScientistFoundError.length}
+					groupAGovtConclusion={govtStats.nonScientistFoundConclusion.length}
+					groupBGovtTotal={govtStats.scientistAll.length}
+					groupBGovtError={govtStats.scientistFoundError.length}
+					groupBGovtConclusion={govtStats.scientistFoundConclusion.length} />
 			</div>
 		);
 		
