@@ -1476,7 +1476,7 @@ export const Analysis = React.createClass({
 						<td>1</td>
 					</tr>
 				</table>
-				
+
 			</div>
 		);
 	}
