@@ -1113,7 +1113,7 @@ export const Analysis = React.createClass({
 				{renderResultTimes}
 				<table className={'table'}>
 					<tr className={'table-header'}>
-						<td className={'blank'}/>
+						<td className={'blank'} />
 						<td>Detecting Error</td>
 						<td>Detecting Conclusion</td>
 					</tr>
@@ -1136,7 +1136,7 @@ export const Analysis = React.createClass({
 				{renderResultTimesUntacked}
 				<table className={'table'}>
 					<tr className={'table-header'}>
-						<td className={'blank'}/>
+						<td className={'blank'} />
 						<td>Reading Error</td>
 						<td>Reading Conclusion</td>
 						<td>Writing Error</td>
@@ -1173,11 +1173,11 @@ export const Analysis = React.createClass({
 
 				<table className={'table spacing'}>
 					<tr className={'table-header'}>
-						<td className={'blank double-blank'}/>
+						<td className={'blank double-blank'} />
 						<td colSpan={15}>Number of Featured Pubs</td>
 					</tr>
 					<tr className={'table-header'}>
-						<td className={'blank'}/>
+						<td className={'blank'} />
 						<td>0</td>
 						<td>1</td>
 						<td>2</td>
@@ -1216,12 +1216,12 @@ export const Analysis = React.createClass({
 
 				<table className={'table spacing'}>
 					<tr className={'table-header'}>
-						<td className={'blank double-blank'}/>
+						<td className={'blank double-blank'} />
 						<td colSpan={12}>Number of Submitted Pubs</td>
 					</tr>
 					<tr className={'table-header'}>
 						{/*<td className={'left'}>Number of Submitted Pubs</td>*/}
-						<td className={'blank'}/>
+						<td className={'blank'} />
 						<td>0</td>
 						<td>1</td>
 						<td>2</td>
@@ -1254,11 +1254,11 @@ export const Analysis = React.createClass({
 
 				<table className={'table spacing'}>
 					<tr className={'table-header'}>
-						<td className={'blank double-blank'}/>
+						<td className={'blank double-blank'} />
 						<td colSpan={7}>Number of Admins</td>
 					</tr>
 					<tr className={'table-header'}>
-						<td className={'blank'}/>
+						<td className={'blank'} />
 						<td>1</td>
 						<td>2</td>
 						<td>3</td>
@@ -1281,11 +1281,11 @@ export const Analysis = React.createClass({
 
 				<table className={'table spacing'}>
 					<tr className={'table-header'}>
-						<td className={'blank double-blank'}/>
+						<td className={'blank double-blank'} />
 						<td colSpan={9}>Number of Days Active</td>
 					</tr>
 					<tr className={'table-header'}>
-						<td className={'blank'}/>
+						<td className={'blank'} />
 						<td>0</td>
 						<td>1</td>
 						<td>6</td>
@@ -1312,50 +1312,171 @@ export const Analysis = React.createClass({
 
 				<table className={'table spacing'}>
 					<tr className={'table-header'}>
-						<td className={'blank double-blank'}/>
-						<td colSpan={7}>Number of Admins</td>
+						<td className={'blank double-blank'} />
+						<td colSpan={14}>Number of Published Versions</td>
 					</tr>
 					<tr className={'table-header'}>
-						<td className={'blank'}/>
-						
+						<td className={'blank'} />
+						<td>0</td>
+						<td>1</td>
+						<td>2</td>
+						<td>3</td>
+						<td>4</td>
+						<td>5</td>
+						<td>6</td>
+						<td>7</td>
+						<td>8</td>
+						<td>9</td>
+						<td>10-20</td>
+						<td>21-40</td>
+						<td>41-80</td>
+						<td>81-160</td>
 					</tr>
 					<tr>
-						<td>Number of Journals</td>
-						
+						<td>Number of Pubs</td>
+						<td>696</td>
+						<td>607</td>
+						<td>147</td>
+						<td>82</td>
+						<td>66</td>
+						<td>43</td>
+						<td>25</td>
+						<td>21</td>
+						<td>10</td>
+						<td>13</td>
+						<td>37</td>
+						<td>12</td>
+						<td>4</td>
+						<td>2</td>
 					</tr>
 				</table>
 
 				<table className={'table spacing'}>
 					<tr className={'table-header'}>
-						<td className={'blank double-blank'}/>
-						<td colSpan={7}>Number of Admins</td>
+						<td className={'blank double-blank'} />
+						<td colSpan={14}>Number of Discussions</td>
 					</tr>
 					<tr className={'table-header'}>
-						<td className={'blank'}/>
-						
+						<td className={'blank'} />
+						<td>0</td>
+						<td>1</td>
+						<td>2</td>
+						<td>3</td>
+						<td>4</td>
+						<td>5</td>
+						<td>6</td>
+						<td>7</td>
+						<td>8</td>
+						<td>9</td>
+						<td>10-20</td>
+						<td>21-40</td>
+						<td>41-80</td>
+						<td>446</td>
 					</tr>
 					<tr>
-						<td>Number of Journals</td>
-						
+						<td>Number of Pubs</td>
+						<td>1421</td>
+						<td>82</td>
+						<td>36</td>
+						<td>49</td>
+						<td>26</td>
+						<td>34</td>
+						<td>16</td>
+						<td>13</td>
+						<td>11</td>
+						<td>12</td>
+						<td>44</td>
+						<td>13</td>
+						<td>7</td>
+						<td>1</td>
 					</tr>
 				</table>
 
 				<table className={'table spacing'}>
 					<tr className={'table-header'}>
-						<td className={'blank double-blank'}/>
-						<td colSpan={7}>Number of Admins</td>
+						<td className={'blank double-blank'} />
+						<td colSpan={12}>Number of Contributors</td>
 					</tr>
 					<tr className={'table-header'}>
-						<td className={'blank'}/>
-						
+						<td className={'blank'} />
+						<td>1</td>
+						<td>2</td>
+						<td>3</td>
+						<td>4</td>
+						<td>5</td>
+						<td>6</td>
+						<td>7</td>
+						<td>10</td>
+						<td>12</td>
+						<td>16</td>
+						<td>20</td>
+						<td>24</td>
 					</tr>
 					<tr>
-						<td>Number of Journals</td>
-						
+						<td>Number of Pubs</td>
+						<td>1580</td>
+						<td>94</td>
+						<td>28</td>
+						<td>30</td>
+						<td>18</td>
+						<td>7</td>
+						<td>3</td>
+						<td>1</td>
+						<td>1</td>
+						<td>1</td>
+						<td>1</td>
+						<td>1</td>
 					</tr>
 				</table>
 
+				<table className={'table spacing'}>
+					<tr className={'table-header'}>
+						<td className={'blank double-blank'} />
+						<td colSpan={5}>Number of Submits</td>
+					</tr>
+					<tr className={'table-header'}>
+						<td className={'blank'} />
+						<td>0</td>
+						<td>1</td>
+						<td>2</td>
+						<td>3</td>
+						<td>4</td>
+					</tr>
+					<tr>
+						<td>Number of Pubs</td>
+						<td>1556</td>
+						<td>196</td>
+						<td>11</td>
+						<td>1</td>
+						<td>1</td>
+					</tr>
+				</table>
 
+				<table className={'table spacing'}>
+					<tr className={'table-header'}>
+						<td className={'blank double-blank'} />
+						<td colSpan={7}>Number of Features</td>
+					</tr>
+					<tr className={'table-header'}>
+						<td className={'blank'} />
+						<td>0</td>
+						<td>1</td>
+						<td>2</td>
+						<td>3</td>
+						<td>4</td>
+						<td>7</td>
+					</tr>
+					<tr>
+						<td>Number of Pubs</td>
+						<td>1506</td>
+						<td>238</td>
+						<td>18</td>
+						<td>1</td>
+						<td>1</td>
+						<td>1</td>
+					</tr>
+				</table>
+				
 			</div>
 		);
 	}
