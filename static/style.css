@@ -653,3 +653,25 @@ table.table tr:not(.table-header) td:first-child:not(.no-color) {
   font-size: 1em;
   white-space: nowrap;
 }
+
+table.table tr.table-header td:first-child.left {
+  text-align: left;
+}
+
+table.table.spacing {
+  margin: 2em 0em;
+}
+
+table.table.spacing td:first-child {
+  width: 1%;
+  white-space: nowrap;
+  padding-right: 1em;
+}
+table td.blank {
+  background-color: white !important;
+  border-left: 1px solid white !important;
+  border-top: 1px solid white !important;
+}
+table td.double-blank {
+  border-bottom: 1px solid white !important;
+}

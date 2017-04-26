@@ -1113,7 +1113,7 @@ export const Analysis = React.createClass({
 				{renderResultTimes}
 				<table className={'table'}>
 					<tr className={'table-header'}>
-						<td />
+						<td className={'blank'}/>
 						<td>Detecting Error</td>
 						<td>Detecting Conclusion</td>
 					</tr>
@@ -1136,7 +1136,7 @@ export const Analysis = React.createClass({
 				{renderResultTimesUntacked}
 				<table className={'table'}>
 					<tr className={'table-header'}>
-						<td />
+						<td className={'blank'}/>
 						<td>Reading Error</td>
 						<td>Reading Conclusion</td>
 						<td>Writing Error</td>
@@ -1170,6 +1170,191 @@ export const Analysis = React.createClass({
 				<GraphInterested allData={allData} allFunctions={allFunctions} />
 				<GraphHasBeenReviewed allData={allData} allFunctions={allFunctions} />
 				<GraphHasReviewed allData={allData} allFunctions={allFunctions} />
+
+				<table className={'table spacing'}>
+					<tr className={'table-header'}>
+						<td className={'blank double-blank'}/>
+						<td colSpan={15}>Number of Featured Pubs</td>
+					</tr>
+					<tr className={'table-header'}>
+						<td className={'blank'}/>
+						<td>0</td>
+						<td>1</td>
+						<td>2</td>
+						<td>3</td>
+						<td>4</td>
+						<td>5</td>
+						<td>6</td>
+						<td>7</td>
+						<td>8</td>
+						<td>12</td>
+						<td>17</td>
+						<td>18</td>
+						<td>19</td>
+						<td>37</td>
+						<td>79</td>
+					</tr>
+					<tr>
+						<td>Number of Journals</td>
+						<td>93</td>
+						<td>20</td>
+						<td>7</td>
+						<td>3</td>
+						<td>6</td>
+						<td>1</td>
+						<td>2</td>
+						<td>1</td>
+						<td>2</td>
+						<td>1</td>
+						<td>1</td>
+						<td>1</td>
+						<td>1</td>
+						<td>1</td>
+						<td>1</td>
+					</tr>
+				</table>
+
+				<table className={'table spacing'}>
+					<tr className={'table-header'}>
+						<td className={'blank double-blank'}/>
+						<td colSpan={12}>Number of Submitted Pubs</td>
+					</tr>
+					<tr className={'table-header'}>
+						{/*<td className={'left'}>Number of Submitted Pubs</td>*/}
+						<td className={'blank'}/>
+						<td>0</td>
+						<td>1</td>
+						<td>2</td>
+						<td>3</td>
+						<td>4</td>
+						<td>5</td>
+						<td>6</td>
+						<td>7</td>
+						<td>12</td>
+						<td>16</td>
+						<td>38</td>
+						<td>51</td>
+					</tr>
+					<tr>
+						<td>Number of Journals</td>
+						<td>87</td>
+						<td>27</td>
+						<td>11</td>
+						<td>2</td>
+						<td>2</td>
+						<td>4</td>
+						<td>3</td>
+						<td>1</td>
+						<td>1</td>
+						<td>1</td>
+						<td>1</td>
+						<td>1</td>
+					</tr>
+				</table>
+
+				<table className={'table spacing'}>
+					<tr className={'table-header'}>
+						<td className={'blank double-blank'}/>
+						<td colSpan={7}>Number of Admins</td>
+					</tr>
+					<tr className={'table-header'}>
+						<td className={'blank'}/>
+						<td>1</td>
+						<td>2</td>
+						<td>3</td>
+						<td>4</td>
+						<td>5</td>
+						<td>6</td>
+						<td>7</td>
+					</tr>
+					<tr>
+						<td>Number of Journals</td>
+						<td>107</td>
+						<td>16</td>
+						<td>10</td>
+						<td>4</td>
+						<td>1</td>
+						<td>2</td>
+						<td>1</td>
+					</tr>
+				</table>
+
+				<table className={'table spacing'}>
+					<tr className={'table-header'}>
+						<td className={'blank double-blank'}/>
+						<td colSpan={9}>Number of Days Active</td>
+					</tr>
+					<tr className={'table-header'}>
+						<td className={'blank'}/>
+						<td>0</td>
+						<td>1</td>
+						<td>6</td>
+						<td>9</td>
+						<td>16</td>
+						<td>30-60</td>
+						<td>61-120</td>
+						<td>121-240</td>
+						<td>241-480</td>
+					</tr>
+					<tr>
+						<td>Number of Journals</td>
+						<td>93</td>
+						<td>30</td>
+						<td>2</td>
+						<td>1</td>
+						<td>1</td>
+						<td>4</td>
+						<td>3</td>
+						<td>6</td>
+						<td>1</td>
+					</tr>
+				</table>
+
+				<table className={'table spacing'}>
+					<tr className={'table-header'}>
+						<td className={'blank double-blank'}/>
+						<td colSpan={7}>Number of Admins</td>
+					</tr>
+					<tr className={'table-header'}>
+						<td className={'blank'}/>
+						
+					</tr>
+					<tr>
+						<td>Number of Journals</td>
+						
+					</tr>
+				</table>
+
+				<table className={'table spacing'}>
+					<tr className={'table-header'}>
+						<td className={'blank double-blank'}/>
+						<td colSpan={7}>Number of Admins</td>
+					</tr>
+					<tr className={'table-header'}>
+						<td className={'blank'}/>
+						
+					</tr>
+					<tr>
+						<td>Number of Journals</td>
+						
+					</tr>
+				</table>
+
+				<table className={'table spacing'}>
+					<tr className={'table-header'}>
+						<td className={'blank double-blank'}/>
+						<td colSpan={7}>Number of Admins</td>
+					</tr>
+					<tr className={'table-header'}>
+						<td className={'blank'}/>
+						
+					</tr>
+					<tr>
+						<td>Number of Journals</td>
+						
+					</tr>
+				</table>
+
 
 			</div>
 		);
