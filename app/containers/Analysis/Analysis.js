@@ -168,6 +168,11 @@ export const Analysis = React.createClass({
 		});
 	},
 
+	precisionAndBold: function(pVal) {
+		if (pVal <= 0.05) { return <b>{pVal.toFixed(4)}</b>; }
+		return pVal.toFixed(4);
+	},
+
 	calcError: function(nCount) {
 		return 1.96 * Math.sqrt((0.5 * (1 - 0.5)) / nCount);
 	},
@@ -854,36 +859,36 @@ export const Analysis = React.createClass({
 		
 		const timesData = [
 			{
-				name: 'Found Error Average',
-				'Did Not Find Error': stats.mean(timesFoundErrorFalse),
-				'Did Not Find ErrorError': this.calcError([...beefStats.foundErrorFalse, ...dinoStats.foundErrorFalse, ...govtStats.foundErrorFalse].length) * (stats.mean(timesFoundErrorFalse)),
-				'Found Error': stats.mean(timesFoundErrorTrue),
-				'Found ErrorError': this.calcError([...beefStats.foundErrorTrue, ...dinoStats.foundErrorTrue, ...govtStats.foundErrorTrue].length) * (stats.mean(timesFoundErrorTrue)),
+				name: 'Error Average',
+				'Did Not Find': stats.mean(timesFoundErrorFalse),
+				'Did Not FindError': this.calcError([...beefStats.foundErrorFalse, ...dinoStats.foundErrorFalse, ...govtStats.foundErrorFalse].length) * (stats.mean(timesFoundErrorFalse)),
+				'Did Find': stats.mean(timesFoundErrorTrue),
+				'Did FindError': this.calcError([...beefStats.foundErrorTrue, ...dinoStats.foundErrorTrue, ...govtStats.foundErrorTrue].length) * (stats.mean(timesFoundErrorTrue)),
 			},
 			{
-				name: 'Found Error Median',
-				'Did Not Find Error': stats.median(timesFoundErrorFalse),
-				'Did Not Find ErrorError': this.calcError([...beefStats.foundErrorFalse, ...dinoStats.foundErrorFalse, ...govtStats.foundErrorFalse].length) * (stats.median(timesFoundErrorFalse)),
-				'Found Error': stats.median(timesFoundErrorTrue),
-				'Found ErrorError': this.calcError([...beefStats.foundErrorTrue, ...dinoStats.foundErrorTrue, ...govtStats.foundErrorTrue].length) * (stats.median(timesFoundErrorTrue)),
+				name: 'Error Median',
+				'Did Not Find': stats.median(timesFoundErrorFalse),
+				'Did Not FindError': this.calcError([...beefStats.foundErrorFalse, ...dinoStats.foundErrorFalse, ...govtStats.foundErrorFalse].length) * (stats.median(timesFoundErrorFalse)),
+				'Did Find': stats.median(timesFoundErrorTrue),
+				'Did FindError': this.calcError([...beefStats.foundErrorTrue, ...dinoStats.foundErrorTrue, ...govtStats.foundErrorTrue].length) * (stats.median(timesFoundErrorTrue)),
 			},
 			{
-				name: 'Found Conclusion Average',
-				'Did Not Find Error': stats.mean(timesFoundConclusionFalse),
-				'Did Not Find ErrorError': this.calcError([...beefStats.foundConclusionFalse, ...dinoStats.foundConclusionFalse, ...govtStats.foundConclusionFalse].length) * (stats.mean(timesFoundConclusionFalse)),
-				'Found Error': stats.mean(timesFoundConclusionTrue),
-				'Found ErrorError': this.calcError([...beefStats.foundConclusionTrue, ...dinoStats.foundConclusionTrue, ...govtStats.foundConclusionTrue].length) * (stats.mean(timesFoundConclusionTrue)),
+				name: 'Conclusion Average',
+				'Did Not Find': stats.mean(timesFoundConclusionFalse),
+				'Did Not FindError': this.calcError([...beefStats.foundConclusionFalse, ...dinoStats.foundConclusionFalse, ...govtStats.foundConclusionFalse].length) * (stats.mean(timesFoundConclusionFalse)),
+				'Did Find': stats.mean(timesFoundConclusionTrue),
+				'Did FindError': this.calcError([...beefStats.foundConclusionTrue, ...dinoStats.foundConclusionTrue, ...govtStats.foundConclusionTrue].length) * (stats.mean(timesFoundConclusionTrue)),
 			},
 			{
-				name: 'Found Conclusion Median',
-				'Did Not Find Error': stats.median(timesFoundConclusionFalse),
-				'Did Not Find ErrorError': this.calcError([...beefStats.foundConclusionFalse, ...dinoStats.foundConclusionFalse, ...govtStats.foundConclusionFalse].length) * (stats.median(timesFoundConclusionFalse)),
-				'Found Error': stats.median(timesFoundConclusionTrue),
-				'Found ErrorError': this.calcError([...beefStats.foundConclusionTrue, ...dinoStats.foundConclusionTrue, ...govtStats.foundConclusionTrue].length) * (stats.median(timesFoundConclusionTrue)),
+				name: 'Conclusion Median',
+				'Did Not Find': stats.median(timesFoundConclusionFalse),
+				'Did Not FindError': this.calcError([...beefStats.foundConclusionFalse, ...dinoStats.foundConclusionFalse, ...govtStats.foundConclusionFalse].length) * (stats.median(timesFoundConclusionFalse)),
+				'Did Find': stats.median(timesFoundConclusionTrue),
+				'Did FindError': this.calcError([...beefStats.foundConclusionTrue, ...dinoStats.foundConclusionTrue, ...govtStats.foundConclusionTrue].length) * (stats.median(timesFoundConclusionTrue)),
 			},
 		];
 
-		const renderResultTimes = <AnalysisBarChart keys={['Did Not Find Error', 'Found Error']} data={timesData} title={'Time vs Result'} yaxisLabel={'Time (s)'} yDomain={[0, 600]}/>;
+		const renderResultTimes = <AnalysisBarChart keys={['Did Not Find', 'Did Find']} data={timesData} title={'Time vs Result'} yaxisLabel={'Time (s)'} yDomain={[0, 600]}/>;
 		const resultTimesErrorPVal = ttest(timesFoundErrorFalse, timesFoundErrorTrue).pValue();
 		const resultTimesConclusionPVal = ttest(timesFoundConclusionFalse, timesFoundConclusionTrue).pValue();
 
@@ -1058,9 +1063,21 @@ export const Analysis = React.createClass({
 				<div style={styles.header}>Score Distribution when Finding Error or Conclusion</div>
 				<div style={styles.content}>One graph of interest displays the distribution of scores assigned to an experiment based on whether a user did or did not find an error or conclusion.</div>
 				{renderFoundErrorScores}
-				<div>pValue: {foundErrorScoresPVal.toFixed(4)}</div>
+				<table className={'table'}>
+					<tr>
+						<td>p-value</td>
+						<td>{this.precisionAndBold(foundErrorScoresPVal)}</td>
+					</tr>
+				</table>
+				{/*<div>pValue: {foundErrorScoresPVal.toFixed(4)}</div>*/}
 				{renderFoundConclusionScores}
-				<div>pValue: {foundConclusionScoresPVal.toFixed(4)}</div>
+				<table className={'table'}>
+					<tr>
+						<td>p-value</td>
+						<td>{this.precisionAndBold(foundConclusionScoresPVal)}</td>
+					</tr>
+				</table>
+				{/*<div>pValue: {foundConclusionScoresPVal.toFixed(4)}</div>*/}
 
 				<div style={styles.content}>
 					<p>A couple possible interpretations:</p>
@@ -1076,14 +1093,38 @@ export const Analysis = React.createClass({
 				</div>
 
 				{renderUsedInteractiveScores}
-				<div>pValue: {usedInteractivityPVal.toFixed(4)}</div>
+				<table className={'table'}>
+					<tr className={'table-header'}>
+						<td>Did Not Use - Mean</td>
+						<td>Did Use - Mean</td>
+						<td>p-value</td>
+					</tr>
+					<tr>
+						<td className={'no-color'}>4.20 ± 0.047</td>
+						<td>3.97 ± 0.050</td>
+						<td>{this.precisionAndBold(usedInteractivityPVal)}</td>
+					</tr>
+				</table>
+				{/*<div>pValue: {usedInteractivityPVal.toFixed(4)}</div>*/}
 
 				<div style={styles.header}>Time Analyses</div>
 				<div style={styles.content}>These graphs plot the relationship between time spent on the review and associated scores, error found percentages, conclusion found percentages, etc. One thing we want to be sure of is that the lack of found error and found conclusion events did not happen due to people simply rushing through and ignoring the work.</div>
 				{renderScoreTimes}
 				{renderResultTimes}
-				<div>resultTimesErrorPVal: {resultTimesErrorPVal.toFixed(4)}</div>
-				<div>resultTimesConclusionPVal: {resultTimesConclusionPVal.toFixed(4)}</div>
+				<table className={'table'}>
+					<tr className={'table-header'}>
+						<td />
+						<td>Detecting Error</td>
+						<td>Detecting Conclusion</td>
+					</tr>
+					<tr>
+						<td>p-value</td>
+						<td>{this.precisionAndBold(resultTimesErrorPVal)}</td>
+						<td>{this.precisionAndBold(resultTimesConclusionPVal)}</td>
+					</tr>
+				</table>
+				{/*<div>resultTimesErrorPVal: {resultTimesErrorPVal.toFixed(4)}</div>
+				<div>resultTimesConclusionPVal: {resultTimesConclusionPVal.toFixed(4)}</div>*/}
 				<div style={styles.content}>
 					<p>Users who found an error or a conclusion spent a bit more time (7 minutes, rather than 6) than those who did not. However, those who did not find the error or conclusion did not spend a trivial amount of time, assuaging the fear that those who didn't find the error simply skimped through.</p>
 					<p>The longer time for spent by those who found an error or conclusion could have also been spent writing lenghtier reviews to report their finding.</p>
@@ -1093,10 +1134,26 @@ export const Analysis = React.createClass({
 
 				{renderResultTimesStacked}
 				{renderResultTimesUntacked}
-				<div>readingErrorPVal: {readingErrorPVal.toFixed(4)}</div>
+				<table className={'table'}>
+					<tr className={'table-header'}>
+						<td />
+						<td>Reading Error</td>
+						<td>Reading Conclusion</td>
+						<td>Writing Error</td>
+						<td>Writing Conclusion</td>
+					</tr>
+					<tr>
+						<td>p-value</td>
+						<td>{this.precisionAndBold(readingErrorPVal)}</td>
+						<td>{this.precisionAndBold(readingConclusionPVal)}</td>
+						<td>{this.precisionAndBold(writingErrorPVal)}</td>
+						<td>{this.precisionAndBold(writingConclusionPVal)}</td>
+					</tr>
+				</table>
+				{/*<div>readingErrorPVal: {readingErrorPVal.toFixed(4)}</div>
 				<div>readingConclusionPVal: {readingConclusionPVal.toFixed(4)}</div>
 				<div>writingErrorPVal: {writingErrorPVal.toFixed(4)}</div>
-				<div>writingConclusionPVal: {writingConclusionPVal.toFixed(4)}</div>
+				<div>writingConclusionPVal: {writingConclusionPVal.toFixed(4)}</div>*/}
 
 				<div style={styles.header}>Margins of Error</div>
 				<div style={styles.content}>

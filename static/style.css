@@ -636,7 +636,8 @@ table.table {
   width: 100%;
 }
 table.table tr.table-header td{
-  text-align: left;
+  /*text-align: left;*/
+  text-align: center;
   background-color: #F5F5F5;
   font-size: 1em;
 }
@@ -645,7 +646,7 @@ table.table tr td {
   font-size: 1.1em;
 }
 
-table.table tr td:first-child {
+table.table tr:not(.table-header) td:first-child:not(.no-color) {
   text-align: left;
   background-color: #F5F5F5;
   padding-right: 1em;
